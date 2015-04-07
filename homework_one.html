@@ -11,7 +11,7 @@
 }
 
 .axis {
-  font: 14px sans-serif;
+  font: 15px Georgia;
 }
 
 .axis path,
@@ -56,10 +56,13 @@
 }
 
 </style>
+
+
 <label><input type="checkbox"> Sort values</label>
-<body>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+
+
 <script>
 
 var curURI = window.location.search.slice(1);
@@ -104,9 +107,10 @@ for (var key in wordCount){
   data.push(sub);
 }
 
-var margin = {top: 40, right: 20, bottom: 30, left: 40},
+var margin = {top: 40, right: 20, bottom: 30, left: 60},
     width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+    height = 500 - margin.top - margin.bottom
+    padding = -120;
 
 var x = d3.scale.ordinal()
     .rangeRoundBands([0, width], .1);
@@ -151,10 +155,10 @@ svg.append("g")
       .attr("class", "y axis")
       .call(yAxis)
     .append("text")
-      .attr("transform", "rotate(-0)")
       .attr("y", 6)
       .attr("dy", ".71em")
-      .style("text-anchor", "end")
+      .style("text-anchor", "middle")
+      .attr("transform", "translate("+ (padding/2) +","+(height/2)+")rotate(-90)")
       .text("Count");
 
 //added functionality of grid lines"
@@ -186,11 +190,12 @@ svg.selectAll(".bar")
       .on('mouseout', tip.hide);
   
 svg.append("text")
-        .attr("x", margin.left*5)             
+        .attr("x", margin.left*3)             
         .attr("y", 0 - (margin.top / 2))
         .attr("text-anchor", "middle")  
-        .style("font-size", "24px") 
+        .style("font-size", "24px")
         .style("font-weight", "bold")
+        .style("font-family","Times")
         .text("Homework 1: Letter Count Bar Chart");
 
 //sort 
