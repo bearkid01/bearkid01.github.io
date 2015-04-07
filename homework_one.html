@@ -11,14 +11,14 @@
 }
 
 .axis {
-  font: 11px sans-serif;
+  font: 14px sans-serif;
 }
 
 .axis path,
 .axis line {
   fill: none;
-  stroke: #000;
-  stroke-width: 2;
+  stroke: #D0D0D0;
+  stroke-width: 1;
   shape-rendering: crispEdges;
 }
 
@@ -26,9 +26,40 @@
   display: none;
 }
 
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 6px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 7px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\20BC";
+  position: absolute;
+  text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
+
 </style>
+<label><input type="checkbox"> Sort values</label>
 <body>
 <script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
 <script>
 
 var curURI = window.location.search.slice(1);
@@ -92,11 +123,21 @@ var yAxis = d3.svg.axis()
     .orient("left")
     .ticks(6);
 
+var tip = d3.tip()
+  .attr('class', 'd3-tip')
+  .offset([-10, 0])
+  .html(function(d) {
+    return "<strong>Count:</strong> <span style='color:red'>" + d.count + "</span>";
+  })
+
 var svg = d3.select("body").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+svg.call(tip);
 
 x.domain(data.map(function(d) { return d.letter; }));
 y.domain([0, d3.max(data, function(d) { return d.count; })]);
@@ -110,11 +151,28 @@ svg.append("g")
       .attr("class", "y axis")
       .call(yAxis)
     .append("text")
-      .attr("transform", "rotate(-90)")
+      .attr("transform", "rotate(-0)")
       .attr("y", 6)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
       .text("Count");
+
+//added functionality of grid lines"
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left");
+
+var yAxisGrid = d3.svg.axis().scale(y)
+  .ticks(10) 
+  .tickSize(width, 0)
+  .tickFormat("")
+  .orient("right");
+
+svg.append("g")
+  .classed('y', true)
+  .classed('axis', true)
+  .call(yAxisGrid);
 
 svg.selectAll(".bar")
       .data(data)
@@ -123,8 +181,10 @@ svg.selectAll(".bar")
       .attr("x", function(d) { return x(d.letter); })
       .attr("width", x.rangeBand())
       .attr("y", function(d) { return y(d.count); })
-      .attr("height", function(d) { return height - y(d.count); });
-
+      .attr("height", function(d) { return height - y(d.count); })
+      .on('mouseover', tip.show)
+      .on('mouseout', tip.hide);
+  
 svg.append("text")
         .attr("x", margin.left*5)             
         .attr("y", 0 - (margin.top / 2))
@@ -132,5 +192,38 @@ svg.append("text")
         .style("font-size", "24px") 
         .style("font-weight", "bold")
         .text("Homework 1: Letter Count Bar Chart");
+
+//sort 
+d3.select("input").on("change", change);
+
+  var sortTimeout = setTimeout(function() {
+    d3.select("input").property("checked", true).each(change);
+  }, 2000);
+
+  function change() {
+    clearTimeout(sortTimeout);
+
+    // Copy-on-write since tweens are evaluated after a delay.
+    var x0 = x.domain(data.sort(this.checked
+        ? function(a, b) { return b.count - a.count; }
+        : function(a, b) { return d3.ascending(a.letter, b.letter); })
+        .map(function(d) { return d.letter; }))
+        .copy();
+
+    svg.selectAll(".bar")
+        .sort(function(a, b) { return x0(a.letter) - x0(b.letter); });
+
+    var transition = svg.transition().duration(750),
+        delay = function(d, i) { return i * 50; };
+
+    transition.selectAll(".bar")
+        .delay(delay)
+        .attr("x", function(d) { return x0(d.letter); });
+
+    transition.select(".x.axis")
+        .call(xAxis)
+      .selectAll("g")
+        .delay(delay);
+  };
 
 </script>
