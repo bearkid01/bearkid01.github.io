@@ -184,12 +184,12 @@ svg.append("g")
 
 svg.selectAll(".bar")
       .data(data)
-    .enter().append("rect")
-      .attr("class", "bar")
+    .enter().append("rect")//rect
+      .attr("class", "bar")//bar 
       .attr("x", function(d) { return x(d.letter); })
-      .attr("width", x.rangeBand())
       .attr("y", height)
       .attr("height",0)
+      .attr("width", x.rangeBand())
       .on('mouseover', tip.show)
       .on('mouseout', tip.hide)
       .transition()
