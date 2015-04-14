@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+	<style>
+
+	.axis {
+	  font-family: 11px sans-serif;
+	}
+
+	.axis path,
+	.axis line {
+	  fill: none;
+	  stroke: #000;
+	  shape-rendering: crispEdges;
+	}
+	
+</style>
+</head>
+<body>
+
+<script>
+var margin = {top: 120, right: 100, bottom: 30, left: 200, left2: 250},
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom
+    padding = -120;
+
+var data = d3.json("state.x77.json", function(error, data) {
+
+    var svgContainer = d3.select("body")
+					.append("svg")
+					.attr("width", width + margin.left + margin.right)
+    				.attr("height", height + margin.top + margin.bottom)
+    				.append("g")
+    				.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    colorMap = {"West": "orange", "Northeast": "grey", "North Central": "green", "South": "purple"}
+    for (i=0; i<data.length; i++){
+
+    	data[i]["color"] = colorMap[data[i]["state_region"]]
+    }
+
+    console.log(data);
+
+    //find the maximum value of income, hs_grad
+	var incomeHolder = [];
+	for (i=0; i< data.length; i++){
+		incomeHolder.push(data[i].income);
+	}
+
+	var hsHolder = [];
+	for (i=0; i< data.length; i++){
+		hsHolder.push(data[i].hs_grad);
+	}
+	
+	var maxIncome = d3.max(incomeHolder);
+
+	var maxHs_grad = d3.max(hsHolder);
+
+	console.log(maxHs_grad);
+
+	console.log(maxIncome);
+
+    //create x-axis and y-axis 
+   	var x = d3.scale.linear()
+                       .domain([0, maxIncome+500])
+                       .range([0, width]);
+
+    var y = d3.scale.linear()
+    				   .domain([0, maxHs_grad+10])
+    				   .range([height, 0]);
+
+    var xAxis = d3.svg.axis()
+	                .scale(x)
+	                .orient("bottom")
+	                .ticks(6);
+
+	var yAxis = d3.svg.axis()
+					.scale(y)
+					.orient("left")
+					.ticks(5);
+
+    svgContainer.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis)
+      .append("text")
+      .attr("x", width)
+      .attr("y", -6)
+      .style("text-anchor", "end")
+      .text("Income")
+      //.style({ 'stroke': 'Black', 'stroke-width': '1px'});
+      .style("font-size", "14px");
+     
+    svgContainer.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+      .append("text")
+      .attr("transform", "rotate(-90)")
+      //.attr("y", 2)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("hs_grad")
+      .style("font-size", "14px");
+
+
+	var domainScaleOne = d3.scale.linear()
+                           .domain([0,maxIncome+500])
+                           .range([0,width]);
+
+    var domainScaleTwo = d3.scale.linear()
+    					   .domain([0,maxHs_grad+10])
+    					   .range([height,0]);
+
+    var circles = svgContainer.selectAll("circle")
+   		.data(data)
+   		.enter()
+   		.append("circle")
+   		.attr("cx", function(d){return domainScaleOne(d.income);})
+   		.attr("cy", function(d){return domainScaleTwo(d.hs_grad);})
+   		.attr("r", function(d){return 5*d.illiteracy;})
+   		.style("fill", function(d){return d.color;})
+   		.style("fill-opacity", ".55");
+
+   	svgContainer.append("text")
+        .attr("x", margin.left)             
+        .attr("y", 0 - (margin.top / 2))
+        .attr("text-anchor", "middle")  
+        .style("font-size", "24px")
+        .style("font-weight", "bold")
+        .style("font-family","Helvetica Neue")
+        .text("Homework 2a: Bubble Plot");
+
+});
+
+// var data = d3.json("state.x77.json", function(error, json) {data = json;})
+
+// var svgContainer = d3.select("body")
+// 					.append("svg")
+// 					.attr("width", 500)
+// 					.attr("height", 500);
+
+
+// var circles = svgContainer.selectAll("circle")
+// 				.data(data)
+// 				.enter()
+// 				.append("circle");
+// var circleAttributes = circles
+//             			.attr("cx", function (d) { return d.income; })
+//                      	.attr("cy", function (d) { return d.hs_grad; })
+//                       	.attr("r", function (d) { return d.illiteracy; })
+                       
+// var circles = d3.selectAll("circle")
+// 				.data(data1)
+// 				.enter()
+// 				.append("circle");
+
+
+</script>
+</body>
+</html>
