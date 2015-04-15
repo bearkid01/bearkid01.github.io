@@ -245,7 +245,7 @@ var svg = d3.select("#area2").append("svg")
   .append("g")
     .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
 
-d3.csv("state.csv", function(error, cars) {
+d3.csv("state2.csv", function(error, cars) {
 
   // Extract the list of dimensions and create a scale for each.
   x.domain(dimensions = d3.keys(cars[0]).filter(function(d) {
