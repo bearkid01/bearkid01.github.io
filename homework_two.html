@@ -160,6 +160,48 @@ body {
 <script src="js/jquery.min.js"></script>
 
 <div id="area2"></div>
+
+<div id="text">
+<h3>Functionality</h3>
+<section>
+  <h4>C-Level</h4>
+  <p>
+    <ul>
+      <li>Changed number of decimal points visible and size
+      <li>Added grid lines and changed their color to light grey 
+      <li>Sorted the letters alphabetically
+      <li>Moved the y-label to the left of the y-axis and rotated    
+    </ul>
+  </p>
+  <h4>B-Level</h4>
+  <p>
+    <ul>
+      <li>Added a button that allows user to change between sorting alphabetically and sorting by value
+      <li>Added a tooltip that shows the exact value of a bar when hovering over it
+    </ul>
+  </p>
+  <h4>A-Level</h4>
+  <p>
+    <ul>
+      <li>Added a function to show bars growing from the bottom up to its value one after another at the beginning of the visualization
+      <li>Added a function to allow the viewer to continue adding new text via a search box and an update button 
+    </ul>
+  </p>
+</section>
+</div>
+
+<div id="text2">
+<h3>Motivation</h3>
+  <p>For C-level functionality, I focused on establishing the graph with basic features. One of them is to display bars alphabetically no matter what order the query string is. Besides, I moved the y-axis label "Count" to the left of the y-axis because the enlarged label will not block the first bar if it stays outside rather than inside the graph. I also enlarged the values of ticks for the y-axis and the letters below bars so viewers can see the them clearly. 
+  </p>
+  <p>In terms of B-level and A-level functionality, I focused on increasing interaction between viewers and the graph and displaying the graph in a more dynamic style. For example, I implemented the function of allowing viewers to sort bars by value. In addition, the graph can display slow growing bars, one after another at the beginning of the visualization. 
+  </p>
+  <p>You can view the complete codes for this graph <a href="https://github.com/bearkid01/spring-2015-msan622_Vis/blob/gh-pages/homework_one.html">here</a>.
+  </p>
+  <p>Producer: Weiwei Zhang
+  </p>
+</div>
+
 <script>
 
 var margin = {top: 120, right: 150, bottom: 30, left: 150, left2: 250},
