@@ -318,7 +318,7 @@ var data = d3.json("state.x772.json", function(error, data) {
       .attr("x", width_one)
       .attr("y", -6)
       .style("text-anchor", "end")
-      .text("Income")
+      .text("Income($)")
       //.style({ 'stroke': 'Black', 'stroke-width': '1px'});
       .style("font-size", "14px");
      
@@ -330,7 +330,7 @@ var data = d3.json("state.x772.json", function(error, data) {
       //.attr("y", 2)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text("hs_grad")
+      .text("high school graduation rate(%)")
       .style("font-size", "14px");
 
   var domainScaleOne = d3.scale.linear()
