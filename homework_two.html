@@ -294,13 +294,13 @@ var data = d3.json("state.x772.json", function(error, data) {
                        .range([0, width_one]);
 
     var y = d3.scale.linear()
-               .domain([0, maxHs_grad+10])
-               .range([height, 25]);
+               .domain([20, maxHs_grad+10])
+               .range([height, 0]);
 
     //var ticks = [1000,2000,3000,4000,5000,6000]
     var x_ticks = [2500,3000,3500,4000,4500,5000,5500,6000,6500];
 
-    var y_ticks = [20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70];
+    var y_ticks = [25, 30, 35, 40, 45, 50, 55, 60, 65, 70];
 
     var xAxis = d3.svg.axis()
                   .scale(x)
@@ -340,8 +340,8 @@ var data = d3.json("state.x772.json", function(error, data) {
                            .range([0,width_one]);
 
     var domainScaleTwo = d3.scale.linear()
-                 .domain([0,maxHs_grad+10])
-                 .range([height,25]);
+                 .domain([20,maxHs_grad+10])
+                 .range([height,0]);
 
     var colors = d3.scale.category20();
 
