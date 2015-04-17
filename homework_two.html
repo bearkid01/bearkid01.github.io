@@ -183,24 +183,29 @@ div#text2{
   <h4>C-Level: Bubble Plot</h4>
   <p>
     <ul>
-      <li>
-      <li>Added grid lines and changed their color to light grey 
-      <li>Sorted the letters alphabetically
-      <li>Moved the y-label to the left of the y-axis and rotated    
+      <li>calculated the maximum value of high school graduation rate and income:
+          for income, I mapped the domain from 2,500 to maximum value of income+500 to the range between 0 and width
+          for high school graduation, I mapped the domain from 0 to maximum value of high school graduation rate+10 to 
+          the range between height and 0.
+      <li>Sorted the bubbles by the reverse order of "illteracy" (radius here) and ploted them 
+      <li>Added a tooltip for each of the bubble showing the abbreviation of the state name 
+      <li>Added a legend indicating what region each color represents
+      <li>Adjusted the x-axis beginning from 2,500 instead of 0 to increase the data density ratio
     </ul>
   </p>
   <h4>B-Level: Scatterplot Matrix</h4>
   <p>
     <ul>
-      <li>Added a button that allows user to change between sorting alphabetically and sorting by value
-      <li>Added a tooltip that shows the exact value of a bar when hovering over it
+      <li>Applied the "cross" function to plot the small multiple matrix
+      <li>Added a legend indicating the region each color represents
+      <li>Only visualized half of the matrix in this case to achieve a better data ink ratio
     </ul>
   </p>
   <h4>A-Level: Parallel Coordinates</h4>
   <p>
     <ul>
-      <li>Added a function to show bars growing from the bottom up to its value one after another at the beginning of the visualization
-      <li>Added a function to allow the viewer to continue adding new text via a search box and an update button 
+      <li>Added a brushing function to allow highlighting of specific ranges on each axis 
+      <li>Added a legend indicating what region each color represents 
     </ul>
   </p>
 </section>
@@ -208,9 +213,9 @@ div#text2{
 
 <div id="text2">
 <h3>Motivation</h3>
-  <p>For C-level functionality, I focused on establishing the graph with basic features. One of them is to display bars alphabetically no matter what order the query string is. Besides, I moved the y-axis label "Count" to the left of the y-axis because the enlarged label will not block the first bar if it stays outside rather than inside the graph. I also enlarged the values of ticks for the y-axis and the letters below bars so viewers can see the them clearly. 
-  </p>
-  <p>In terms of B-level and A-level functionality, I focused on increasing interaction between viewers and the graph and displaying the graph in a more dynamic style. For example, I implemented the function of allowing viewers to sort bars by value. In addition, the graph can display slow growing bars, one after another at the beginning of the visualization. 
+  <p>For C-level functionality, I focused on applying the basic functionality that I have learned so far, including creating
+     circles, positioning them, filling them with colors, creating x and y axes, setting labels for the axes, adding tooltips and a legend. For B-level and A-level functionality, I wanted to apply more advanced visualization techniques. For example, creating a scatterplot matrix can help me visualize the pairwise relationship between a set of variables. I found that the illteracy rate and life expectancy reversely correlated. Besides, parallel coordinates plot is a great way to visualize high dimension
+     data in 2D space. Since this data set has more than two dimensions, I used parallel coordinates to discover the underlying patterns among regions. 
   </p>
   <p>You can view the complete codes for this graph <a href="https://github.com/bearkid01/spring-2015-msan622_Vis/blob/gh-pages/homework_two.html">here</a>.
   </p>
