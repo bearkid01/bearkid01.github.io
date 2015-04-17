@@ -1,6 +1,15 @@
 <!DOCTYPE html>
+<html lang="en">
+
+<head>
 <meta charset="utf-8">
-<style>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/bootstrap-theme.min.css" rel="stylesheet">
+
+<style type="text/css">
 
 svg {
   font: 12px sans-serif;
@@ -58,6 +67,11 @@ svg {
   text-align: center;
 }
 
+.axis,
+.frame {
+  shape-rendering: crispEdges;
+}
+
 /* Style northward tooltips differently */
 .d3-tip.n:after {
   margin: -1px 0 0 0;
@@ -65,41 +79,132 @@ svg {
   left: 0;
 }
 
+svg {
+  font: 10px sans-serif;
+  padding: 10px;
+}
+
+.axis,
+.frame {
+  shape-rendering: crispEdges;
+}
+
+.axis line {
+  stroke: #ddd;
+}
+
+/*.axis path {
+  display: none;
+}*/
+
+.frame {
+  fill: none;
+  stroke: #aaa;
+}
+
+circle {
+  fill-opacity: .85;
+}
+
+body {
+        padding-top: 50px;
+        padding-bottom: 20px;
+    }
+
 </style>
+</head>
+
 <body>
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<!-- Fixed Navbar -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle Navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">MSN 622</a>
+        </div>
+
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="#homework">Homework</a></li>
+                <li><a href="#project">Project</a></li>
+                <li><a href="#participation">Participation</a></li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
 
 <div id="area1"></div>
-<div id="area2"></div>
 
 <script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
 <script src="http://d3js.org/colorbrewer.v1.min.js"></script>
+<iframe src="hw2c.html" scrolling="yes" frameborder="0" align="bottom" style="width:100%; height:100%;"></iframe>
 <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
 <script src="legend.js"></script>
+<script src="js/jquery.min.js"></script>
+
+<div id="area2"></div>
 <script>
 
 var margin = {top: 120, right: 150, bottom: 30, left: 150, left2: 250},
-    width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom
-    padding = -120;
+    width_one = 960 - margin.left - margin.right,
+    height = 450 - margin.top - margin.bottom
+    padding_one = -120;
 
-var data = d3.json("state.x772.json", function(error, data) {
+var data = d3.json("state.x77.json", function(error, data) {
+
+    var tip = d3.tip()
+      .attr('class', 'd3-tip')
+      .offset([-10, 0])
+      .html(function(d) {
+      return "<span style='color:red'>" + d.state_abb + "</span>";
+    })
 
     var svgContainer = d3.select("#area1")
           .append("svg")
-          .attr("width", width + margin.left + margin.right)
+          .attr("width", width_one + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
 
     colorMap = {"West": "orange", "Northeast": "grey", "North Central": "green", "South": "purple"}
     for (i=0; i<data.length; i++){
 
       data[i]["color"] = colorMap[data[i]["state_region"]]
     }
-
     console.log(data);
 
-    //find the maximum value of income, hs_grad
+  function compare(a,b) {
+  if (a.illiteracy < b.illiteracy)
+     return 1;
+  if (a.illiteracy > b.illiteracy)
+    return -1;
+  return 0;
+  }
+
+  data.sort(compare);
+
+  svgContainer.call(tip);
+
+
+  //find the maximum value of income, hs_grad
   var incomeHolder = [];
   for (i=0; i< data.length; i++){
     incomeHolder.push(data[i].income);
@@ -112,6 +217,8 @@ var data = d3.json("state.x772.json", function(error, data) {
   
   var maxIncome = d3.max(incomeHolder);
 
+  console.log("Minimum Income:", d3.min(incomeHolder));
+
   var maxHs_grad = d3.max(hsHolder);
 
   console.log(maxHs_grad);
@@ -120,14 +227,15 @@ var data = d3.json("state.x772.json", function(error, data) {
 
     //create x-axis and y-axis 
     var x = d3.scale.linear()
-                       .domain([0, maxIncome+500])
-                       .range([0, width]);
+                       .domain([2500, maxIncome+500])
+                       .range([0, width_one]);
 
     var y = d3.scale.linear()
                .domain([0, maxHs_grad+10])
                .range([height, 0]);
 
-    var ticks = [1000,2000,3000,4000,5000,6000]
+    //var ticks = [1000,2000,3000,4000,5000,6000]
+    var ticks = [2500,3000,3500,4000,4500,5000,5500,6000,6500];
 
     var xAxis = d3.svg.axis()
                   .scale(x)
@@ -144,7 +252,7 @@ var data = d3.json("state.x772.json", function(error, data) {
       .attr("transform", "translate(0," + height + ")")
       .call(xAxis)
       .append("text")
-      .attr("x", width)
+      .attr("x", width_one)
       .attr("y", -6)
       .style("text-anchor", "end")
       .text("Income")
@@ -162,34 +270,39 @@ var data = d3.json("state.x772.json", function(error, data) {
       .text("hs_grad")
       .style("font-size", "14px");
 
-
   var domainScaleOne = d3.scale.linear()
-                           .domain([0,maxIncome+500])
-                           .range([0,width]);
+                           .domain([2500,maxIncome+500])
+                           .range([0,width_one]);
 
     var domainScaleTwo = d3.scale.linear()
                  .domain([0,maxHs_grad+10])
                  .range([height,0]);
 
+    var colors = d3.scale.category20();
+
     var circles = svgContainer.selectAll("circle")
       .data(data)
       .enter()
-      .append("circle")
+      .append("svg:circle")
       .attr("cx", function(d){return domainScaleOne(d.income);})
       .attr("cy", function(d){return domainScaleTwo(d.hs_grad);})
       .attr("r", function(d){return 10*d.illiteracy;})
       .style("fill", function(d){return d.color;})
-      .style("fill-opacity", ".55");
-
+      .style("stroke", "black")
+      .style("stroke-width", 1.5)
+      .on("mouseover", tip.show)
+      .on("mouseout", tip.hide);
+  
+      //.style("fill-opacity", ".55");
 
     svgContainer.append("text")
-        .attr("x", margin.left)             
+        .attr("x", margin.left/2)             
         .attr("y", 0 - (margin.top/2))
         .attr("text-anchor", "middle")  
         .style("font-size", "24px")
         .style("font-weight", "bold")
         .style("font-family","Helvetica Neue")
-        .text("Homework 2a: Bubble Plot");
+        .text("Bubble Plot");
 
     var sampleCategoricalData = [{"region":"North Central","color":"green"},{"region":"Northeast","color":"grey"},{"region": "West", "color":"orange"}, { "region":"South", "color":"purple"}]; 
     // sampleOrdinal = d3.scale.category20().domain(sampleCategoricalData);
@@ -204,16 +317,18 @@ var data = d3.json("state.x772.json", function(error, data) {
     return "translate(0," + i * 20 + ")";
     });
 
-    legend.append("rect")
-        .attr("x", width + 35)
-        .attr("width", 18)
-        .attr("height", 18)
+    legend.append("circle")
+        .attr("cx", width_one + 50)
+        .attr("cy", 18)
+        .attr("r", 8)
         .style("fill", function(d){return d.color;})
-        .style("fill-opacity", ".55");
+        .style("fill-opacity", ".85")
+        .style("stroke","black")
+        .style("stroke-width",1.5);
 
     legend.append("text")
-        .attr("x", width + 30)
-        .attr("y", 9)
+        .attr("x", width_one + 35)
+        .attr("y", 18)
         .attr("dy", ".35em")
         .style("text-anchor", "end")
         .text(function (d) {
@@ -222,10 +337,130 @@ var data = d3.json("state.x772.json", function(error, data) {
     
 });
 
-//3 is left 
-//1 is right
-//0 is top
-//2 is bottom
+
+// var width = 960,
+//     size = 150,
+//     padding = 19.5;
+
+// var x = d3.scale.linear()
+//     .range([padding / 2, size - padding / 2]);
+
+// var y = d3.scale.linear()
+//     .range([size - padding / 2, padding / 2]);
+
+// var xAxis = d3.svg.axis()
+//     .scale(x)
+//     .orient("bottom")
+//     .ticks(5);
+
+// var yAxis = d3.svg.axis()
+//     .scale(y)
+//     .orient("left")
+//     .ticks(5);
+
+// var color = d3.scale.category10();
+
+// d3.csv("state2.csv", function(error, data) {
+//   var domainByTrait = {},
+//       traits = d3.keys(data[0]).filter(function(d) { return d !== "state_region"; }),
+//       n = traits.length;
+
+//   //traits are the column headers;
+
+//   traits.forEach(function(trait) {
+//     domainByTrait[trait] = d3.extent(data, function(d) { return +d[trait]; });
+//   });
+
+//   xAxis.tickSize(size * n);
+//   yAxis.tickSize(-size * n);
+
+//   var svgContainer2 = d3.select("#area2").append("svg")
+//       .attr("width", size * n + padding)
+//       .attr("height", size * n + padding)
+//     .append("g")
+//       .attr("transform", "translate(" + padding*2 + "," + padding / 2 + ")");
+
+//   svgContainer2.selectAll(".x.axis")
+//       .data(traits)
+//     .enter().append("g")
+//       .attr("class", "x axis")
+//       .attr("transform", function(d, i) { return "translate(" + (n - i - 1) * size + ",0)"; })
+//       .each(function(d) { x.domain(domainByTrait[d]); d3.select(this).call(xAxis); });
+
+//   svgContainer2.selectAll(".y.axis")
+//       .data(traits)
+//     .enter().append("g")
+//       .attr("class", "y axis")
+//       .attr("transform", function(d, i) { return "translate(0," + i * size + ")"; })
+//       .each(function(d) { y.domain(domainByTrait[d]); d3.select(this).call(yAxis); });
+
+//   var cell = svgContainer2.selectAll(".cell")
+//       .data(cross(traits, traits))
+//     .enter().append("g")
+//       .attr("class", "cell")
+//       .attr("transform", function(d) { return "translate(" + (n - d.i - 1) * size + "," + d.j * size + ")"; })
+//       .each(plot);
+
+//   // Titles for the diagonal.
+//   cell.filter(function(d) { return d.i === d.j; }).append("text")
+//       .attr("x", padding)
+//       .attr("y", padding)
+//       .attr("dy", ".71em")
+//       .text(function(d) {return d.x;});
+
+//   function plot(p) {
+//     var cell = d3.select(this);
+
+//     x.domain(domainByTrait[p.x]);
+//     y.domain(domainByTrait[p.y]);
+
+//     console.log(domainByTrait[p.x]);
+//     //console.log(domainByTrait[p.y]);
+//     console.log(domainByTrait[p.x].length);
+
+//     cell.append("rect")
+//         .attr("class", "frame")
+//         .attr("x", padding / 2)
+//         .attr("y", padding / 2)
+//         .attr("width", size - padding)
+//         .attr("height", size - padding);
+
+//     cell.selectAll("circle")
+//         .data(data)
+//       .enter().append("circle")
+//         .attr("cx", function(d) { return x(d[p.x]); })
+//         .attr("cy", function(d) { return y(d[p.y]); })
+//         .attr("r", 3)
+//         .style("fill", function(d) { return color(d.state_region);});
+
+//     svgContainer2.append("text")
+//          .attr("x", 100)
+//          .attr("y", 5)
+//          .attr("text-anchor", "middle")  
+//          .style("font-size", "20px")
+//          .style("font-weight", "bold")
+//          .style("font-family","Helvetica Neue")
+//          .text("Homework 2b: Scatter Plot");
+
+//   }
+
+//   //cross function gives you a list
+//   function cross(a, b) {
+//     var c = [], n = a.length, m = b.length, i, j;
+//     for (i = -1; ++i < n;) for (j = -1; ++j <= i;) c.push({x: a[i], i: i, y: b[j], j: j});
+//     return c;
+//   }
+
+//   console.log(cross(traits,traits));
+
+//   d3.select(self.frameElement).style("height", size * n + padding + 20 + "px");
+// });
+
+// 3 is left 
+// 1 is right
+// 0 is top
+// 2 is bottom
+
 var m = [100, 100, 50, 150],
     w = 960 - m[1] - m[3],
     h = 500 - m[0] - m[2];
@@ -239,13 +474,13 @@ var line = d3.svg.line(),
     background,
     foreground;
 
-var svg = d3.select("#area2").append("svg")
+var svgContainer3 = d3.select("#area2").append("svg")
     .attr("width", w + m[1] + m[3])
     .attr("height", h + m[0] + m[2])
   .append("g")
     .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
 
-d3.csv("state2.csv", function(error, cars) {
+d3.csv("state_2.csv", function(error, cars) {
 
   // Extract the list of dimensions and create a scale for each.
   x.domain(dimensions = d3.keys(cars[0]).filter(function(d) {
@@ -255,7 +490,7 @@ d3.csv("state2.csv", function(error, cars) {
   }));
 
   // Add grey background lines for context.
-  background = svg.append("g")
+  background = svgContainer3.append("g")
       .attr("class", "background")
     .selectAll("path")
       .data(cars)
@@ -276,23 +511,21 @@ d3.csv("state2.csv", function(error, cars) {
     });
   
 
-    svg.call(tip);
+    svgContainer3.call(tip);
 
   // Add blue foreground lines for focus.
-  foreground = svg.append("g")
+  foreground = svgContainer3.append("g")
       .attr("class", "foreground")
     .selectAll("path")
       .data(cars)
     .enter().append("path")
       .attr("d", path)
       .attr("stroke",function(d){return d.color;})
-      .on('mouseover', tip.show)
-      .on('mouseout', tip.hide);
-
-  console.log(cars[0].color);
+      //.on('mouseover', tip.show)
+      //.on('mouseout', tip.hide);
 
   // Add a group element for each dimension.
-  var g = svg.selectAll(".dimension")
+  var g = svgContainer3.selectAll(".dimension")
       .data(dimensions)
     .enter().append("g")
       .attr("class", "dimension")
@@ -340,21 +573,21 @@ d3.csv("state2.csv", function(error, cars) {
       .attr("x", -8)
       .attr("width", 16);
 
-   svg.append("text")
+   svgContainer3.append("text")
         .attr("x", m[3])             
         .attr("y", 0 - (m[0]/2))
         .attr("text-anchor", "middle")  
         .style("font-size", "24px")
         .style("font-weight", "bold")
         .style("font-family","Helvetica Neue")
-        .text("Homework 2c: Parallel Coordinates");
+        .text("Parallel Coordinates");
 
     var sampleCategoricalData = [{"region":"North Central","color":"green"},{"region":"Northeast","color":"grey"},{"region": "West", "color":"orange"}, { "region":"South", "color":"purple"}]; 
     // sampleOrdinal = d3.scale.category20().domain(sampleCategoricalData);
 
     // verticalLegend = d3.svg.legend().labelFormat("none").cellPadding(5).orientation("vertical").units("Regions").cellWidth(25).cellHeight(18).inputScale(sampleOrdinal).cellStepping(10);
     
-    var legend = svg.selectAll(".legend")
+    var legend = svgContainer3.selectAll(".legend")
     .data(sampleCategoricalData)
     .enter().append("g")
     .attr("class", "legend")
@@ -364,15 +597,15 @@ d3.csv("state2.csv", function(error, cars) {
 
     legend.append("line")
         .attr("class", "foreground")
-        .attr("x1", width + 95)
+        .attr("x1", w + 85)
         .attr("y1", 9)
-        .attr("x2", width + 105)
+        .attr("x2", w + 95)
         .attr("y2", 9)
         .style("stroke", function(d){return d.color;})
-        .style("storke-width", '5px');
+        .style("storke-width", "3");
         
     legend.append("text")
-        .attr("x", width + 85)
+        .attr("x", w + 75)
         .attr("y", 9)
         .attr("dy", ".35em")
         .style("text-anchor", "end")
@@ -414,3 +647,6 @@ function brush() {
 }
 
 </script>
+</body>
+</html>
+
