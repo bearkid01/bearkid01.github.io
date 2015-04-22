@@ -122,8 +122,8 @@ var yAxisOne = d3.svg.axis()
     .orient("left");
 
 var lineOne = d3.svg.line()
-    .x(function(d) { return x(d.time); })
-    .y(function(d) { return y(d.rear); });
+    .x(function(d) { return xOne(d.time); })
+    .y(function(d) { return yOne(d.rear); });
 
 var svgOne = d3.select("#area1").append("svg")
     .attr("width", widthOne + marginOne.left + marginOne.right)
