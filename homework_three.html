@@ -220,7 +220,7 @@ var context = svg.append("g")
     .attr("class", "context")
     .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
 
-d3.json("timeseries.json", type, function(error, data) {
+d3.csv("timeseries.csv", type, function(error, data) {
   x.domain(d3.extent(data.map(function(d) { return d.tt; })));
   y.domain([0, d3.max(data.map(function(d) { return d.front; }))]);
   x2.domain(x.domain());
