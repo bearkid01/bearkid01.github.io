@@ -100,76 +100,77 @@ svg {
 
 <script>
 
-// var margin = {top: 150, right: 20, bottom: 30, left: 100},
-//     width = 960 - margin.left - margin.right,
-//     height = 500 - margin.top - margin.bottom;
+var margin = {top: 150, right: 20, bottom: 30, left: 100},
 
-// var parseDate = d3.time.format("%b-%y").parse;
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
 
-// var x = d3.time.scale()
-//     .range([0, width]);
+var parseDate = d3.time.format("%b-%y").parse;
 
-// var y = d3.scale.linear()
-//     .range([height, 0]);
+var x = d3.time.scale()
+    .range([0, width]);
 
-// var xAxis = d3.svg.axis()
-//     .scale(x)
-//     .orient("bottom");
+var y = d3.scale.linear()
+    .range([height, 0]);
 
-// var yAxis = d3.svg.axis()
-//     .scale(y)
-//     .orient("left");
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
 
-// var line = d3.svg.line()
-//     .x(function(d) { return x(d.time); })
-//     .y(function(d) { return y(d.rear); });
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left");
 
-// var svg = d3.select("#area1").append("svg")
-//     .attr("width", width + margin.left + margin.right)
-//     .attr("height", height + margin.top + margin.bottom)
-//   .append("g")
-//     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+var line = d3.svg.line()
+    .x(function(d) { return x(d.time); })
+    .y(function(d) { return y(d.rear); });
 
-// d3.json("timeseries.json", function(error, data) {
-//   data.forEach(function(d) {
-//     d.time = parseDate(d.time);
-//     d.rear = +d.rear;
-//   });
+var svg = d3.select("#area1").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-//   x.domain(d3.extent(data, function(d) { return d.time; }));
-//   y.domain(d3.extent(data, function(d) { return d.rear; }));
+d3.json("timeseries.json", function(error, data) {
+  data.forEach(function(d) {
+    d.time = parseDate(d.time);
+    d.rear = +d.rear;
+  });
 
-//   svg.append("g")
-//       .attr("class", "x axis")
-//       .attr("transform", "translate(0," + height + ")")
-//       .call(xAxis);
+  x.domain(d3.extent(data, function(d) { return d.time; }));
+  y.domain(d3.extent(data, function(d) { return d.rear; }));
 
-//   svg.append("g")
-//       .attr("class", "y axis")
-//       .call(yAxis)
-//     .append("text")
-//       .attr("transform", "rotate(-90)")
-//       .attr("y", 6)
-//       .attr("dy", ".71em")
-//       .style("text-anchor", "end")
-//       .text("Count");
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
 
-//   svg.append("path")
-//       .datum(data)
-//       .attr("class", "line")
-//       .attr("d", line);
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Count");
 
-//   svg.append("text")
-//        .attr("x", margin.left)             
-//        .attr("y", margin.top-170) 
-//        .style("font-size", "24px")
-//        .style("font-weight", "bold")
-//        .style("font-family","Helvetica Neue")
-//        .text("Time Series Plot of Rear-Seat Passengers Killed or Injured");
-// });
+  svg.append("path")
+      .datum(data)
+      .attr("class", "line")
+      .attr("d", line);
+
+  svg.append("text")
+       .attr("x", margin.left)             
+       .attr("y", margin.top-170) 
+       .style("font-size", "24px")
+       .style("font-weight", "bold")
+       .style("font-family","Helvetica Neue")
+       .text("Time Series Plot of Rear-Seat Passengers Killed or Injured");
+});
 // Second Plot 
 
-var margin = {top: 10, right: 10, bottom: 100, left: 40},
+var margin = {top: 50, right: 10, bottom: 100, left: 40},
     margin2 = {top: 430, right: 10, bottom: 20, left: 40},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom,
@@ -202,7 +203,7 @@ var area2 = d3.svg.area()
     .y0(height2)
     .y1(function(d) { return y2(d.front); });
 
-var svg = d3.select("#area1").append("svg")
+var svg = d3.select("#area2").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom);
 
