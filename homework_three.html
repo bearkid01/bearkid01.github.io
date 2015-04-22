@@ -170,8 +170,8 @@ d3.json("timeseries.json", function(error, data) {
 });
 // Second Plot 
 
-var margin = {top: 50, right: 10, bottom: 100, left: 100},
-    margin2 = {top: 430, right: 10, bottom: 20, left: 100},
+var margin = {top: 100, right: 10, bottom: 100, left: 100},
+    margin2 = {top: 480, right: 10, bottom: 20, left: 100},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom,
     height2 = 500 - margin2.top - margin2.bottom;
@@ -261,7 +261,7 @@ d3.csv("timeseries.csv", type, function(error, data) {
 
 svg.append("text")
   .attr("x", margin.left)
-  .attr("y", margin.top)
+  .attr("y", margin.top - 30)
   .style("font-size", "24px")
   .style("font-weight", "bold")
   .style("font-family","Helvetica Neue")
