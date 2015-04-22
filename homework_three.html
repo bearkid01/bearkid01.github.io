@@ -108,10 +108,10 @@ var marginOne = {top: 150, right: 20, bottom: 30, left: 100},
 var parseDate = d3.time.format("%b-%y").parse;
 
 var xOne = d3.time.scale()
-    .range([0, width]);
+    .range([0, widthOne]);
 
 var yOne = d3.scale.linear()
-    .range([height, 0]);
+    .range([heightOne, 0]);
 
 var xAxisOne = d3.svg.axis()
     .scale(xOne)
