@@ -100,175 +100,175 @@ svg {
 
 <script>
 
-// var margin = {top: 150, right: 20, bottom: 30, left: 100},
-//     width = 960 - margin.left - margin.right,
-//     height = 500 - margin.top - margin.bottom;
-
-// var parseDate = d3.time.format("%b-%y").parse;
-
-// var x = d3.time.scale()
-//     .range([0, width]);
-
-// var y = d3.scale.linear()
-//     .range([height, 0]);
-
-// var xAxis = d3.svg.axis()
-//     .scale(x)
-//     .orient("bottom");
-
-// var yAxis = d3.svg.axis()
-//     .scale(y)
-//     .orient("left");
-
-// var line = d3.svg.line()
-//     .x(function(d) { return x(d.time); })
-//     .y(function(d) { return y(d.rear); });
-
-// var svg = d3.select("#area1").append("svg")
-//     .attr("width", width + margin.left + margin.right)
-//     .attr("height", height + margin.top + margin.bottom)
-//   .append("g")
-//     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-// d3.json("timeseries.json", function(error, data) {
-//   data.forEach(function(d) {
-//     d.time = parseDate(d.time);
-//     d.rear = +d.rear;
-//   });
-
-//   x.domain(d3.extent(data, function(d) { return d.time; }));
-//   y.domain(d3.extent(data, function(d) { return d.rear; }));
-
-//   svg.append("g")
-//       .attr("class", "x axis")
-//       .attr("transform", "translate(0," + height + ")")
-//       .call(xAxis);
-
-//   svg.append("g")
-//       .attr("class", "y axis")
-//       .call(yAxis)
-//     .append("text")
-//       .attr("transform", "rotate(-90)")
-//       .attr("y", 6)
-//       .attr("dy", ".71em")
-//       .style("text-anchor", "end")
-//       .text("Count");
-
-//   svg.append("path")
-//       .datum(data)
-//       .attr("class", "line")
-//       .attr("d", line);
-
-//   svg.append("text")
-//        .attr("x", margin.left)             
-//        .attr("y", margin.top-170) 
-//        .style("font-size", "24px")
-//        .style("font-weight", "bold")
-//        .style("font-family","Helvetica Neue")
-//        .text("Time Series Plot of Rear-Seat Passengers Killed or Injured");
-// });
-// Second Plot 
-
-var margin = {top: 10, right: 10, bottom: 100, left: 40},
-    margin2 = {top: 430, right: 10, bottom: 20, left: 40},
+var margin = {top: 150, right: 20, bottom: 30, left: 100},
     width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom,
-    height2 = 500 - margin2.top - margin2.bottom;
+    height = 500 - margin.top - margin.bottom;
 
 var parseDate = d3.time.format("%b-%y").parse;
 
-var x = d3.time.scale().range([0, width]),
-    x2 = d3.time.scale().range([0, width]),
-    y = d3.scale.linear().range([height, 0]),
-    y2 = d3.scale.linear().range([height2, 0]);
+var x = d3.time.scale()
+    .range([0, width]);
 
-var xAxis = d3.svg.axis().scale(x).orient("bottom"),
-    xAxis2 = d3.svg.axis().scale(x2).orient("bottom"),
-    yAxis = d3.svg.axis().scale(y).orient("left");
+var y = d3.scale.linear()
+    .range([height, 0]);
 
-var brush = d3.svg.brush()
-    .x(x2)
-    .on("brush", brushed);
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
 
-var area = d3.svg.area()
-    .interpolate("monotone")
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left");
+
+var line = d3.svg.line()
     .x(function(d) { return x(d.time); })
-    .y0(height)
-    .y1(function(d) { return y(d.front); });
-
-var area2 = d3.svg.area()
-    .interpolate("monotone")
-    .x(function(d) { return x2(d.time); })
-    .y0(height2)
-    .y1(function(d) { return y2(d.front); });
+    .y(function(d) { return y(d.rear); });
 
 var svg = d3.select("#area1").append("svg")
     .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom);
-
-svg.append("defs").append("clipPath")
-    .attr("id", "clip")
-  .append("rect")
-    .attr("width", width)
-    .attr("height", height);
-
-var focus = svg.append("g")
-    .attr("class", "focus")
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-var context = svg.append("g")
-    .attr("class", "context")
-    .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
+d3.json("timeseries.json", function(error, data) {
+  data.forEach(function(d) {
+    d.time = parseDate(d.time);
+    d.rear = +d.rear;
+  });
 
-d3.json("timeseries.json", type, function(error, data) {
-  x.domain(d3.extent(data.map(function(d) { return d.time; })));
-  y.domain([0, d3.max(data.map(function(d) { return d.front; }))]);
-  x2.domain(x.domain());
-  y2.domain(y.domain());
+  x.domain(d3.extent(data, function(d) { return d.time; }));
+  y.domain(d3.extent(data, function(d) { return d.rear; }));
 
-  focus.append("path")
-      .datum(data)
-      .attr("class", "area")
-      .attr("d", area);
-
-  focus.append("g")
+  svg.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0," + height + ")")
       .call(xAxis);
 
-  focus.append("g")
+  svg.append("g")
       .attr("class", "y axis")
-      .call(yAxis);
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Count");
 
-  context.append("path")
+  svg.append("path")
       .datum(data)
-      .attr("class", "area")
-      .attr("d", area2);
+      .attr("class", "line")
+      .attr("d", line);
 
-  context.append("g")
-      .attr("class", "x axis")
-      .attr("transform", "translate(0," + height2 + ")")
-      .call(xAxis2);
-
-  context.append("g")
-      .attr("class", "x brush")
-      .call(brush)
-    .selectAll("rect")
-      .attr("y", -6)
-      .attr("height", height2 + 7);
+  svg.append("text")
+       .attr("x", margin.left)             
+       .attr("y", margin.top-170) 
+       .style("font-size", "24px")
+       .style("font-weight", "bold")
+       .style("font-family","Helvetica Neue")
+       .text("Time Series Plot of Rear-Seat Passengers Killed or Injured");
 });
+// Second Plot 
 
-function brushed() {
-  x.domain(brush.empty() ? x2.domain() : brush.extent());
-  focus.select(".area").attr("d", area);
-  focus.select(".x.axis").call(xAxis);
-}
+// var margin = {top: 10, right: 10, bottom: 100, left: 40},
+//     margin2 = {top: 430, right: 10, bottom: 20, left: 40},
+//     width = 960 - margin.left - margin.right,
+//     height = 500 - margin.top - margin.bottom,
+//     height2 = 500 - margin2.top - margin2.bottom;
 
-function type(d) {
-  d.time = parseDate(d.time);
-  d.front = +d.front;
-  return d;
-}
+// var parseDate = d3.time.format("%b-%y").parse;
+
+// var x = d3.time.scale().range([0, width]),
+//     x2 = d3.time.scale().range([0, width]),
+//     y = d3.scale.linear().range([height, 0]),
+//     y2 = d3.scale.linear().range([height2, 0]);
+
+// var xAxis = d3.svg.axis().scale(x).orient("bottom"),
+//     xAxis2 = d3.svg.axis().scale(x2).orient("bottom"),
+//     yAxis = d3.svg.axis().scale(y).orient("left");
+
+// var brush = d3.svg.brush()
+//     .x(x2)
+//     .on("brush", brushed);
+
+// var area = d3.svg.area()
+//     .interpolate("monotone")
+//     .x(function(d) { return x(d.time); })
+//     .y0(height)
+//     .y1(function(d) { return y(d.front); });
+
+// var area2 = d3.svg.area()
+//     .interpolate("monotone")
+//     .x(function(d) { return x2(d.time); })
+//     .y0(height2)
+//     .y1(function(d) { return y2(d.front); });
+
+// var svg = d3.select("#area1").append("svg")
+//     .attr("width", width + margin.left + margin.right)
+//     .attr("height", height + margin.top + margin.bottom);
+
+// svg.append("defs").append("clipPath")
+//     .attr("id", "clip")
+//   .append("rect")
+//     .attr("width", width)
+//     .attr("height", height);
+
+// var focus = svg.append("g")
+//     .attr("class", "focus")
+//     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+// var context = svg.append("g")
+//     .attr("class", "context")
+//     .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
+
+// d3.json("timeseries.json", type, function(error, data) {
+//   x.domain(d3.extent(data.map(function(d) { return d.time; })));
+//   y.domain([0, d3.max(data.map(function(d) { return d.front; }))]);
+//   x2.domain(x.domain());
+//   y2.domain(y.domain());
+
+//   focus.append("path")
+//       .datum(data)
+//       .attr("class", "area")
+//       .attr("d", area);
+
+//   focus.append("g")
+//       .attr("class", "x axis")
+//       .attr("transform", "translate(0," + height + ")")
+//       .call(xAxis);
+
+//   focus.append("g")
+//       .attr("class", "y axis")
+//       .call(yAxis);
+
+//   context.append("path")
+//       .datum(data)
+//       .attr("class", "area")
+//       .attr("d", area2);
+
+//   context.append("g")
+//       .attr("class", "x axis")
+//       .attr("transform", "translate(0," + height2 + ")")
+//       .call(xAxis2);
+
+//   context.append("g")
+//       .attr("class", "x brush")
+//       .call(brush)
+//     .selectAll("rect")
+//       .attr("y", -6)
+//       .attr("height", height2 + 7);
+// });
+
+// function brushed() {
+//   x.domain(brush.empty() ? x2.domain() : brush.extent());
+//   focus.select(".area").attr("d", area);
+//   focus.select(".x.axis").call(xAxis);
+// }
+
+// function type(d) {
+//   d.time = parseDate(d.time);
+//   d.front = +d.front;
+//   return d;
+// }
 
 </script>
 
