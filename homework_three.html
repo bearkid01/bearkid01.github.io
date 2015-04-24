@@ -254,7 +254,7 @@ d3.tsv("timeseries.tsv", function(error, data) {
         d = x0 - d0.tt > d1.tt - x0 ? d1 : d0;
         console.log(d);
         focusOne.select("circle.y0").attr("transform", "translate(" + xOne(d.tt) + "," + yOne(d.rear) + ")");
-        focusOne.select("text.y0").text(d.rear);
+        focusOne.select("text.y0").attr("transform", "translate(" + xOne(d.tt) + "," + yOne(d.rear) + ")").text(function(d){return d.rear;});
     }
 
 });
