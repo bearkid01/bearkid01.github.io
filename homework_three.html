@@ -100,7 +100,7 @@ svg {
 
 <script>
 
-var marginOne = {top: 150, right: 20, bottom: 60, left: 100},
+var marginOne = {top: 150, right: 20, bottom: 6g0, left: 100},
 
     widthOne = 960 - marginOne.left - marginOne.right,
     heightOne = 500 - marginOne.top - marginOne.bottom;
@@ -167,7 +167,40 @@ d3.json("timeseries.json", function(error, data) {
        .style("font-weight", "bold")
        .style("font-family","Helvetica Neue")
        .text("Time Series Plot of Rear-Seat Passengers Killed or Injured");
+
+
+   var focus = svgOne.append("g")
+        .attr("class", "focus")
+        .style("display", "none");
+    
+    focus.append("circle")
+        .attr("r", 4.5);
+    
+    focus.append("text")
+        .attr("x", 9)
+        .attr("dy", ".35em");
+    
+    svgOne.append("rect")
+        .attr("class", "overlay")
+        .attr("width", width)
+        .attr("height", height)
+        .on("mouseover", function() { focus.style("display", null); })
+        .on("mouseout", function() { focus.style("display", "none"); })
+        .on("mousemove", mousemove);
+    
+    function mousemove() {
+        var x0 = x.invert(d3.mouse(this)[0]),
+        i = bisectDate(data, x0, 1),
+        d0 = data[i - 1],
+        d1 = data[i],
+        d = x0 - d0.idx > d1.idx - x0 ? d1 : d0;
+        focus.attr("transform", "translate(" + x(d.time) + "," + y(d.rear) + ")");
+        focus.select("text").text(d.rear);
+    }
+
 });
+
+
 // Second Plot 
 
 var margin = {top: 50, right: 10, bottom: 100, left: 100},
