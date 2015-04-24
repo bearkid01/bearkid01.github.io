@@ -156,7 +156,7 @@ var marginOne = {top: 150, right: 20, bottom: 60, left: 100},
     widthOne = 960 - marginOne.left - marginOne.right,
     heightOne = 500 - marginOne.top - marginOne.bottom;
 
-var bisectDate = d3.bisector(function(d) { return d.time; }).left;
+var bisectDate = d3.bisector(function(d) { return d.tt; }).left;
 
 var parseDate = d3.time.format("%m-%y").parse;
 
@@ -176,7 +176,7 @@ var yAxisOne = d3.svg.axis()
 
 var lineOne = d3.svg.line()
     .interpolate("basis")
-    .x(function(d) { return xOne(d.time); })
+    .x(function(d) { return xOne(d.tt); })
     .y(function(d) { return yOne(d.rear); });
 
 var svgOne = d3.select("#area1").append("svg")
@@ -187,13 +187,13 @@ var svgOne = d3.select("#area1").append("svg")
 
 d3.json("timeseries.json", function(error, data) {
   data.forEach(function(d) {
-    d.time = parseDate(d.time);
+    d.tt = parseDate(d.tt);
     d.rear = +d.rear;
   });
 
   console.log(data);
 
-  xOne.domain(d3.extent(data, function(d) { return d.time; }));
+  xOne.domain(d3.extent(data, function(d) { return d.tt; }));
   yOne.domain(d3.extent(data, function(d) { return d.rear; }));
 
   svgOne.append("g")
@@ -250,7 +250,7 @@ d3.json("timeseries.json", function(error, data) {
         d1 = data[i],
         d = x0 - d0.time > d1.time - x0 ? d1 : d0;
         console.log(d);
-        focusOne.attr("transform", "translate(" + xOne(d.time) + "," + yOne(d.rear) + ")");
+        focusOne.attr("transform", "translate(" + xOne(d.tt) + "," + yOne(d.rear) + ")");
         focusOne.select("text").text(d.rear);
     }
 
