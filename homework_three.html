@@ -168,7 +168,6 @@ d3.json("timeseries.json", function(error, data) {
        .style("font-family","Helvetica Neue")
        .text("Time Series Plot of Rear-Seat Passengers Killed or Injured");
 
-
    var focus = svgOne.append("g")
         .attr("class", "focus")
         .style("display", "none");
@@ -186,17 +185,17 @@ d3.json("timeseries.json", function(error, data) {
         .attr("height", height)
         .on("mouseover", function() { focus.style("display", null); })
         .on("mouseout", function() { focus.style("display", "none"); })
-        .on("mousemove", mousemove);
+    //     .on("mousemove", mousemove);
     
-    function mousemove() {
-        var x0 = x.invert(d3.mouse(this)[0]),
-        i = bisectDate(data, x0, 1),
-        d0 = data[i - 1],
-        d1 = data[i],
-        d = x0 - d0.idx > d1.idx - x0 ? d1 : d0;
-        focus.attr("transform", "translate(" + x(d.time) + "," + y(d.rear) + ")");
-        focus.select("text").text(d.rear);
-    }
+    // function mousemove() {
+    //     var x0 = x.invert(d3.mouse(this)[0]),
+    //     i = bisectDate(data, x0, 1),
+    //     d0 = data[i - 1],
+    //     d1 = data[i],
+    //     d = x0 - d0.idx > d1.idx - x0 ? d1 : d0;
+    //     focus.attr("transform", "translate(" + x(d.time) + "," + y(d.rear) + ")");
+    //     focus.select("text").text(d.rear);
+    // }
 
 });
 
