@@ -158,7 +158,7 @@ var marginOne = {top: 150, right: 20, bottom: 60, left: 100},
 
 var bisectDate = d3.bisector(function(d) { return d.tt; }).left;
 
-var parseDate = d3.time.format("%m-%y").parse;
+var parseDate = d3.time.format("%b-%y").parse;
 
 var xOne = d3.time.scale()
     .range([0, widthOne]);
