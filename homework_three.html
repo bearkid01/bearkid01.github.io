@@ -164,7 +164,7 @@ var xOne = d3.time.scale()
     .range([0, widthOne]);
 
 var yOne = d3.scale.linear()
-    .range([heightOne, 150]);
+    .range([heightOne, 0]);
 
 var xAxisOne = d3.svg.axis()
     .scale(xOne)
@@ -197,7 +197,7 @@ d3.tsv("timeseries.tsv", function(error, data) {
   });
 
   xOne.domain(d3.extent(data, function(d) { return d.tt; }));
-  yOne.domain([0, d3.max(data, function(d) { return d.rear; })]);
+  yOne.domain([150, d3.max(data, function(d) { return d.rear; })]);
 
   lineOne.append("path")
         .attr("class","line")
