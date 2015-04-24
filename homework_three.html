@@ -185,7 +185,7 @@ var svgOne = d3.select("#area1").append("svg")
   .append("g")
     .attr("transform", "translate(" + marginOne.left + "," + marginOne.top + ")");
 
-d3.json("timeseries.json", function(error, data) {
+d3.tsv("timeseries.tsv", function(error, data) {
   data.forEach(function(d) {
     d.tt = parseDate(d.tt);
     d.rear = +d.rear;
