@@ -191,6 +191,8 @@ d3.json("timeseries.json", function(error, data) {
     d.rear = +d.rear;
   });
 
+  console.log(data);
+
   xOne.domain(d3.extent(data, function(d) { return d.time; }));
   yOne.domain(d3.extent(data, function(d) { return d.rear; }));
 
