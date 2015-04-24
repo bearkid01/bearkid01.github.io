@@ -202,10 +202,6 @@ d3.tsv("timeseries.tsv", function(error, data) {
   //yOne.domain([0, d3.max(data, function(d) { return d.rear; })]);
   yOne.domain(d3.extent(data, function(d) { return d.rear; })); 
 
-  lineOne.append("path")
-        .attr("class","line")
-        .attr("d", valueline(data))
-
   svgOne.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0," + heightOne + ")")
@@ -220,6 +216,10 @@ d3.tsv("timeseries.tsv", function(error, data) {
       .attr("dy", ".71em")
       .style("text-anchor", "end")
       .text("Count");
+
+   lineOne.append("path")
+        .attr("class","line")
+        .attr("d", valueline(data))
 
   svgOne.append("text")
        .attr("x", marginOne.left)             
