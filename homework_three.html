@@ -174,16 +174,17 @@ var yAxisOne = d3.svg.axis()
     .scale(yOne)
     .orient("left");
 
-var lineOne = d3.svg.line()
-    .interpolate("basis")
-    .x(function(d) { return xOne(d.tt); })
-    .y(function(d) { return yOne(d.rear); });
+var valueline = d3.svg.line()
+      .x(function(d) {return xOne(d.tt); })
+      .y(function(d) {return yOne(d.rear); });
 
 var svgOne = d3.select("#area1").append("svg")
     .attr("width", widthOne + marginOne.left + marginOne.right)
     .attr("height", heightOne + marginOne.top + marginOne.bottom)
   .append("g")
     .attr("transform", "translate(" + marginOne.left + "," + marginOne.top + ")");
+
+var lineOne = svgOne.append("g");
 
 var focusOne = svgOne.append("g")
         .attr("class", "focus")
@@ -197,6 +198,10 @@ d3.tsv("timeseries.tsv", function(error, data) {
 
   xOne.domain(d3.extent(data, function(d) { return d.tt; }));
   yOne.domain([0, d3.max(data, function(d) { return d.rear; })]);
+
+  lineOne.append("path")
+        .attr("class","line")
+        .attr("d", valueline(data))
 
   svgOne.append("g")
       .attr("class", "x axis")
@@ -213,11 +218,6 @@ d3.tsv("timeseries.tsv", function(error, data) {
       .style("text-anchor", "end")
       .text("Count");
 
-  svgOne.append("path")
-      .datum(data)
-      .attr("class", "line")
-      .attr("d", lineOne);
-
   svgOne.append("text")
        .attr("x", marginOne.left)             
        .attr("y", marginOne.top-170) 
@@ -232,9 +232,9 @@ d3.tsv("timeseries.tsv", function(error, data) {
         .style("stroke", "steelblue")
         .attr("r", 4.5);
     
-    focusOne.append("text")
-        .attr("x", 9)
-        .attr("dy", ".35em");
+    // focusOne.append("text")
+    //     .attr("x", 9)
+    //     .attr("dy", ".35em");
     
     svgOne.append("rect")
         //.attr("class", "overlay")
