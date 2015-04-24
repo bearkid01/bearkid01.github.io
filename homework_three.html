@@ -226,11 +226,15 @@ d3.tsv("timeseries.tsv", function(error, data) {
        .style("font-family","Helvetica Neue")
        .text("Time Series Plot of Rear-Seat Passengers Killed or Injured");
     
-    focusOne.append("circle")
+  var circles = focusOne.append("circle")
         .attr("class", "y")
         .style("fill", "none")
         .style("stroke", "steelblue")
         .attr("r", 4);
+
+    circles.append("svg:title")
+        .attr("dy", ".35em")
+        .text(function(d){return d.rear;});     
 
     svgOne.append("rect")
         //.attr("class", "overlay")
@@ -250,7 +254,7 @@ d3.tsv("timeseries.tsv", function(error, data) {
         d = x0 - d0.tt > d1.tt - x0 ? d1 : d0;
         console.log(d);
         focusOne.select("circle.y").attr("transform", "translate(" + xOne(d.tt) + "," + yOne(d.rear) + ")");
-        focusOne.select("text").text(d.rear);
+        //focusOne.select("text").text(d.rear);
     }
 
 });
