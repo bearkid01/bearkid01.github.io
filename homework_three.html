@@ -191,8 +191,6 @@ d3.tsv("timeseries.tsv", function(error, data) {
     d.rear = +d.rear;
   });
 
-  console.log(data);
-
   xOne.domain(d3.extent(data, function(d) { return d.tt; }));
   yOne.domain(d3.extent(data, function(d) { return d.rear; }));
 
@@ -229,6 +227,9 @@ d3.tsv("timeseries.tsv", function(error, data) {
         .style("display", "none");
     
     focusOne.append("circle")
+        .attr("class", "y")
+        .style("fill", "none")
+        .style("stroke", "steelblue")
         .attr("r", 4.5);
     
     focusOne.append("text")
@@ -236,9 +237,11 @@ d3.tsv("timeseries.tsv", function(error, data) {
         .attr("dy", ".35em");
     
     svgOne.append("rect")
-        .attr("class", "overlay")
+        //.attr("class", "overlay")
         .attr("width", widthOne)
         .attr("height", heightOne)
+        .style("fill", "none")
+        .style("pointer-events", "all")
         .on("mouseover", function() { focusOne.style("display", null); })
         .on("mouseout", function() { focusOne.style("display", "none"); })
         .on("mousemove", mousemove);
@@ -250,7 +253,7 @@ d3.tsv("timeseries.tsv", function(error, data) {
         d1 = data[i],
         d = x0 - d0.tt > d1.tt - x0 ? d1 : d0;
         console.log(d);
-        focusOne.attr("transform", "translate(" + xOne(d.tt) + "," + yOne(d.rear) + ")");
+        focusOne.select("circle.y").attr("transform", "translate(" + xOne(d.tt) + "," + yOne(d.rear) + ")");
         focusOne.select("text").text(d.rear);
     }
 
