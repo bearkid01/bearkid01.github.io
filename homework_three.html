@@ -185,6 +185,10 @@ var svgOne = d3.select("#area1").append("svg")
   .append("g")
     .attr("transform", "translate(" + marginOne.left + "," + marginOne.top + ")");
 
+var focusOne = svgOne.append("g")
+        .attr("class", "focus")
+        .style("display", "none");
+
 d3.tsv("timeseries.tsv", function(error, data) {
   data.forEach(function(d) {
     d.tt = parseDate(d.tt);
@@ -192,7 +196,7 @@ d3.tsv("timeseries.tsv", function(error, data) {
   });
 
   xOne.domain(d3.extent(data, function(d) { return d.tt; }));
-  yOne.domain(d3.extent(data, function(d) { return d.rear; }));
+  yOne.domain([0, d3.max(data, function(d) { return d.rear; })]);
 
   svgOne.append("g")
       .attr("class", "x axis")
@@ -221,10 +225,6 @@ d3.tsv("timeseries.tsv", function(error, data) {
        .style("font-weight", "bold")
        .style("font-family","Helvetica Neue")
        .text("Time Series Plot of Rear-Seat Passengers Killed or Injured");
-
-   var focusOne = svgOne.append("g")
-        .attr("class", "focus")
-        .style("display", "none");
     
     focusOne.append("circle")
         .attr("class", "y")
