@@ -230,12 +230,8 @@ d3.tsv("timeseries.tsv", function(error, data) {
         .attr("class", "y")
         .style("fill", "none")
         .style("stroke", "steelblue")
-        .attr("r", 4.5);
-    
-    focusOne.append("text")
-        .attr("x", 9)
-        .attr("dy", ".35em");
-    
+        .attr("r", 4);
+
     svgOne.append("rect")
         //.attr("class", "overlay")
         .attr("width", widthOne)
