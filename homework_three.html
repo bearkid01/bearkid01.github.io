@@ -228,22 +228,23 @@ var valueline = d3.svg.line()
       .x(function(d) {return xOne(d.tt); })
       .y(function(d) {return yOne(d.rear); });
 
+//     //zooming behavior 
+// var zoomListener = d3.behavior.zoom()
+//   .scaleExtent([0.1, 2])
+//   .on("zoom", zoomHandler);
 
-    //zooming behavior 
-var zoomListener = d3.behavior.zoom()
-  .scaleExtent([0.1, 2])
-  .on("zoom", zoomHandler);
-
-// function for handling zoom event
-function zoomHandler() {
-  vis.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-}
+// // function for handling zoom event
+// function zoomHandler() {
+//   vis.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+// }
 
 var svgOne = d3.select("#area1").append("svg")
     .attr("width", widthOne + marginOne.left + marginOne.right)
     .attr("height", heightOne + marginOne.top + marginOne.bottom)
   .append("g")
-    .attr("transform", "translate(" + marginOne.left + "," + marginOne.top + ")");
+    .attr("transform", "translate(" + marginOne.left + "," + marginOne.top + ")")
+    .call(d3.behavior.zoom().scaleExtent([0.5, 2]).on("zoom", zoom))
+  .append("g");
 
 var lineOne = svgOne.append("g");
 
@@ -322,6 +323,11 @@ d3.tsv("timeseries.tsv", function(error, data) {
 
 });
 
+    function zoom() {
+  svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+}
+
+
 
 // // create the svg
 // rootSvg = d3.select("#tree-body").append("svg:svg");
@@ -330,7 +336,6 @@ d3.tsv("timeseries.tsv", function(error, data) {
 // */
 
 // apply the zoom behavior to the svg image
-zoomListener(svgOne);
 
 
 // Second Plot 
