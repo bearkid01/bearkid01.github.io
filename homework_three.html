@@ -223,7 +223,7 @@ d3.tsv("timeseries.tsv", function(error, data) {
         .attr("d", valueline(data))
 
   svgOne.append("text")
-       .attr("x", marginOne.left)             
+       .attr("x", marginOne.left-50)             
        .attr("y", marginOne.top-170) 
        .style("font-size", "24px")
        .style("font-weight", "bold")
