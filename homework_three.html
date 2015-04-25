@@ -240,7 +240,7 @@ var valueline = d3.svg.line()
 
 
 var zoom = d3.behavior.zoom()
-    .scaleExtent([0.5, 2])
+    .scaleExtent([0.7, 2.5])
     .on("zoom", zoomed);
 
 // var drag = d3.behavior.drag()
@@ -294,7 +294,7 @@ d3.tsv("timeseries.tsv", function(error, data) {
 
   svgOne.append("text")
        .attr("x", marginOne.left-100)             
-       .attr("y", marginOne.top-170) 
+       .attr("y", marginOne.top-370) 
        .style("font-size", "24px")
        .style("font-weight", "bold")
        .style("font-family","Helvetica Neue")
