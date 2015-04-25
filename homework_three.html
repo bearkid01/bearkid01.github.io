@@ -165,7 +165,7 @@ var parseDate = d3.time.format("%b-%y").parse;
 var xOne = d3.time.scale()
     .range([0, widthOne]);
 
-var yOne = d3.scale.linear()
+var yOne = d3.scale.linear()xi
     .range([heightOne, 0]);
 
 var xAxisOne = d3.svg.axis()
@@ -215,7 +215,8 @@ d3.tsv("timeseries.tsv", function(error, data) {
       .attr("y", 6)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text("Count");
+      .text("Count")
+      .style("font-size", "12px")
 
    lineOne.append("path")
         .attr("class","line")
