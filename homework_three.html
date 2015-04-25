@@ -249,19 +249,7 @@ var zoom = d3.behavior.zoom()
 //     .on("drag", dragged)
 //     .on("dragend", dragended);
 
-
-
-d3.tsv("timeseries.tsv", function(error, data) {
-  data.forEach(function(d) {
-    d.tt = parseDate(d.tt);
-    d.rear = +d.rear;
-  });
-
-  xOne.domain(d3.extent(data, function(d) { return d.tt; }));
-  //yOne.domain([0, d3.max(data, function(d) { return d.rear; })]);
-  yOne.domain(d3.extent(data, function(d) { return d.rear; })); 
-
-  var svgOne = d3.select("#area1").append("svg")
+var svgOne = d3.select("#area1").append("svg")
     .attr("width", widthOne + marginOne.left + marginOne.right)
     .attr("height", heightOne + marginOne.top + marginOne.bottom)
   .append("g")
@@ -273,6 +261,17 @@ var lineOne = svgOne.append("g");
 var focusOne = svgOne.append("g")
         .attr("class", "focus")
         .style("display", "none");
+
+
+d3.tsv("timeseries.tsv", function(error, data) {
+  data.forEach(function(d) {
+    d.tt = parseDate(d.tt);
+    d.rear = +d.rear;
+  });
+
+  xOne.domain(d3.extent(data, function(d) { return d.tt; }));
+  //yOne.domain([0, d3.max(data, function(d) { return d.rear; })]);
+  yOne.domain(d3.extent(data, function(d) { return d.rear; })); 
 
   svgOne.append("g")
       .attr("class", "x axis")
@@ -333,16 +332,16 @@ var focusOne = svgOne.append("g")
         focusOne.select("text.y0").attr("transform", "translate(" + xOne(d.tt) + "," + yOne(d.rear) + ")").text(formatOutput(d));
     }
 
-  function zoomed() {
-  svgOne.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-}
+//   function zoomed() {
+//   svgOne.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+// }
 
 
 });
 
-//     function zoomed() {
-//   svgOne.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-// }
+    function zoomed() {
+  svgOne.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+}
 
 
 
