@@ -228,6 +228,17 @@ var valueline = d3.svg.line()
       .x(function(d) {return xOne(d.tt); })
       .y(function(d) {return yOne(d.rear); });
 
+
+    //zooming behavior 
+var zoomListener = d3.behavior.zoom()
+  .scaleExtent([0.1, 2])
+  .on("zoom", zoomHandler);
+
+// function for handling zoom event
+function zoomHandler() {
+  vis.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+}
+
 var svgOne = d3.select("#area1").append("svg")
     .attr("width", widthOne + marginOne.left + marginOne.right)
     .attr("height", heightOne + marginOne.top + marginOne.bottom)
@@ -239,25 +250,6 @@ var lineOne = svgOne.append("g");
 var focusOne = svgOne.append("g")
         .attr("class", "focus")
         .style("display", "none");
-
-//zooming behavior 
-var zoomListener = d3.behavior.zoom()
-  .scaleExtent([0.1, 2])
-  .on("zoom", zoomHandler);
-
-// function for handling zoom event
-function zoomHandler() {
-  vis.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-}
-
-// // create the svg
-// rootSvg = d3.select("#tree-body").append("svg:svg");
-// /*
-//   creating your svg image here
-// */
-
-// apply the zoom behavior to the svg image
-zoomListener(svgOne);
 
 d3.tsv("timeseries.tsv", function(error, data) {
   data.forEach(function(d) {
@@ -330,6 +322,15 @@ d3.tsv("timeseries.tsv", function(error, data) {
 
 });
 
+
+// // create the svg
+// rootSvg = d3.select("#tree-body").append("svg:svg");
+// /*
+//   creating your svg image here
+// */
+
+// apply the zoom behavior to the svg image
+zoomListener(svgOne);
 
 
 // Second Plot 
