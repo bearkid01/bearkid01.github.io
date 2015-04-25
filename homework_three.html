@@ -333,7 +333,7 @@ d3.tsv("timeseries.tsv", function(error, data) {
 
 });
 
-    function zoom() {
+    function zoomed() {
   svgOne.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
 }
 
