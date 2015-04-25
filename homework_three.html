@@ -149,6 +149,53 @@ svg {
 <div id="area1"></div>
 <div id="area2"></div>
 
+
+<div id="text">
+<h3>Functionality</h3>
+<section>
+  <h4>C-Level: Bubble Plot</h4>
+  <p>
+    <ul>
+      <li>Calculated the maximum value of high school graduation rate and income:
+          for income, I mapped the domain from 2,500 to maximum value of income+500 to the range between 0 and width
+          for high school graduation, I mapped the domain from 0 to maximum value of high school graduation rate+10 to 
+          the range between height and 0.
+      <li>Sorted the bubbles by the reverse order of "illteracy" (radius) and ploted them 
+      <li>Added a tooltip for each of the bubble showing the abbreviation of the state name 
+      <li>Added a legend indicating what region each color represents
+      <li>Adjusted the x-axis beginning from 2,500 instead of 0 to increase the data density ratio
+    </ul>
+  </p>
+  <h4>B-Level: Scatterplot Matrix</h4>
+  <p>
+    <ul>
+      <li>Applied the "cross" function to plot the small multiple matrix
+      <li>Added a legend indicating the region each color represents
+      <li>Only visualized half of the matrix in this case to achieve a better data ink ratio
+    </ul>
+  </p>
+  <h4>A-Level: Parallel Coordinates</h4>
+  <p>
+    <ul>
+      <li>Added a brushing function to allow highlighting of specific ranges on each axis 
+      <li>Added a legend indicating what region each color represents 
+    </ul>
+  </p>
+</section>
+</div>
+
+<div id="text2">
+<h3>Motivation</h3>
+  <p>For C-level functionality, I focused on applying the basic functionality that I have learned so far, including creating
+     circles, positioning them, filling them with colors, creating x and y axes, setting labels for the axes, adding tooltips and a legend. For B-level and A-level functionality, I wanted to apply more advanced visualization techniques. For example, creating a scatterplot matrix can help me visualize the pairwise relationship between a set of variables. I found that the illteracy rate and life expectancy reversely correlated. Besides, parallel coordinates plot is a great way to visualize high dimension
+     data in 2D space. Since this data set has more than two dimensions, I used parallel coordinates to discover the underlying patterns among regions. 
+  </p>
+  <p>You can view the complete codes for this graph <a href="https://github.com/bearkid01/spring-2015-msan622_Vis/blob/gh-pages/homework_three.html">here</a>.
+  </p>
+  <p>Producer: Weiwei Zhang
+  </p>
+</div>
+
 <script>
 
 var marginOne = {top: 150, right: 20, bottom: 60, left: 100},
