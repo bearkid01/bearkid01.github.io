@@ -240,6 +240,25 @@ var focusOne = svgOne.append("g")
         .attr("class", "focus")
         .style("display", "none");
 
+//zooming behavior 
+var zoomListener = d3.behavior.zoom()
+  .scaleExtent([0.1, 2])
+  .on("zoom", zoomHandler);
+
+// function for handling zoom event
+function zoomHandler() {
+  vis.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+}
+
+// // create the svg
+// rootSvg = d3.select("#tree-body").append("svg:svg");
+// /*
+//   creating your svg image here
+// */
+
+// apply the zoom behavior to the svg image
+zoomListener(svgOne);
+
 d3.tsv("timeseries.tsv", function(error, data) {
   data.forEach(function(d) {
     d.tt = parseDate(d.tt);
@@ -310,6 +329,7 @@ d3.tsv("timeseries.tsv", function(error, data) {
     }
 
 });
+
 
 
 // Second Plot 
