@@ -104,54 +104,32 @@ div#div5{
 
 <div id="div2">
   <h3>Planned Tools</h3>
-  <p>The dataset I chose to visualize is the food poisoning dataset from NYC OpenData. Click <a href="https://nycopendata.socrata.com/Social-Services/food-poisoning/gjkf-etq5">here</a> to be directed to the source page. I also included the CSV-formatted 
-  <a href=https://github.com/bearkid01/spring-2015-msan622_Vis/tree/gh-pages/project_dataset>dataset</a> in the repository. 
+  <p>Besides D3.js, I might use PostgreSQL's "group by" function to generate some aggregated numbers. 
   </p>
 </div>
 
 <div id="div3">
   <h3>Planned Techniques</h3>
-  <p>The main reason to choose this dataset to visualize is because it has both timestamps and geographical locations 
-    (longitude and latitude), which gives me the options of visualizing it in time series or on a map or both. 
-    Besides, there are some missing values in the dataset. I want to take this opportunity to practice how to handle 
-    missing values for data visualization. 
-  </p>
+    <ul>
+        <li>Dashboard: I plan to use a dashboard to display the following three techniques.</li>
+        <li>Symbol Map: The first step is to generate/obtain a NYC TopoJSON file (with neighborhood boundaries preferred). The locations of incidents will be shown in bubbles/circles filled with color. The columns that will be used to encode the locations are the two columns in the dataset containing latitudes and longitude of the incidients. </li>
+        <li>Line Plot: It can be used to display the number of incidents for a specific neighborhood overtime. When a user click on a neighborhood in the Symbol Map, the line plot will display the time series of the number of incidents for that neighborhood. If none of the neighborhoods in NYC is clicked, the line plot will display the time series of the number of incidents aggregated from all the neighborhoods.</li>
+        <li>Bar(Stacked) Plot: It can be used to display the number of incidents by location type for a specific region. When users click on a neighborhood in the Symbol Map, the bar plot will display the count of incidents by location type, such as Restaurant, Cafeteria or Food Cart. If none of the neighborhoods in NYC is clicked, the bar plot will display the counts of incidents by location type aggregated from all the neighborhoods.</li>
+    </ul>
 </div>
 
 <div id="div4">
     <h3>Planned Interaction</h3>
     <p>
       <ul>
-        <li>Timestamp: Created Date, Closed Date</li>
-        <li>Categorical: Complaint Type, Location Type, Status</li>
-        <li>Numerical: X Coordinate (State Plane), Y Coordinate (State Plane)</li>
-        <li>Text: Incident Address</li>
+        <li>Zooming: Users can scroll mouse to zoom in to a county. </li>
+        <li>Filtering: Users can filter the map based on Status and Location Type. </li>
       </ul>
     </p>
 </div>
 
 <div id="div5">
   <h3>Planned Interface</h3>
-  <p>This dataset will only be used for academic purpose and hereby I agree to the terms-of-use of NYC OpenData, especially:</p>
-  <i>
-    "A. use NYC.gov to commit a criminal offense or to encourage others to engage in any conduct which would constitute a criminal offense;
-
-    B. use NYC.gov in a way to give rise to civil liability or encourage others to engage in any conduct which would give rise to civil liability;
-
-    C. use NYC.gov to impersonate other parties or entities;
-
-    D. use NYC.gov to upload any content that contains a software virus, “Trojan Horse” or any other computer code, files, or programs that may alter, damage, or interrupt the functionality of NYC.gov or the hardware or software of any other person who accesses NYC.gov;
-
-    E. upload, post, email, or otherwise transmit any materials that you do not have a right to transmit under any law or contractual relationship;
-
-    F. alter, damage, or delete any content posted on NYC.gov;
-
-    G. disrupt NYC.gov or its servers or networks in any way; or
-
-    H. claim a relationship with or represent any business, association, or other organization with which you are not authorized to claim such a relationship or to represent."  </i>
-
-    Cited from <a href=http://www1.nyc.gov/home/terms-of-use.page>http://www1.nyc.gov/home/terms-of-use.page</a>
-  </p>
 </div>
 
 </body>
