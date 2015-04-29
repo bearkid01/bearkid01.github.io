@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/bootstrap-theme.min.css" rel="stylesheet">
+
+<style type="text/css">
+
+body {
+        padding-top: 50px;
+        padding-bottom: 20px;
+        width: 900px;
+    }
+
+
+div#text{
+  width: 300px;
+  left: 120px;
+  top: 1850px;
+  position: absolute;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+div#text2{
+  width: 300px;
+  left: 520px;
+  top: 1850px;
+  position: absolute;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+div#div2{
+  left: 100px;
+  position: relative;
+}
+
+div#div3{
+  left: 100px;
+  position: relative;
+}
+
+div#div4{
+  left: 100px;
+  position: relative;
+}
+
+div#div5{
+  left: 100px;
+  position: relative;
+}
+
+</style>
+</head>
+
+<body>
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<!-- Fixed Navbar -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle Navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">MSN 622</a>
+        </div>
+
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="index.html#homework">Homework</a></li>
+                <li><a href="index.html#project">Project</a></li>
+                <li><a href="index.html#participation">Participation</a></li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="http://d3js.org/colorbrewer.v1.min.js"></script>
+<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+<script src="legend.js"></script>
+
+<div id="div1">
+  <h1 align="center">Data Visualization Project</h1>
+</div>
+
+<div id="div2">
+  <h3>Planned Tools</h3>
+  <p>The dataset I chose to visualize is the food poisoning dataset from NYC OpenData. Click <a href="https://nycopendata.socrata.com/Social-Services/food-poisoning/gjkf-etq5">here</a> to be directed to the source page. I also included the CSV-formatted 
+  <a href=https://github.com/bearkid01/spring-2015-msan622_Vis/tree/gh-pages/project_dataset>dataset</a> in the repository. 
+  </p>
+</div>
+
+<div id="div3">
+  <h3>Planned Techniques</h3>
+  <p>The main reason to choose this dataset to visualize is because it has both timestamps and geographical locations 
+    (longitude and latitude), which gives me the options of visualizing it in time series or on a map or both. 
+    Besides, there are some missing values in the dataset. I want to take this opportunity to practice how to handle 
+    missing values for data visualization. 
+  </p>
+</div>
+
+<div id="div4">
+    <h3>Planned Interaction</h3>
+    <p>
+      <ul>
+        <li>Timestamp: Created Date, Closed Date</li>
+        <li>Categorical: Complaint Type, Location Type, Status</li>
+        <li>Numerical: X Coordinate (State Plane), Y Coordinate (State Plane)</li>
+        <li>Text: Incident Address</li>
+      </ul>
+    </p>
+</div>
+
+<div id="div5">
+  <h3>Planned Interface</h3>
+  <p>This dataset will only be used for academic purpose and hereby I agree to the terms-of-use of NYC OpenData, especially:</p>
+  <i>
+    "A. use NYC.gov to commit a criminal offense or to encourage others to engage in any conduct which would constitute a criminal offense;
+
+    B. use NYC.gov in a way to give rise to civil liability or encourage others to engage in any conduct which would give rise to civil liability;
+
+    C. use NYC.gov to impersonate other parties or entities;
+
+    D. use NYC.gov to upload any content that contains a software virus, “Trojan Horse” or any other computer code, files, or programs that may alter, damage, or interrupt the functionality of NYC.gov or the hardware or software of any other person who accesses NYC.gov;
+
+    E. upload, post, email, or otherwise transmit any materials that you do not have a right to transmit under any law or contractual relationship;
+
+    F. alter, damage, or delete any content posted on NYC.gov;
+
+    G. disrupt NYC.gov or its servers or networks in any way; or
+
+    H. claim a relationship with or represent any business, association, or other organization with which you are not authorized to claim such a relationship or to represent."  </i>
+
+    Cited from <a href=http://www1.nyc.gov/home/terms-of-use.page>http://www1.nyc.gov/home/terms-of-use.page</a>
+  </p>
+</div>
+
+</body>
+</html>
