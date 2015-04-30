@@ -234,7 +234,7 @@ d3.tsv("movies.tsv", function(error, data) {
       .attr("y", 6)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text("Count")
+      .text("Average Budget")
       .style("font-size", "12px")
 
    lineOne.append("path")
@@ -247,7 +247,7 @@ d3.tsv("movies.tsv", function(error, data) {
        .style("font-size", "24px")
        .style("font-weight", "bold")
        .style("font-family","Helvetica Neue")
-       .text("Time Series Plot of Rear-Seat Passengers Killed or Injured");
+       .text("Average Movie Budgets Over Years");
     
   focusOne.append("circle")
         .attr("class", "y0")
