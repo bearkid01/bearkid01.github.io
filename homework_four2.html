@@ -317,19 +317,19 @@ var yAxis = d3.svg.axis()
     .tickFormat(formatyAxis)
     .ticks(6);
 
-var tip = d3.tip()
-  .attr('class', 'd3-tip')
-  .offset([-10, 0])
-  .html(function(d) {
-    return "<strong>Average Budget:</strong> <span style='color:red'>" + d.AvgBudget + "</span>";
-  })
+// var tip = d3.tip()
+//   .attr('class', 'd3-tip')
+//   .offset([-10, 0])
+//   .html(function(d) {
+//     return "<strong>Average Budget:</strong> <span style='color:red'>" + d.AvgBudget + "</span>";
+//   })
 var svg = d3.select("#barChart").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 //var duration = 1000;
-svg.call(tip);
+//svg.call(tip);
 x.domain(data.map(function(d) { return d.mpaa_category; }));
 y.domain([0, d3.max(data, function(d) { return d.AvgBudget; })]);
 svg.append("g")
@@ -352,7 +352,7 @@ var yAxis = d3.svg.axis()
     .scale(y)
     .orient("left");
 var yAxisGrid = d3.svg.axis().scale(y)
-  .ticks(10) 
+  .ticks(6) 
   .tickSize(width, 0)
   .tickFormat("")
   .orient("right");
@@ -365,26 +365,9 @@ svg.selectAll(".bar")
     .enter().append("rect")//rect
       .attr("class", "bar")//bar 
       .attr("x", function(d) { return x(d.mpaa_category); })
-      .attr("y", height)
-      .attr("height",0)
       .attr("width", x.rangeBand())
-      .on('mouseover', tip.show)
-      .on('mouseout', tip.hide)
-      .transition()
-        .duration(duration)
-        .delay(function(d,i){
-          return 120*i;
-        })
-        .attr("y", function(d) { return y(d.AvgBudget); })
-        .attr("height", function(d) { return height - y(d.AvgBudget); })
-svg.append("text")
-        .attr("x", margin.left*2)             
-        .attr("y", 0 - (margin.top / 2))
-        .attr("text-anchor", "middle")  
-        .style("font-size", "24px")
-        .style("font-weight", "bold")
-        .style("font-family","Helvetica Neue")
-        .text("Homework 1: Letter Count Bar Chart");
+      .attr("y", function(d) { return y(d.AvgBudget); })
+      .attr("height", function(d) { return height-y(d.AvgBudget); })
 
  /* ** UPDATE CHART ** */
  
