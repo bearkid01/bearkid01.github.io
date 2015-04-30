@@ -129,6 +129,10 @@ svg {
   fill-opacity: 1;
   }
 
+  .bar {
+  fill: steelblue;
+}
+
   div#text{
   width: 300px;
   left: 120px;
@@ -143,6 +147,8 @@ svg {
   position: absolute;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   }
+
+
 			 
     </style>
   </head>
@@ -343,10 +349,10 @@ svg.append("g")
       .attr("y", 6)
       .attr("dy", ".01em")
       .style("text-anchor", "middle")
-      .style("font-size", "20px")
-      .style("font-family", "Helvetica Neue")
+      .style("font-size", "16px")
+      //.style("font-family", "Helvetica Neue")
       .attr("transform", "translate("+ (padding/2) +","+(height/2)+")rotate(-90)")
-      .text("Count");
+      .text("Avg Budget");
 //added functionality of grid lines"
 var yAxis = d3.svg.axis()
     .scale(y)
