@@ -17,8 +17,6 @@
 	height: 400px; 
 }
 
-
-
 #lineChart {    
 	position:absolute;
 	top:10px;
@@ -118,163 +116,159 @@ td {
   </head>
   <body>
   
-    <div id="pieChart"></div>
-    <div id="barChart"></div>  
     <div id="lineChart"></div>
+    <div id="barChart"></div>  
+    <div id="bubbleChart"></div>
     <script type="text/javascript">
     
-/*
-################ FORMATS ##################
--------------------------------------------
-*/
+var marginOne = {top: 300, right: 20, bottom: 60, left: 100},
+
+    widthOne = 960 - marginOne.left - marginOne.right,
+    heightOne = 750 - marginOne.top - marginOne.bottom;
+
+var bisectDate = d3.bisector(function(d) { return d.year; }).left;
+
+var formatOutput = function(d) {return d.mean; };
+
+var parseDate = d3.time.format("%y").parse;
+
+var xOne = d3.time.scale()
+    .range([0, widthOne]);
+
+var yOne = d3.scale.linear()
+    .range([heightOne, 0]);
+
+var xAxisOne = d3.svg.axis()
+    .scale(xOne)
+    .orient("bottom");
+
+var yAxisOne = d3.svg.axis()
+    .scale(yOne)
+    .orient("left");
 
 
-var 	formatAsPercentage = d3.format("%"),
-		formatAsPercentage1Dec = d3.format(".1%"),
-		formatAsInteger = d3.format(","),
-		fsec = d3.time.format("%S s"),
-		fmin = d3.time.format("%M m"),
-		fhou = d3.time.format("%H h"),
-		fwee = d3.time.format("%a"),
-		fdat = d3.time.format("%d d"),
-		fmon = d3.time.format("%b")
-		;
+var valueline = d3.svg.line()
+      .x(function(d) {return xOne(d.year); })
+      .y(function(d) {return yOne(d.mean); });
 
-/*
-############# PIE CHART ###################
--------------------------------------------
-*/
+//     //zooming behavior 
+// var zoomListener = d3.behavior.zoom()
+//   .scaleExtent([0.1, 2])
+//   .on("zoom", zoomHandler);
+
+// // function for handling zoom event
+// function zoomHandler() {
+//   vis.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+// }
 
 
+var zoom = d3.behavior.zoom()
+    .scaleExtent([1, 2.5])
+    .on("zoom", zoomed);
 
-function dsPieChart(){
+// var drag = d3.behavior.drag()
+//     .origin(function(d) { return d; })
+//     .on("dragstart", dragstarted)
+//     .on("drag", dragged)
+//     .on("dragend", dragended);
 
-	var dataset = [
-			{category: "Sam", measure: 0.30},
-	      {category: "Peter", measure: 0.25},
-	      {category: "John", measure: 0.15},
-	      {category: "Rick", measure: 0.05},
-	      {category: "Lenny", measure: 0.18},
-	      {category: "Paul", measure:0.04},
-	      {category: "Steve", measure: 0.03}
-	      ]
-	      ;
+var svgOne = d3.select("#lineChart").append("svg")
+    .attr("width", widthOne + marginOne.left + marginOne.right)
+    .attr("height", heightOne + marginOne.top + marginOne.bottom)
+  .append("g")
+    .attr("transform", "translate(" + marginOne.left + "," + marginOne.top + ")")
+    .call(zoom);
 
-	var 	width = 400,
-		   height = 400,
-		   outerRadius = Math.min(width, height) / 2,
-		   innerRadius = outerRadius * .999,   
-		   // for animation
-		   innerRadiusFinal = outerRadius * .5,
-		   innerRadiusFinal3 = outerRadius* .45,
-		   color = d3.scale.category20()    //builtin range of colors
-		   ;
-	    
-	var vis = d3.select("#pieChart")
-	     .append("svg:svg")              //create the SVG element inside the <body>
-	     .data([dataset])                   //associate our data with the document
-	         .attr("width", width)           //set the width and height of our visualization (these will be attributes of the <svg> tag
-	         .attr("height", height)
-	     		.append("svg:g")                //make a group to hold our pie chart
-	         .attr("transform", "translate(" + outerRadius + "," + outerRadius + ")")    //move the center of the pie chart from 0, 0 to radius, radius
-				;
-				
-   var arc = d3.svg.arc()              //this will create <path> elements for us using arc data
-        	.outerRadius(outerRadius).innerRadius(innerRadius);
-   
-   // for animation
-   var arcFinal = d3.svg.arc().innerRadius(innerRadiusFinal).outerRadius(outerRadius);
-	var arcFinal3 = d3.svg.arc().innerRadius(innerRadiusFinal3).outerRadius(outerRadius);
+var lineOne = svgOne.append("g");
 
-   var pie = d3.layout.pie()           //this will create arc data for us given a list of values
-        .value(function(d) { return d.measure; });    //we must tell it out to access the value of each element in our data array
-
-   var arcs = vis.selectAll("g.slice")     //this selects all <g> elements with class slice (there aren't any yet)
-        .data(pie)                          //associate the generated pie data (an array of arcs, each having startAngle, endAngle and value properties) 
-        .enter()                            //this will create <g> elements for every "extra" data element that should be associated with a selection. The result is creating a <g> for every object in the data array
-            .append("svg:g")                //create a group to hold each slice (we will have a <path> and a <text> element associated with each slice)
-               .attr("class", "slice")    //allow us to style things in the slices (like text)
-               .on("mouseover", mouseover)
-    				.on("mouseout", mouseout)
-    				.on("click", up)
-    				;
-    				
-        arcs.append("svg:path")
-               .attr("fill", function(d, i) { return color(i); } ) //set the color for each slice to be chosen from the color function defined above
-               .attr("d", arc)     //this creates the actual SVG path using the associated data (pie) with the arc drawing function
-					.append("svg:title") //mouseover title showing the figures
-				   .text(function(d) { return d.data.category + ": " + formatAsPercentage(d.data.measure); });			
-
-        d3.selectAll("g.slice").selectAll("path").transition()
-			    .duration(750)
-			    .delay(10)
-			    .attr("d", arcFinal )
-			    ;
-	
-	  // Add a label to the larger arcs, translated to the arc centroid and rotated.
-	  // source: http://bl.ocks.org/1305337#index.html
-	  arcs.filter(function(d) { return d.endAngle - d.startAngle > .2; })
-	  		.append("svg:text")
-	      .attr("dy", ".35em")
-	      .attr("text-anchor", "middle")
-	      .attr("transform", function(d) { return "translate(" + arcFinal.centroid(d) + ")rotate(" + angle(d) + ")"; })
-	      //.text(function(d) { return formatAsPercentage(d.value); })
-	      .text(function(d) { return d.data.category; })
-	      ;
-	   
-	   // Computes the label angle of an arc, converting from radians to degrees.
-		function angle(d) {
-		    var a = (d.startAngle + d.endAngle) * 90 / Math.PI - 90;
-		    return a > 90 ? a - 180 : a;
-		}
-		    
-		
-		// Pie chart title			
-		vis.append("svg:text")
-	     	.attr("dy", ".35em")
-	      .attr("text-anchor", "middle")
-	      .text("Revenue Share 2012")
-	      .attr("class","title")
-	      ;		    
+var focusOne = svgOne.append("g")
+        .attr("class", "focus")
+        .style("display", "none");
 
 
-		
-	function mouseover() {
-	  d3.select(this).select("path").transition()
-	      .duration(750)
-	        		//.attr("stroke","red")
-	        		//.attr("stroke-width", 1.5)
-	        		.attr("d", arcFinal3)
-	        		;
-	}
-	
-	function mouseout() {
-	  d3.select(this).select("path").transition()
-	      .duration(750)
-	        		//.attr("stroke","blue")
-	        		//.attr("stroke-width", 1.5)
-	        		.attr("d", arcFinal)
-	        		;
-	}
-	
-	function up(d, i) {
-	
-				/* update bar chart when user selects piece of the pie chart */
-				//updateBarChart(dataset[i].category);
-				updateBarChart(d.data.category, color(i));
-				updateLineChart(d.data.category, color(i));
-			 
-	}
+d3.tsv("movies.tsv", function(error, data) {
+  data.forEach(function(d) {
+    d.year = parseDate(d.year);
+    d.mean = +d.mean;
+  });
+
+  xOne.domain(d3.extent(data, function(d) { return d.year; }));
+  //yOne.domain([0, d3.max(data, function(d) { return d.rear; })]);
+  yOne.domain(d3.extent(data, function(d) { return d.mean; })); 
+
+  svgOne.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + heightOne + ")")
+      .call(xAxisOne);
+
+  svgOne.append("g")
+      .attr("class", "y axis")
+      .call(yAxisOne)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Count")
+      .style("font-size", "12px")
+
+   lineOne.append("path")
+        .attr("class","line")
+        .attr("d", valueline(data))
+
+  svgOne.append("text")
+       .attr("x", marginOne.left-100)             
+       .attr("y", marginOne.top-370) 
+       .style("font-size", "24px")
+       .style("font-weight", "bold")
+       .style("font-family","Helvetica Neue")
+       .text("Time Series Plot of Rear-Seat Passengers Killed or Injured");
+    
+  focusOne.append("circle")
+        .attr("class", "y0")
+        .style("fill", "none")
+        .style("stroke", "steelblue")
+        .attr("r", 4);
+
+  focusOne.append("text")
+      .attr("class", "y0")
+      .attr("dy", "-1em");
+    
+    svgOne.append("rect")
+        //.attr("class", "overlay")
+        .attr("width", widthOne)
+        .attr("height", heightOne)
+        .style("fill", "none")
+        .style("pointer-events", "all")
+        .on("mouseover", function() { focusOne.style("display", null); })
+        .on("mouseout", function() { focusOne.style("display", "none"); })
+        .on("mousemove", mousemove);
+    
+    function mousemove() {
+        var x0 = xOne.invert(d3.mouse(this)[0]),
+        i = bisectDate(data, x0, 1),
+        d0 = data[i - 1],
+        d1 = data[i],
+        d = x0 - d0.tt > d1.tt - x0 ? d1 : d0;
+        console.log(d);
+        focusOne.select("circle.y0").attr("transform", "translate(" + xOne(d.year) + "," + yOne(d.mean) + ")");
+        focusOne.select("text.y0").attr("transform", "translate(" + xOne(d.year) + "," + yOne(d.mean) + ")").text(formatOutput(d));
+    }
+
+//   function zoomed() {
+//   svgOne.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+// }
+
+});
+
+    function zoomed() {
+  svgOne.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
 }
-
-dsPieChart();
 
 /*
 ############# BAR CHART ###################
 -------------------------------------------
 */
-
-
 
 var datasetBarChart = [
 { group: "All", category: "Oranges", measure: 63850.4963 }, 
