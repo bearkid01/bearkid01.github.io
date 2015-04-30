@@ -275,7 +275,6 @@ d3.tsv("movies.tsv", function(error, data) {
         d0 = data[i - 1],
         d1 = data[i],
         d = x0 - d0.tt > d1.tt - x0 ? d1 : d0;
-        console.log(d);
         focusOne.select("circle.y0").attr("transform", "translate(" + xOne(d.year) + "," + yOne(d.mean) + ")");
         focusOne.select("text.y0").attr("transform", "translate(" + xOne(d.year) + "," + yOne(d.mean) + ")").text(formatOutput(d));
     }
@@ -322,7 +321,7 @@ var tip = d3.tip()
   .attr('class', 'd3-tip')
   .offset([-10, 0])
   .html(function(d) {
-    return "<strong>Count:</strong> <span style='color:red'>" + d.count + "</span>";
+    return "<strong>Average Budget:</strong> <span style='color:red'>" + d.AvgBudget + "</span>";
   })
 var svg = d3.select("#barChart").append("svg")
     .attr("width", width + margin.left + margin.right)
