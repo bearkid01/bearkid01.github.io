@@ -209,7 +209,7 @@ var focusOne = svgOne.append("g")
 
 d3.tsv("movies.tsv", function(error, data) {
   data.forEach(function(d) {
-    d.year = parseDate(d.year);
+    d.year = d.year;
     d.mean = +d.mean;
   });
 
