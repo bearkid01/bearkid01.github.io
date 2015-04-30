@@ -189,11 +189,6 @@ var valueline = d3.svg.line()
 //   vis.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
 // }
 
-
-var zoom = d3.behavior.zoom()
-    .scaleExtent([1, 2.5])
-    .on("zoom", zoomed);
-
 // var drag = d3.behavior.drag()
 //     .origin(function(d) { return d; })
 //     .on("dragstart", dragstarted)
@@ -204,15 +199,13 @@ var svgOne = d3.select("#lineChart").append("svg")
     .attr("width", widthOne + marginOne.left + marginOne.right)
     .attr("height", heightOne + marginOne.top + marginOne.bottom)
   .append("g")
-    .attr("transform", "translate(" + marginOne.left + "," + marginOne.top + ")")
-    .call(zoom);
+    .attr("transform", "translate(" + marginOne.left + "," + marginOne.top + ")");
 
 var lineOne = svgOne.append("g");
 
 var focusOne = svgOne.append("g")
         .attr("class", "focus")
         .style("display", "none");
-
 
 d3.tsv("movies.tsv", function(error, data) {
   data.forEach(function(d) {
