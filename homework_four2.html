@@ -294,6 +294,98 @@ d3.tsv("movies.tsv", function(error, data) {
 ############# BAR CHART ###################
 -------------------------------------------
 */
+var data = [{"mpaa_category": "Null", "AvgBudget": 8155058},
+            {"mpaa_category": "PG", "AvgBudget": 42433333},
+            {"mpaa_category": "PG_13", "AvgBudget": 40932308},
+            {"mpaa_category": "R", "AvgBudget": 20661583}]
+
+var margin = {top: 120, right: 20, bottom: 30, left: 100},
+    width = 600 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom
+    padding = -120;
+
+var x = d3.scale.ordinal()
+    .rangeRoundBands([0, width], .1);
+var y = d3.scale.linear()
+    .range([height, 0]);
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+var formatyAxis = d3.format('.1f');
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+    .tickFormat(formatyAxis)
+    .ticks(6);
+
+var tip = d3.tip()
+  .attr('class', 'd3-tip')
+  .offset([-10, 0])
+  .html(function(d) {
+    return "<strong>Count:</strong> <span style='color:red'>" + d.count + "</span>";
+  })
+var svg = d3.select("#barChart").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+//var duration = 1000;
+svg.call(tip);
+x.domain(data.map(function(d) { return d.mpaa_category; }));
+y.domain([0, d3.max(data, function(d) { return d.AvgBudget; })]);
+svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("y", 6)
+      .attr("dy", ".01em")
+      .style("text-anchor", "middle")
+      .style("font-size", "20px")
+      .style("font-family", "Helvetica Neue")
+      .attr("transform", "translate("+ (padding/2) +","+(height/2)+")rotate(-90)")
+      .text("Count");
+//added functionality of grid lines"
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left");
+var yAxisGrid = d3.svg.axis().scale(y)
+  .ticks(10) 
+  .tickSize(width, 0)
+  .tickFormat("")
+  .orient("right");
+svg.append("g")
+  .classed('y', true)
+  .classed('axis', true)
+  .call(yAxisGrid);
+svg.selectAll(".bar")
+      .data(data)
+    .enter().append("rect")//rect
+      .attr("class", "bar")//bar 
+      .attr("x", function(d) { return x(d.mpaa_category); })
+      .attr("y", height)
+      .attr("height",0)
+      .attr("width", x.rangeBand())
+      .on('mouseover', tip.show)
+      .on('mouseout', tip.hide)
+      .transition()
+        .duration(duration)
+        .delay(function(d,i){
+          return 120*i;
+        })
+        .attr("y", function(d) { return y(d.AvgBudget); })
+        .attr("height", function(d) { return height - y(d.AvgBudget); })
+svg.append("text")
+        .attr("x", margin.left*2)             
+        .attr("y", 0 - (margin.top / 2))
+        .attr("text-anchor", "middle")  
+        .style("font-size", "24px")
+        .style("font-weight", "bold")
+        .style("font-family","Helvetica Neue")
+        .text("Homework 1: Letter Count Bar Chart");
 
  /* ** UPDATE CHART ** */
  
