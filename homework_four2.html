@@ -407,12 +407,12 @@ var data = d3.json("movies.json", function(error, data) {
 
     console.log(data);
 
-    var tip = d3.tip()
-      .attr('class', 'd3-tip')
-      .offset([-10, 0])
-      .html(function(d) {
-      return "<span style='color:black'>" + d.rating + "</span>";
-    })
+    // var tip = d3.tip()
+    //   .attr('class', 'd3-tip')
+    //   .offset([-10, 0])
+    //   .html(function(d) {
+    //   return "<span style='color:black'>" + d.rating + "</span>";
+    // })
 
     var svgContainer = d3.select("#bubbleChart")
           .append("svg")
@@ -479,8 +479,8 @@ svgContainer.selectAll("circle")
       .style("fill", "red")
       .style("stroke", "black")
       .style("stroke-width", 1.5)
-      .on("mouseover", tip.show)
-      .on("mouseout", tip.hide);
+      //.on("mouseover", tip.show)
+      //.on("mouseout", tip.hide);
 
 });
 
