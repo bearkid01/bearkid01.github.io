@@ -387,13 +387,13 @@ svg.selectAll(".bar")
 
 var marginTwo = {top: 120, right: 150, bottom: 30, left: 150, left2: 250},
     width_two = 600 - margin.left - margin.right,
-    height_two = 500 - margin.top - margin.bottom
+    height_two = 700 - margin.top - margin.bottom
     padding_two = -120;
 
 var xBubble = d3.scale.ordinal()
     .rangeRoundBands([0, width_two], .1);
 var yBubble = d3.scale.linear()
-    .range([height_two, 0]);
+    .range([height_two-200, 0]);
 var xAxisBubble = d3.svg.axis()
     .scale(xBubble)
     .orient("bottom");
@@ -405,9 +405,6 @@ var yAxisBubble = d3.svg.axis()
     .ticks(6);
 
 var data = d3.json("movies.json", function(error, data) {
-
-    console.log(data);
-
     // var tip = d3.tip()
     //   .attr('class', 'd3-tip')
     //   .offset([-10, 0])
@@ -418,7 +415,7 @@ var data = d3.json("movies.json", function(error, data) {
     var svgContainer = d3.select("#bubbleChart")
           .append("svg")
           .attr("width", width_two + marginTwo.left + marginTwo.right)
-            .attr("height", height_two + marginTwo.top + marginTwo.bottom)
+            .attr("height", (height_two-200) + marginTwo.top + marginTwo.bottom)
             .append("g")
             .attr("transform", "translate(" + marginTwo.left + "," + marginTwo.top + ")");
 
@@ -445,12 +442,12 @@ var data = d3.json("movies.json", function(error, data) {
 yBubble.domain([0, d3.max(data, function(d) { return d.budget; })]);
 svgContainer.append("g")
       .attr("class", "x axis")
-      .attr("transform", "translate(0," + height_two + ")")
+      .attr("transform", "translate(0," + (height_two-200) + ")")
       .call(xAxisBubble)
       .selectAll("text")
       .style("text-anchor", "end")
       .attr("dx", function(d){xBubble(d.title)})
-      .attr("dy", height_two + ".1em")
+      .attr("dy", (height_two-200) + ".1em")
       .attr("dx", "-.1em")
       .attr("dy", "-.1em")
       .attr("transform", "rotate(-90)" );
