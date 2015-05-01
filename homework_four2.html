@@ -436,12 +436,12 @@ var yAxisBubble = d3.svg.axis()
     .ticks(6);
 
 var data = d3.json("movies.json", function(error, data) {
-    // var tip = d3.tip()
-    //   .attr('class', 'd3-tip')
-    //   .offset([-10, 0])
-    //   .html(function(d) {
-    //   return "<span style='color:black'>" + d.rating + "</span>";
-    // })
+    var tipBubble = d3.tip()
+      .attr('class', 'd3-tip')
+      .offset([-10, 0])
+      .html(function(d) {
+      return "<span style='color:black'>" + d.rating + "</span>";
+    })
 
     var svgContainer = d3.select("#bubbleChart")
           .append("svg")
@@ -468,7 +468,7 @@ var data = d3.json("movies.json", function(error, data) {
 
   // data.sort(compare);
 
-  //svgContainer.call(tip);
+  svgContainer.call(tipBubble);
   xBubble.domain(data.map(function(d) { return d.title; }));
 yBubble.domain([0, d3.max(data, function(d) { return d.budget; })]);
 svgContainer.append("g")
@@ -516,8 +516,8 @@ svgContainer.selectAll("circle")
       .style("fill", "red")
       .style("stroke", "black")
       .style("stroke-width", 1.5)
-      //.on("mouseover", tip.show)
-      //.on("mouseout", tip.hide);
+      .on("mouseover", tipBubble.show)
+      .on("mouseout", tipBubble.hide);
 });
 
 
