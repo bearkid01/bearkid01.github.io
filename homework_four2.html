@@ -446,10 +446,10 @@ svgContainer.append("g")
       .call(xAxisBubble)
       .selectAll("text")
       .style("text-anchor", "end")
-      .attr("dx", function(d){xBubble(d.title)})
+      //.attr("dx", function(d){xBubble(d.title)})
       //.attr("dy", (height_two-200) + ".1em")
       //.attr("dx", "-.1em")
-      .attr("dy", "-.1em")
+      .attr("dy", ".15em")
       .attr("transform", "rotate(-90)" );
 
 svgContainer.append("g")
