@@ -439,7 +439,7 @@ var data = d3.json("movies.json", function(error, data) {
 
   // data.sort(compare);
 
-  svgContainer.call(tip);
+  //svgContainer.call(tip);
   xBubble.domain(data.map(function(d) { return d.title; }));
 yBubble.domain([0, d3.max(data, function(d) { return d.budget; })]);
 svgContainer.append("g")
