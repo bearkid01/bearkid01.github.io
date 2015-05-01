@@ -147,9 +147,7 @@ svg {
   position: absolute;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   }
-
-
-			 
+		 
   </style>
   </head>
   <body>
@@ -453,8 +451,8 @@ svgContainer.append("g")
       .style("text-anchor", "end")
       .attr("dx", function(d){xBubble(d.title)})
       .attr("dy", height_two + ".1em")
-      // .attr("dx", "-.8em")
-      // .attr("dy", "-.55em")
+      .attr("dx", "-.1em")
+      .attr("dy", "-.1em")
       .attr("transform", "rotate(-90)" );
 
 svgContainer.append("g")
