@@ -4,11 +4,7 @@
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <title>Testing Pie Chart</title>
    <!--<script type="text/javascript" src="d3/d3.v2.js"></script>-->
-    <script src="http://d3js.org/d3.v3.min.js"></script>
-<script src="js/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
-<script src="http://d3js.org/d3.v3.js"></script>
+
 	<!-- Note: I made good use of the sample code provided by the D3JS community and extended it to fit my needs to create this simple dashboard -->
     <style type="text/css">
 
@@ -147,6 +143,35 @@ svg {
   position: absolute;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   }
+
+  .d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
 		 
   </style>
   </head>
@@ -155,7 +180,9 @@ svg {
     <div id="lineChart"></div>
     <div id="barChart"></div>  
     <div id="bubbleChart"></div>
-    <script type="text/javascript">
+   <script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+<script>
     
 var marginOne = {top: 300, right: 20, bottom: 60, left: 100},
 
@@ -324,19 +351,19 @@ var yAxis = d3.svg.axis()
     .tickFormat(formatyAxis)
     .ticks(6);
 
-// var tip = d3.tip()
-//   .attr('class', 'd3-tip')
-//   .offset([-10, 0])
-//   .html(function(d) {
-//     return "<strong>Average Budget:</strong> <span style='color:red'>" + d.AvgBudget + "</span>";
-//   })
+var tip = d3.tip()
+  .attr('class', 'd3-tip')
+  .offset([-10, 0])
+  .html(function(d) {
+    return "<strong>Average Budget:</strong> <span style='color:red'>" + d.AvgBudget + "</span>";
+  })
 var svg = d3.select("#barChart").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 //var duration = 1000;
-//svg.call(tip);
+svg.call(tip);
 x.domain(data.map(function(d) { return d.mpaa_category; }));
 y.domain([0, d3.max(data, function(d) { return d.AvgBudget; })]);
 svg.append("g")
@@ -375,6 +402,9 @@ svg.selectAll(".bar")
       .attr("width", x.rangeBand())
       .attr("y", function(d) { return y(d.AvgBudget); })
       .attr("height", function(d) { return height-y(d.AvgBudget); })
+      .on('mouseover', tip.show)
+      .on('mouseout', tip.hide)
+
 
  /* ** UPDATE CHART ** */
  
