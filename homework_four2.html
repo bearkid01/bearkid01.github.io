@@ -445,7 +445,13 @@ yBubble.domain([0, d3.max(data, function(d) { return d.budget; })]);
 svgContainer.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0," + height_two + ")")
-      .call(xAxisBubble);
+      .call(xAxisBubble)
+      .selectAll("text")
+      .style("text-anchor", "end")
+      .attr("dx", "-.8em")
+      .attr("dy", "-.55em")
+      .attr("transform", "rotate(-90)" );
+      
 svgContainer.append("g")
       .attr("class", "y axis")
       .call(yAxisBubble)
@@ -456,7 +462,7 @@ svgContainer.append("g")
       .style("font-size", "16px")
       //.style("font-family", "Helvetica Neue")
       .attr("transform", "translate("+ (padding/1.5) +","+(height/2)+")rotate(-90)")
-      .text("Avg Budget");
+      .text("Budget");
 //added functionality of grid lines"
 var yAxis = d3.svg.axis()
     .scale(yBubble)
