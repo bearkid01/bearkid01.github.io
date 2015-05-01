@@ -306,7 +306,7 @@ var data = [{"mpaa_category": "Null", "AvgBudget": 8155058},
 
 var margin = {top: 300, right: 20, bottom: 30, left: 100},
     width = 600 - margin.left - margin.right,
-    height = 600 - margin.top - margin.bottom
+    height = 500 - margin.top - margin.bottom
     padding = -120;
 
 var x = d3.scale.ordinal()
@@ -347,7 +347,7 @@ svg.append("g")
       .call(yAxis)
     .append("text")
       .attr("y", 6)
-      .attr("dy", ".01em")
+      .attr("dy", ".07em")
       .style("text-anchor", "middle")
       .style("font-size", "16px")
       //.style("font-family", "Helvetica Neue")
