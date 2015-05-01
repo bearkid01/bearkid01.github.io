@@ -31,7 +31,7 @@
 #bubbleChart {
 	position:absolute;
 	top:430px;
-	left:550px;
+	left:560px;
 	height: 400px;
 }
 
@@ -253,7 +253,7 @@ d3.tsv("movies.tsv", function(error, data) {
        .style("font-size", "24px")
        .style("font-weight", "bold")
        .style("font-family","Helvetica Neue")
-       .text("Average Movie Budgets Over Years");
+       //.text("Average Movie Budgets Over Years");
     
   focusOne.append("circle")
         .attr("class", "y0")
@@ -448,8 +448,10 @@ svgContainer.append("g")
       .call(xAxisBubble)
       .selectAll("text")
       .style("text-anchor", "end")
-      .attr("dx", "-.8em")
-      .attr("dy", "-.55em")
+      .attr("dx", 0)
+      .attr("dy", 0)
+      // .attr("dx", "-.8em")
+      // .attr("dy", "-.55em")
       .attr("transform", "rotate(-90)" );
 
 svgContainer.append("g")
