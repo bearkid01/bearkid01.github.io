@@ -253,7 +253,7 @@ d3.tsv("movies.tsv", function(error, data) {
   });
 
   xOne.domain(d3.extent(data, function(d) { return d.year; }));
-
+  console.log(xOne);
   //yOne.domain([0, d3.max(data, function(d) { return d.rear; })]);
   yOne.domain(d3.extent(data, function(d) { return d.mean; })); 
 
