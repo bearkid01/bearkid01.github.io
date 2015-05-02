@@ -535,8 +535,8 @@ svgContainer.selectAll("circle")
       .on("mouseout", tipBubble.hide);
 
 svgContainer.append("text")
-        .attr("x", 0)             
-        .attr("y", 0)
+        .attr("x", 0+marginTwo.left/4)             
+        .attr("y", 0-marginTwo.top/4)
         .attr("text-anchor", "middle")  
         .style("font-size", "16px")
         .style("font-weight", "bold")
