@@ -291,12 +291,16 @@ d3.tsv("movies.tsv", function(error, data) {
 
   focusOne.append("text")
       .attr("class", "y0")
-      .attr("dy", "-2em");
+      .attr("dy", "-3em");
 
     focusOne.append("text")
       .attr("class", "y1")
+      .attr("dy", "-2em");
+
+  focusOne.append("text")
+      .attr("class", "y2")
       .attr("dy", "-1em");
-    
+
     svgOne.append("rect")
         //.attr("class", "overlay")
         .attr("width", widthOne)
@@ -318,6 +322,10 @@ d3.tsv("movies.tsv", function(error, data) {
           .text("Avg Budget: ");
         focusOne.select("text.y1").attr("transform", "translate(" + xOne(d.year) + "," + yOne(d.mean) + ")")
           .text(formatOutput(d));
+         focusOne.select("text.y2").attr("transform", "translate(" + xOne(d.year) + "," + yOne(d.mean) + ")")
+          .text("Year: "+formatOutputYear(d));
+
+
     }
 
 //   function zoomed() {
