@@ -535,13 +535,13 @@ svgContainer.selectAll("circle")
       .on("mouseout", tipBubble.hide);
 
 svgContainer.append("text")
-        .attr("x", margin.left/2)             
-        .attr("y", 0 - (margin.top/2))
+        .attr("x", marginTwo.left/2)             
+        .attr("y", 0 - (marginTwo.top/2))
         .attr("text-anchor", "middle")  
         .style("font-size", "24px")
         .style("font-weight", "bold")
         .style("font-family","Helvetica Neue")
-        .text("Average Budget By MPAA Category in 2000");
+        .text("Budget of PG Movies in Year 2000");
 
 });
 
