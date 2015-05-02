@@ -287,7 +287,7 @@ d3.tsv("movies.tsv", function(error, data) {
        .style("font-size", "24px")
        .style("font-weight", "bold")
        .style("font-family","Helvetica Neue")
-       //.text("Average Movie Budgets Over Years");
+       .text("Average Movie Budgets Over Years");
     
   focusOne.append("circle")
         .attr("class", "y0")
@@ -533,6 +533,16 @@ svgContainer.selectAll("circle")
       .style("stroke-width", 1.5)
       .on("mouseover", tipBubble.show)
       .on("mouseout", tipBubble.hide);
+
+svgContainer.append("text")
+        .attr("x", margin.left/2)             
+        .attr("y", 0 - (margin.top/2))
+        .attr("text-anchor", "middle")  
+        .style("font-size", "24px")
+        .style("font-weight", "bold")
+        .style("font-family","Helvetica Neue")
+        .text("Average Budget By MPAA Category in 2000");
+
 });
 
 
