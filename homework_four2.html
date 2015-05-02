@@ -434,7 +434,7 @@ var data = d3.json("movies.json", function(error, data) {
       .attr('class', 'd3-tip')
       .offset([-10, 0])
       .html(function(d) {
-      return "<strong>Rating:</strong> <span style='color:red'>" + d.rating + "</span>";
+      return "<strong>Rating: </strong> <span style='color:red'>" + d.rating + "</span>";
     })
 
     var svgContainer = d3.select("#bubbleChart")
