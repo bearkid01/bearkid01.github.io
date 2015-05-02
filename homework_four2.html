@@ -253,6 +253,7 @@ d3.tsv("movies.tsv", function(error, data) {
   });
 
   xOne.domain(d3.extent(data, function(d) { return d.year; }));
+
   //yOne.domain([0, d3.max(data, function(d) { return d.rear; })]);
   yOne.domain(d3.extent(data, function(d) { return d.mean; })); 
 
@@ -324,7 +325,7 @@ d3.tsv("movies.tsv", function(error, data) {
         focusOne.select("text.y1").attr("transform", "translate(" + xOne(d.year) + "," + yOne(d.mean) + ")")
           .text(formatOutput(d));
          focusOne.select("text.y2").attr("transform", "translate(" + xOne(d.year) + "," + yOne(d.mean) + ")")
-          .text("Year: "+d.year);
+          .text("Year: "+xOne(d.year));
 
 
     }
