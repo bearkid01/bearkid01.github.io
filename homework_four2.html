@@ -427,6 +427,15 @@ svg.selectAll(".bar")
       .on('mouseover', tip.show)
       .on('mouseout', tip.hide)
 
+svg.append("text")
+        .attr("x", 0+marginTwo.left/3)             
+        .attr("y", 0-marginTwo.top/5)
+        .attr("text-anchor", "middle")  
+        .style("font-size", "16px")
+        .style("font-weight", "bold")
+        .style("font-family","Helvetica Neue")
+        .text("Average Budget By MPAA Category in 2000");
+
  
 /* updates bar chart on request */
 /* ############# BUBBLE CHART ################### */
@@ -535,8 +544,8 @@ svgContainer.selectAll("circle")
       .on("mouseout", tipBubble.hide);
 
 svgContainer.append("text")
-        .attr("x", 0+marginTwo.left/3.5)             
-        .attr("y", 0-marginTwo.top/5)
+        .attr("x", 0)             
+        .attr("y", 0)
         .attr("text-anchor", "middle")  
         .style("font-size", "16px")
         .style("font-weight", "bold")
