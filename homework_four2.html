@@ -294,7 +294,7 @@ d3.tsv("movies.tsv", function(error, data) {
       .attr("dy", "-1em");
 
     focusOne.append("text")
-      .attr("class", "y0")
+      .attr("class", "y1")
       .attr("dy", "-1.5em");
     
     svgOne.append("rect")
@@ -314,9 +314,9 @@ d3.tsv("movies.tsv", function(error, data) {
         d1 = data[i],
         d = x0 - d0.year > d1.year - x0 ? d1 : d0;
         focusOne.select("circle.y0").attr("transform", "translate(" + xOne(d.year) + "," + yOne(d.mean) + ")");
-        focusOne.select("text.y0").attr("transform", "translate(" + xOne(d.year) + "," + (yOne(d.mean)-5) + ")")
+        focusOne.select("text.y0").attr("transform", "translate(" + xOne(d.year) + "," + yOne(d.mean) + ")")
           .text("Avg Budget: ");
-        focusOne.select("text.y0").attr("transform", "translate(" + xOne(d.year) + "," + (yOne(d.mean)+5) + ")")
+        focusOne.select("text.y1").attr("transform", "translate(" + xOne(d.year) + "," + yOne(d.mean) + ")")
           .text(formatOutput(d));
     }
 
