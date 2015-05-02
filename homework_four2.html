@@ -323,7 +323,7 @@ d3.tsv("movies.tsv", function(error, data) {
         focusOne.select("text.y1").attr("transform", "translate(" + xOne(d.year) + "," + yOne(d.mean) + ")")
           .text(formatOutput(d));
          focusOne.select("text.y2").attr("transform", "translate(" + xOne(d.year) + "," + yOne(d.mean) + ")")
-          .text("Year: "+formatOutputYear(d));
+          .text("Year: "+formatOutputYear(parseDate(d));
 
 
     }
