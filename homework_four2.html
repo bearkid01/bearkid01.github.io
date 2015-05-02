@@ -172,7 +172,7 @@ svg {
   top: 100%;
   left: 0;
 }
-		 
+
   </style>
   </head>
   <body>
@@ -406,15 +406,9 @@ svg.selectAll(".bar")
       .on('mouseover', tip.show)
       .on('mouseout', tip.hide)
 
-
- /* ** UPDATE CHART ** */
  
 /* updates bar chart on request */
-
-
- /* ** UPDATE CHART ** */
- 
-/* updates bar chart on request */
+/* ############# BUBBLE CHART ################### */
 
 var marginTwo = {top: 120, right: 150, bottom: 30, left: 150, left2: 250},
     width_two = 600 - margin.left - margin.right,
@@ -440,7 +434,7 @@ var data = d3.json("movies.json", function(error, data) {
       .attr('class', 'd3-tip')
       .offset([-10, 0])
       .html(function(d) {
-      return "<span style='color:black'>" + d.rating + "</span>";
+      return "<span style='color:red'>" + d.rating + "</span>";
     })
 
     var svgContainer = d3.select("#bubbleChart")
