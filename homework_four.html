@@ -230,7 +230,8 @@ svg {
 
 <h3>Data Preprocessing</h3>
   <p>
-    The dataset used here is the Seatbelts dataset from R which contains multiple time series. I used "Seatbelts[,0]" to grab the row names (timestamp) of the dataset and converted the dataset into a data frame. Then I created a sequence of strings replicating the row names of the dataset and appended it to the data frame. Finally, the data frame was exported as a CSV file and a TSV file.  
+    All the data preprocessing work was done in R. I used the "plyr" library to aggregate the dataset. For example, 
+    in order to get the average budget of all the movies filmed/released in different years, I applied "ddply" function to help me generate a new data frame with two columns, year and average budget. 
   </p>
 </div>
 
@@ -246,7 +247,7 @@ svg {
 <h3>Motivation</h3>
   <p>For C-level functionality, I focused on creating a basic line plot and an area plot. For B-level and A-level functionality, I wanted to add some functionality for interactive visualization. Since it is hard to see the y values in a line plot, I added tooltips for the line plot. Besides, I added a brush component to zoom in the details of the area plot. 
   </p>
-  <p>You can view the complete codes for these plots <a href="https://github.com/bearkid01/spring-2015-msan622_Vis/blob/gh-pages/homework_three.html">here</a>.
+  <p>You can view the complete codes for these plots <a href="https://github.com/bearkid01/spring-2015-msan622_Vis/blob/gh-pages/homework_four.html">here</a>.
   </p>
   <p>Producer: Weiwei Zhang
   </p>
