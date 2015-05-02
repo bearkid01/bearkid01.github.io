@@ -316,7 +316,7 @@ d3.tsv("movies.tsv", function(error, data) {
         focusOne.select("circle.y0").attr("transform", "translate(" + xOne(d.year) + "," + yOne(d.mean) + ")");
         focusOne.select("text.y0").attr("transform", "translate(" + xOne(d.year) + "," + yOne(d.mean) + ")")
           .text("Avg Budget: ");
-        focusOne.select("text.y0").attr("transform", "translate(" + xOne(d.year) + "," + (yOne(d.mean)+"0.3em") + ")")
+        focusOne.select("text.y0").attr("transform", "translate(" + xOne(d.year) + "," + yOne(d.mean)+"0.3em" + ")")
           .text(formatOutput(d));
     }
 
