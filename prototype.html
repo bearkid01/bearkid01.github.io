@@ -70,27 +70,21 @@ div#text2{
 <script src="http://d3js.org/topojson.v1.min.js"></script>
 
 <div id="text">
-<h3>Functionality</h3>
-<section>
-  <h4>C-Level: Tableau Prototype of Line Chart, Bar Chart and Bubble Chart</h4>
-  <h4>B-Level: D3 Implementation of Line Chart, Bar Chart and Bubble Chart</h4>
-</section>
-
 <h3>Dataset Summary</h3>
   <p>
-    All the data preprocessing work was done in R. I used the "plyr" library to aggregate the dataset. For example, 
-    in order to get the average budget of all the movies filmed/released in different years, I applied "ddply" function to help me generate a new data frame with two columns, year and average budget. 
+    The dataset I am trying to visualize is the food poisoning dataset from NYC OpenData. The reasons for choosing this dataset are:
+    <ul>
+      <li>It contains both timestamps and geographical locations (longitude and latitude.</li>
+      <li>There are missing values in the dataset and I want to practice hwo to handle missing values for data visualization.</li>
+    </ul>
+    The types of variables in the dataset include timestamp, categorical values, numerical values and text. 
   </p>
 </div>
 
 <div id="text2">
 <h3>Sketch Summary</h3>
   <p>
-    <ul>
-      <li>Line Plot: move the mouse over the line plot to see the tooltips which show the average movie budget over the years.</li>
-      <li>Bar Plot: move the mouse over the bars to see the tooltips which show the average movie budget for different mpaa movie categories in a given year.</li>
-      <li>Bubble Plot: move the mouse over the bubbles to see the tooltips which show the budget for movies in a specific mpaa category in a given year.</li>
-    </ul>
+    
   </p>
 
 <h3>Visualization Prototype</h3>
