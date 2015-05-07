@@ -61,7 +61,7 @@ d3.json("nyc.json", function(error, nyb) {
       .data(nyb.features)
     .enter().append("path")
       .attr("d", path)
-      .on("click", clicked);
+      //.on("click", clicked);
 
   g.append("path")
       .datum(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; }))
