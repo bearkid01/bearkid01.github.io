@@ -21,7 +21,7 @@
 div#text{
   width: 300px;
   left: 120px;
-  top: 1500px;
+  top: 1000px;
   position: absolute;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   }
@@ -29,7 +29,7 @@ div#text{
 div#text2{
   width: 300px;
   left: 520px;
-  top: 1500px;
+  top: 1000px;
   position: absolute;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   }
@@ -76,7 +76,7 @@ div#text2{
   <h4>B-Level: D3 Implementation of Line Chart, Bar Chart and Bubble Chart</h4>
 </section>
 
-<h3>Data Preprocessing</h3>
+<h3>Dataset Summary</h3>
   <p>
     All the data preprocessing work was done in R. I used the "plyr" library to aggregate the dataset. For example, 
     in order to get the average budget of all the movies filmed/released in different years, I applied "ddply" function to help me generate a new data frame with two columns, year and average budget. 
@@ -84,7 +84,7 @@ div#text2{
 </div>
 
 <div id="text2">
-<h3>User Guide</h3>
+<h3>Sketch Summary</h3>
   <p>
     <ul>
       <li>Line Plot: move the mouse over the line plot to see the tooltips which show the average movie budget over the years.</li>
@@ -93,7 +93,7 @@ div#text2{
     </ul>
   </p>
 
-<h3>Motivation</h3>
+<h3>Visualization Prototype</h3>
   <p>For C-level functionality, I focused on creating a basic line plot, a basic bar plot and a basic bubble plot in Tableau. For B-level functionality, I wanted to add some functionality for interactive visualization. Since it is hard to see the y values in a line plot, I added tooltips for the line plot. For A-level functionality, I want to add even more interactivity. For example, if a user clicks on the points in line chart, the bar plot will automatically show the break-down of average budget of that year in terms of average budget of movies by mpaa category. Furthermore, if the user clicks on the bars in the bar plot, the bubble plot below will show the break-down of budget for movies made/released in that mpaa category in the same year. 
   </p>
   <p>You can view the complete codes for these plots <a href="https://github.com/bearkid01/spring-2015-msan622_Vis/blob/gh-pages/homework_four.html">here</a>.
