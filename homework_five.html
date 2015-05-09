@@ -45,8 +45,63 @@
 <script src="js/jquery.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+<script src="http://d3js.org/topojson.v1.min.js"></script>
 
+    <!-- load custom CSS and JavaScript //-->
+<link rel="stylesheet" href="style.css">
+<script src="script.js"></script>
 
+<div id="block">
+<svg id="map" width="1200" height="700"></svg>
+<p id="log">Loading map... please wait.</p>
+</div>
 
-  </body>
+<script>
+/*
+ * For sample TopoJSON files, go to:
+ * https://gist.github.com/mbostock/4090846
+ */
+var base = "https://gist.githubusercontent.com/mbostock/4090846/raw/";
+var url = {
+    world: base + "world-110m.json",
+    //states:  base + "us-state-names.tsv",
+    earthquakes:  "4.5_month.csv" // relative URL
+
+};
+
+// Uses reusable chart model
+// See http://bost.ocks.org/mike/chart/
+var chart = symbolMap();
+
+// Update how we access data (need the precip property)
+chart = chart.value(function(d) { return d.mag; });
+
+// Nested calls to trigger drawing in proper order
+d3.json(url.world, function(mapError, mapJSON) {
+    if (processError(mapError)) return;
+
+    // update map data
+    chart = chart.map(mapJSON);
+
+    // Wait until the map is drawn before loading
+    // and drawing the data values
+    d3.csv(url.earthquakes, function(dataError, dataJSON) {
+        if (processError(dataError)) return;
+
+        chart = chart.values(dataJSON);
+        chart("map");
+    });
+});
+
+// Load state lookup information
+// Possible some lookups will fail until this loads
+// d3.tsv(url.states, parseStateName, function(error, data) {
+//         if (processError(error)) return;
+//         chart = chart.lookup(data);
+//     }
+// );
+
+</script>
+
+</body>
 </html>
