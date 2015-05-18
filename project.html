@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/bootstrap-theme.min.css" rel="stylesheet">
+
+<style type="text/css">
+
+#boroughs {
+  stroke: black;
+  stroke-width: 1px;
+  fill: steelblue;
+}
+
+.background {
+  fill: none;
+  pointer-events: all;
+}
+
+body {
+        padding-top: 10px;
+        padding-bottom: 20px;
+        width: 900px;
+        height: 1000px;
+    }
+
+#lineChart {    
+  position:relative;
+  top:300px;
+  left:700px;
+  height: 200px;
+}
+/*
+#Map {    
+  position:relative;
+  top:150px;
+  left:50px;
+  height: 600px;
+}*/
+
+.axis path, 
+.axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 3px;
+}
+
+.dot {
+  /*fill: white;*/
+  stroke: steelblue;
+  stroke-width: 1.5px;
+  }
+        
+
+.axis text {
+    font-family: Verdana;
+    font-size: 11px;
+}
+
+.title {
+   font-family: Verdana;
+    font-size: 15px;  
+    
+}
+
+.xAxis {
+    font-family: verdana;
+    font-size: 11px;
+    fill: black;
+}  
+
+.yAxis {
+    font-family: verdana;
+    font-size: 11px;
+    fill: white;
+}
+
+/*div#text{
+  width: 300px;
+  left: 120px;
+  top: 1000px;
+  position: absolute;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+
+div#text2{
+  width: 300px;
+  left: 520px;
+  top: 1000px;
+  position: absolute;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }*/
+
+</style>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle Navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">MSN 622</a>
+        </div>
+
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="index.html#homework">Homework</a></li>
+                <li><a href="index.html#project">Project</a></li>
+                <li><a href="index.html#participation">Participation</a></li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+  
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+<script src="http://d3js.org/topojson.v1.min.js"></script>
+
+<!-- <div id="div1">
+  <h1 align="center">Data Visualization Project</h1>
+  <h2 align="center">Project Dashboard</h2>
+</div> -->
+<div id="lineChart"></div>
+
+<script>
+
+var margin = {top: 20, right: 20, bottom: 30, left: 60},
+    width = 700 - margin.left - margin.right,
+    height = 700 - margin.top - margin.bottom,
+    centered;
+
+var projection = d3.geo.mercator()
+    .center([-73.94, 40.70])
+    .scale(50000)
+    .translate([width / 2, height / 2]);
+
+var path = d3.geo.path()
+    .projection(projection);
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+svg.append("rect")
+    .attr("class", "background")
+    .attr("width", width)
+    .attr("height", height)
+    //.on("click", clicked);
+
+var g = svg.append("g");
+
+d3.json("nyc.json", function(error, nyb) {
+
+  colorMap = {"Staten Island": "orange", "Queens": "grey", "Brooklyn": "green", "Manhattan": "purple", "Bronx": "steelblue"}
+
+  shortName = {"Staten Island": "State", "Queens": "Queen", "Brooklyn": "Brook", "Manhattan": "Manha", "Bronx": "Bronx"}
+
+    for (i=0; i<nyb.features.length; i++){
+      nyb.features[i]["colors"] = colorMap[nyb.features[i]["properties"]["borough"]]
+    }
+
+    for (i=0; i<nyb.features.length; i++){
+      nyb.features[i]["shortname"] = shortName[nyb.features[i]["properties"]["borough"]]
+    }
+
+  console.log(nyb.features);
+
+  g.append("g")
+      .attr("id", "boroughs")
+    .selectAll(".state")
+      .data(nyb.features)
+    .enter().append("path")
+    .attr("class", function(d){ return d.properties.boroughCode; })
+      .attr("d", path)
+      .style("fill", function(d){ return d.colors; })
+      .on("click", clicked);
+
+  // g.append("path")
+  //     .datum(topojson.mesh(nyb, us.objects.states, function(a, b) { return a !== b; }))
+  //     .attr("id", "borough-borders")
+  //     .attr("d", path);
+
+
+  function clicked(d, i) {
+  var x, y, k;
+
+  if (d && centered !== d) {
+    var centroid = path.centroid(d);
+    x = centroid[0];
+    y = centroid[1];
+    k = 4;
+    centered = d;
+  } else {
+    x = width / 2;
+    y = height / 2;
+    k = 1;
+    centered = null;
+  }
+
+  g.selectAll("path")
+      .classed("active", centered && function(d) { return d === centered; });
+
+  g.transition()
+      .duration(750)
+      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
+      .style("stroke-width", 1.5 / k + "px");
+
+  
+  updateLineChart(nyb.features[i].shortname, nyb.features[i].colors);
+ 
+}
+
+});
+
+// function clicked(d, i) {
+//   var x, y, k;
+
+//   if (d && centered !== d) {
+//     var centroid = path.centroid(d);
+//     x = centroid[0];
+//     y = centroid[1];
+//     k = 4;
+//     centered = d;
+//   } else {
+//     x = width / 2;
+//     y = height / 2;
+//     k = 1;
+//     centered = null;
+//   }
+
+//   g.selectAll("path")
+//       .classed("active", centered && function(d) { return d === centered; });
+
+//   g.transition()
+//       .duration(750)
+//       .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
+//       .style("stroke-width", 1.5 / k + "px");
+
+  
+//   updateLineChart(nyb.features[i].shortname, colorMap(i));
+ 
+// }
+
+
+//Bar Chart 
+
+var formatAsInteger = d3.format(",");
+
+var datasetLineChart = [
+{"group": "All", "year": 2010, "freq": 550},
+{"group": "All", "year": 2011, "freq": 545},
+{"group": "All", "year": 2012, "freq": 578},
+{"group": "All", "year": 2013, "freq": 585},
+{"group": "All", "year": 2014, "freq": 580},
+{"group": "All", "year": 2015, "freq": 191},
+{"group": "Bronx", "year": 2010, "freq": 323},
+{"group": "Bronx", "year": 2011, "freq": 314},
+{"group": "Bronx", "year": 2012, "freq": 323},
+{"group": "Bronx", "year": 2013, "freq": 320},
+{"group": "Bronx", "year": 2014, "freq": 337},
+{"group": "Bronx", "year": 2015, "freq": 114},
+{"group": "Brook", "year": 2010, "freq": 735},
+{"group": "Brook", "year": 2011, "freq": 659},
+{"group": "Brook", "year": 2012, "freq": 690},
+{"group": "Brook", "year": 2013, "freq": 748},
+{"group": "Brook", "year": 2014, "freq": 667},
+{"group": "Brook", "year": 2015, "freq": 209},
+{"group": "Manha", "year": 2010, "freq": 978},
+{"group": "Manha", "year": 2011, "freq": 1046},
+{"group": "Manha", "year": 2012, "freq": 1165},
+{"group": "Manha", "year": 2013, "freq": 1119},
+{"group": "Manha", "year": 2014, "freq": 1194},
+{"group": "Manha", "year": 2015, "freq": 406},
+{"group": "Queen", "year": 2010, "freq": 566},
+{"group": "Queen", "year": 2011, "freq": 584},
+{"group": "Queen", "year": 2012, "freq": 605},
+{"group": "Queen", "year": 2013, "freq": 628},
+{"group": "Queen", "year": 2014, "freq": 596},
+{"group": "Queen", "year": 2015, "freq": 193},
+{"group": "State", "year": 2010, "freq": 149},
+{"group": "State", "year": 2011, "freq": 123},
+{"group": "State", "year": 2012, "freq": 109},
+{"group": "State", "year": 2013, "freq": 111},
+{"group": "State", "year": 2014, "freq": 110},
+{"group": "State", "year": 2015, "freq": 37}
+];
+
+// set initial group value
+// set initial category value
+var group = "All";
+
+function datasetLineChartChosen(group) {
+  var ds = [];
+  for (x in datasetLineChart) {
+     if(datasetLineChart[x].group==group){
+      ds.push(datasetLineChart[x]);
+     } 
+    }
+  return ds;
+}
+
+function dsLineChartBasics() {
+
+  var margin = {top: 20, right: 10, bottom: 0, left: 50},
+      width =  500- margin.left - margin.right,
+      height = 150 - margin.top - margin.bottom
+      ;
+    
+    return {
+      margin : margin, 
+      width : width, 
+      height : height
+    }     
+    ;
+}
+
+
+function dsLineChart() {
+
+  var firstDatasetLineChart = datasetLineChartChosen(group);    
+  
+  var basics = dsLineChartBasics();
+  
+  var margin = basics.margin,
+    width = basics.width,
+     height = basics.height
+    ;
+
+
+  // var xScale = d3.scale.linear()
+  //     .domain([0, firstDatasetLineChart.length-1])
+  //     .range([0, width])
+  //     ;
+
+  var xScale = d3.scale.ordinal()
+    .domain(firstDatasetLineChart.map(function(d) {return d.year;}))
+    .rangeRoundBands([0, width], .1);
+
+  var yScale = d3.scale.linear()
+      .domain([0, d3.max(firstDatasetLineChart, function(d) { return d.freq; })])
+      .range([height, 0])
+      ;
+
+  var xAxis = d3.svg.axis()
+    .scale(xScale)
+    .orient("bottom");
+
+  var yAxis = d3.svg.axis()
+    .scale(yScale)
+    .orient("left");
+
+  
+  // var line = d3.svg.line()
+  //     //.x(function(d) { return xScale(d.category); })
+  //     .x(function(d, i) { return xScale(i); })
+  //     .y(function(d) { return yScale(d.freq); })
+  //     ;
+
+  var line = d3.svg.line()
+      //.x(function(d) { return xScale(d.category); })
+      .x(function(d, i) { return xScale(d.year); })
+      .y(function(d) { return yScale(d.freq); })
+      ;
+  
+  var svg = d3.select("#lineChart").append("svg")
+      .datum(firstDatasetLineChart)
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      // create group and move it so that margins are respected (space for axis and title)
+      
+  var plot = svg
+      .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+      .attr("id", "lineChartPlot")
+      ;
+
+    /* descriptive titles as part of plot -- start */
+  var dsLength=firstDatasetLineChart.length;
+
+  // plot.append("text")
+  //   .text(firstDatasetLineChart[dsLength-1].freq)
+  //   .attr("id","lineChartTitle2")
+  //   .attr("x",width/2)
+  //   .attr("y",height/2) 
+  //   ;
+  /* descriptive titles -- end */
+      
+  plot.append("path")
+      .attr("class", "line")
+      .attr("d", line)  
+      // add color
+    .attr("stroke", "lightgrey")
+      ;
+    
+  plot.selectAll(".dot")
+      .data(firstDatasetLineChart)
+       .enter().append("circle")
+      .attr("class", "dot")
+      //.attr("stroke", function (d) { return d.measure==datasetMeasureMin ? "red" : (d.measure==datasetMeasureMax ? "green" : "steelblue") } )
+      .attr("fill", function (d) { return d.freq==d3.min(firstDatasetLineChart, function(d) { return d.freq; }) ? "red" : (d.freq==d3.max(firstDatasetLineChart, function(d) { return d.freq; }) ? "green" : "white") } )
+      //.attr("stroke-width", function (d) { return d.measure==datasetMeasureMin || d.measure==datasetMeasureMax ? "3px" : "1.5px"} )
+      .attr("cx", line.x())
+      .attr("cy", line.y())
+      .attr("r", 3.5)
+      .attr("stroke", "lightgrey")
+      .append("title")
+      .text(function(d) { return d.year + ": " + formatAsInteger(d.freq); })
+      ;
+
+  svg.append("text")
+    .text("Performance 2012")
+    .attr("id","lineChartTitle1") 
+    .attr("x",margin.left + ((width + margin.right)/2))
+    .attr("y", 10)
+    ;
+
+}
+
+dsLineChart();
+
+
+ /* ** UPDATE CHART ** */
+ 
+/* updates bar chart on request */
+function updateLineChart(group, colorChosen) {
+
+  var currentDatasetLineChart = datasetLineChartChosen(group);   
+
+  var basics = dsLineChartBasics();
+  
+  var margin = basics.margin,
+    width = basics.width,
+     height = basics.height
+    ;
+
+  var xScale = d3.scale.linear()
+      .domain([0, currentDatasetLineChart.length-1])
+      .range([0, width])
+      ;
+
+  var yScale = d3.scale.linear()
+      .domain([0, d3.max(currentDatasetLineChart, function(d) { return d.freq; })])
+      .range([height, 0])
+      ;
+  
+  var line = d3.svg.line()
+    .x(function(d, i) { return xScale(i); })
+    .y(function(d) { return yScale(d.freq); })
+    ;
+
+   var plot = d3.select("#lineChartPlot")
+    .datum(currentDatasetLineChart)
+     ;
+     
+  /* descriptive titles as part of plot -- start */
+  var dsLength=currentDatasetLineChart.length;
+  
+  plot.select("text")
+    .text(currentDatasetLineChart[dsLength-1].freq)
+    ;
+  /* descriptive titles -- end */
+     
+  plot
+  .select("path")
+    .transition()
+    .duration(750)          
+     .attr("class", "line")
+     .attr("d", line) 
+     // add color
+    .attr("stroke", colorChosen)
+     ;
+     
+  var path = plot
+    .selectAll(".dot")
+     .data(currentDatasetLineChart)
+     .transition()
+    .duration(750)
+     .attr("class", "dot")
+     .attr("fill", function (d) { return d.freq==d3.min(currentDatasetLineChart, function(d) { return d.freq; }) ? "red" : (d.freq==d3.max(currentDatasetLineChart, function(d) { return d.freq; }) ? "green" : "white") } )
+     .attr("cx", line.x())
+     .attr("cy", line.y())
+     .attr("r", 3.5)
+     // add color
+    .attr("stroke", colorChosen)
+     ;
+     
+     path
+     .selectAll("title")
+     .text(function(d) { return d.year + ": " + formatAsInteger(d.freq); })   
+     ;  
+
+}
+
+
+</script>
+</body>
+</html>
