@@ -19,19 +19,40 @@
   pointer-events: all;
 }
 
-body {
+/*body {
         padding-top: 10px;
         padding-bottom: 20px;
         width: 900px;
         height: 1000px;
     }
+*/
+#map {
+  position: absolute;
+  top: 150px;
+  left: 30px;
+  height: 600px;
+}
 
 #lineChart {    
-  position:relative;
-  top:300px;
-  left:700px;
+  position:absolute;
+  top:270px;
+  left:720px;
   height: 200px;
 }
+
+#barChart {    
+  position:absolute;
+  top:450px;
+  left:720px;
+  height: 400px;
+}
+
+.legend {
+  position: absolute;
+  top: 150px;
+  left: 30px;
+}
+
 /*
 #Map {    
   position:relative;
@@ -47,18 +68,16 @@ body {
     shape-rendering: crispEdges;
 }
 
+
 .line {
   fill: none;
-  stroke: steelblue;
   stroke-width: 3px;
 }
 
 .dot {
-  /*fill: white;*/
-  stroke: steelblue;
+  fill: white;
   stroke-width: 1.5px;
-  }
-        
+  } 
 
 .axis text {
     font-family: Verdana;
@@ -138,11 +157,15 @@ div#text2{
   <h1 align="center">Data Visualization Project</h1>
   <h2 align="center">Project Dashboard</h2>
 </div> -->
+
+<div id="map"></div>
 <div id="lineChart"></div>
+<div id="barChart"></div>
+
 
 <script>
 
-var margin = {top: 20, right: 20, bottom: 30, left: 60},
+var margin = {top: 20, right: 20, bottom: 30, left: 0},
     width = 700 - margin.left - margin.right,
     height = 700 - margin.top - margin.bottom,
     centered;
@@ -155,7 +178,7 @@ var projection = d3.geo.mercator()
 var path = d3.geo.path()
     .projection(projection);
 
-var svg = d3.select("body").append("svg")
+var svg = d3.select("#map").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
   .append("g")
@@ -167,11 +190,43 @@ svg.append("rect")
     .attr("height", height)
     //.on("click", clicked);
 
+// add legend
+
+var sampleCategoricalData = [{"region":"Staten Island","color":"orange"},{"region":"Queens","color":"#636363"},{"region": "Brooklyn", "color":"green"}, { "region":"Manhattan", "color":"purple"}, {"region": "Bronx", "color":"steelblue"}];
+
+
+  var legend = svg.selectAll(".legend")
+    .data(sampleCategoricalData)
+    .enter().append("g")
+    .attr("class", "legend")
+    .attr("transform", function (d, i) {
+    return "translate(0," + i * 20 + ")";
+    });
+
+    legend.append("circle")
+        .attr("cx", width - 580)
+        .attr("cy", 75)
+        .attr("r", 8)
+        .style("fill", function(d){return d.color;})
+        .style("fill-opacity", ".85")
+        .style("stroke","black")
+        .style("stroke-width",1.5);
+
+    legend.append("text")
+        .attr("x", width - 480)
+        .attr("y", 75)
+        .attr("dy", ".35em")
+        .style("text-anchor", "end")
+        .text(function (d) {
+        return d.region;
+    });
+
+
 var g = svg.append("g");
 
 d3.json("nyc.json", function(error, nyb) {
 
-  colorMap = {"Staten Island": "orange", "Queens": "grey", "Brooklyn": "green", "Manhattan": "purple", "Bronx": "steelblue"}
+  colorMap = {"Staten Island": "orange", "Queens": "#636363", "Brooklyn": "green", "Manhattan": "purple", "Bronx": "steelblue"}
 
   shortName = {"Staten Island": "State", "Queens": "Queen", "Brooklyn": "Brook", "Manhattan": "Manha", "Bronx": "Bronx"}
 
@@ -227,40 +282,11 @@ d3.json("nyc.json", function(error, nyb) {
 
   
   updateLineChart(nyb.features[i].shortname, nyb.features[i].colors);
- 
+
+  updateBarChart(nyb.features[i].shortname, nyb.features[i].colors);
 }
 
 });
-
-// function clicked(d, i) {
-//   var x, y, k;
-
-//   if (d && centered !== d) {
-//     var centroid = path.centroid(d);
-//     x = centroid[0];
-//     y = centroid[1];
-//     k = 4;
-//     centered = d;
-//   } else {
-//     x = width / 2;
-//     y = height / 2;
-//     k = 1;
-//     centered = null;
-//   }
-
-//   g.selectAll("path")
-//       .classed("active", centered && function(d) { return d === centered; });
-
-//   g.transition()
-//       .duration(750)
-//       .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
-//       .style("stroke-width", 1.5 / k + "px");
-
-  
-//   updateLineChart(nyb.features[i].shortname, colorMap(i));
- 
-// }
-
 
 //Bar Chart 
 
@@ -321,9 +347,9 @@ function datasetLineChartChosen(group) {
 
 function dsLineChartBasics() {
 
-  var margin = {top: 20, right: 10, bottom: 0, left: 50},
+  var margin = {top: 30, right: 10, bottom: 0, left: 50},
       width =  500- margin.left - margin.right,
-      height = 150 - margin.top - margin.bottom
+      height = 180 - margin.top - margin.bottom
       ;
     
     return {
@@ -360,21 +386,6 @@ function dsLineChart() {
       .domain([0, d3.max(firstDatasetLineChart, function(d) { return d.freq; })])
       .range([height, 0])
       ;
-
-  var xAxis = d3.svg.axis()
-    .scale(xScale)
-    .orient("bottom");
-
-  var yAxis = d3.svg.axis()
-    .scale(yScale)
-    .orient("left");
-
-  
-  // var line = d3.svg.line()
-  //     //.x(function(d) { return xScale(d.category); })
-  //     .x(function(d, i) { return xScale(i); })
-  //     .y(function(d) { return yScale(d.freq); })
-  //     ;
 
   var line = d3.svg.line()
       //.x(function(d) { return xScale(d.category); })
@@ -423,15 +434,17 @@ function dsLineChart() {
       .attr("cy", line.y())
       .attr("r", 3.5)
       .attr("stroke", "lightgrey")
-      .append("title")
+      .append("svg:title")
+      .style("font-size", "18px")
+      //add tooltips here 
       .text(function(d) { return d.year + ": " + formatAsInteger(d.freq); })
       ;
 
   svg.append("text")
-    .text("Performance 2012")
+    .text("The Number of Complaints Between 2010 - 2015 On Average")
     .attr("id","lineChartTitle1") 
-    .attr("x",margin.left + ((width + margin.right)/2))
-    .attr("y", 10)
+    .attr("x",margin.left/4 + ((width/2 + margin.right)/4))
+    .attr("y", 12)
     ;
 
 }
@@ -468,6 +481,8 @@ function updateLineChart(group, colorChosen) {
     .y(function(d) { return yScale(d.freq); })
     ;
 
+  var svgLine = d3.select("#lineChart svg");
+
    var plot = d3.select("#lineChartPlot")
     .datum(currentDatasetLineChart)
      ;
@@ -475,9 +490,9 @@ function updateLineChart(group, colorChosen) {
   /* descriptive titles as part of plot -- start */
   var dsLength=currentDatasetLineChart.length;
   
-  plot.select("text")
-    .text(currentDatasetLineChart[dsLength-1].freq)
-    ;
+  // plot.select("text")
+  //   .text(currentDatasetLineChart[dsLength-1].freq)
+  //   ;
   /* descriptive titles -- end */
      
   plot
@@ -486,7 +501,6 @@ function updateLineChart(group, colorChosen) {
     .duration(750)          
      .attr("class", "line")
      .attr("d", line) 
-     // add color
     .attr("stroke", colorChosen)
      ;
      
@@ -499,8 +513,7 @@ function updateLineChart(group, colorChosen) {
      .attr("fill", function (d) { return d.freq==d3.min(currentDatasetLineChart, function(d) { return d.freq; }) ? "red" : (d.freq==d3.max(currentDatasetLineChart, function(d) { return d.freq; }) ? "green" : "white") } )
      .attr("cx", line.x())
      .attr("cy", line.y())
-     .attr("r", 3.5)
-     // add color
+     .attr("r", 4)
     .attr("stroke", colorChosen)
      ;
      
@@ -509,8 +522,274 @@ function updateLineChart(group, colorChosen) {
      .text(function(d) { return d.year + ": " + formatAsInteger(d.freq); })   
      ;  
 
+    svgLine.selectAll("text.title") // target the text element(s) which has a title class defined
+      .attr("x", (width + margin.left + margin.right)/2)
+      .attr("y", 15)
+      .attr("class","title")        
+      .attr("text-anchor", "middle")
+      .text(group + "'s Complaints Bwtween 2010 - 2015")
+    ;
 }
 
+
+//Bar Plot 
+
+var datasetBarChart = [
+{"group": "All", "Loc": "Cafeteria - College/University & Private/Public School", "freq": 18},
+{"group": "All", "Loc": "Food Cart Vendor", "freq": 134},
+{"group": "All", "Loc": "Restaurant/Bar/Deli/Bakery", "freq": 2414},
+{"group": "All", "Loc": "Other", "freq": 471},
+{"group": "Bronx", "Loc": "Cafeteria - College/University & Private/Public School", "freq": 15},
+{"group": "Bronx", "Loc": "Food Cart Vendor", "freq": 63},
+{"group": "Bronx", "Loc": "Restaurant/Bar/Deli/Bakery", "freq": 1293},
+{"group": "Bronx", "Loc": "Other", "freq": 360},
+{"group": "Brook", "Loc": "Cafeteria - College/University & Private/Public School", "freq": 23},
+{"group": "Brook", "Loc": "Food Cart Vendor", "freq": 131},
+{"group": "Brook", "Loc": "Restaurant/Bar/Deli/Bakery", "freq": 2918},
+{"group": "Brook", "Loc": "Other", "freq": 636},
+{"group": "Manha", "Loc": "Cafeteria - College/University & Private/Public School", "freq": 27},
+{"group": "Manha", "Loc": "Food Cart Vendor", "freq": 329},
+{"group": "Manha", "Loc": "Restaurant/Bar/Deli/Bakery", "freq": 4872},
+{"group": "Manha", "Loc": "Other", "freq": 680},
+{"group": "Queen", "Loc": "Cafeteria - College/University & Private/Public School", "freq": 24},
+{"group": "Queen", "Loc": "Food Cart Vendor", "freq": 129},
+{"group": "Queen", "Loc": "Restaurant/Bar/Deli/Bakery", "freq": 2468},
+{"group": "Queen", "Loc": "Other", "freq": 551},
+{"group": "State", "Loc": "Cafeteria - College/University & Private/Public School", "freq": 4},
+{"group": "State", "Loc": "Food Cart Vendor", "freq": 19},
+{"group": "State", "Loc": "Restaurant/Bar/Deli/Bakery", "freq": 520},
+{"group": "State", "Loc": "Other", "freq": 96}
+];
+
+// set initial group value
+var group = "All";
+
+function datasetBarChosen(group) {
+  var ds = [];
+  for (x in datasetBarChart) {
+     if(datasetBarChart[x].group==group){
+      ds.push(datasetBarChart[x]);
+     } 
+    }
+  return ds;
+}
+
+
+function dsBarChartBasics() {
+
+    var margin = {top: 30, right: 5, bottom: 20, left: 50},
+    width = 500 - margin.left - margin.right,
+     height = 250 - margin.top - margin.bottom,
+    colorBar = d3.scale.category20(),
+    barPadding = 1
+    ;
+    
+    return {
+      margin : margin, 
+      width : width, 
+      height : height, 
+      colorBar : colorBar, 
+      barPadding : barPadding
+    }     
+    ;
+}
+
+function dsBarChart() {
+
+  var firstDatasetBarChart = datasetBarChosen(group);           
+  
+  var basics = dsBarChartBasics();
+  
+  var margin = basics.margin,
+    width = basics.width,
+     height = basics.height,
+    colorBar = basics.colorBar,
+    barPadding = basics.barPadding
+    ;
+          
+  var xScale = d3.scale.linear()
+            .domain([0, firstDatasetBarChart.length])
+            .range([0, width])
+            ;
+            
+  // Create linear y scale 
+  // Purpose: No matter what the data is, the bar should fit into the svg area; bars should not
+  // get higher than the svg height. Hence incoming data needs to be scaled to fit into the svg area.  
+  var yScale = d3.scale.linear()
+      // use the max funtion to derive end point of the domain (max value of the dataset)
+      // do not use the min value of the dataset as min of the domain as otherwise you will not see the first bar
+       .domain([0, d3.max(firstDatasetBarChart, function(d) { return d.freq; })])
+       // As coordinates are always defined from the top left corner, the y position of the bar
+       // is the svg height minus the data value. So you basically draw the bar starting from the top. 
+       // To have the y position calculated by the range function
+       .range([height, 0])
+       ;
+  
+  //Create SVG element
+  
+  var svg = d3.select("#barChart")
+      .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .attr("id","barChartPlot")
+        ;
+  
+  var plot = svg
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+        ;
+              
+  plot.selectAll("rect")
+       .data(firstDatasetBarChart)
+       .enter()
+       .append("rect")
+      .attr("x", function(d, i) {
+          return xScale(i);
+      })
+       .attr("width", width / firstDatasetBarChart.length - barPadding)   
+      .attr("y", function(d) {
+          return yScale(d.freq);
+      })  
+      .attr("height", function(d) {
+          return height-yScale(d.freq);
+      })
+      .attr("fill", "lightgrey")
+      ;
+  
+    
+  // Add y labels to plot 
+  
+  plot.selectAll("text")
+  .data(firstDatasetBarChart)
+  .enter()
+  .append("text")
+  .text(function(d) {
+      return formatAsInteger(d3.round(d.freq));
+  })
+  .attr("text-anchor", "middle")
+  // Set x position to the left edge of each bar plus half the bar width
+  .attr("x", function(d, i) {
+      return (i * (width / firstDatasetBarChart.length)) + ((width / firstDatasetBarChart.length - barPadding) / 2);
+  })
+  .attr("y", function(d) {
+      return yScale(d.freq) + 14;
+  })
+  .attr("class", "yAxis")
+  ;
+  
+  // Add x labels to chart  
+  
+  var xLabels = svg
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + (margin.top + height)  + ")")
+        ;
+  
+  xLabels.selectAll("text.xAxis")
+      .data(firstDatasetBarChart)
+      .enter()
+      .append("text")
+      .text(function(d) { return d.Loc;})
+      .attr("text-anchor", "middle")
+      // Set x position to the left edge of each bar plus half the bar width
+               .attr("x", function(d, i) {
+                  return (i * (width / firstDatasetBarChart.length)) + ((width / firstDatasetBarChart.length - barPadding) / 2);
+               })
+      .attr("y", 15)
+      ;
+
+      //.attr("style", "font-size: 12; font-family: Helvetica, sans-serif")
+        
+   
+  // Title
+  
+  svg.append("text")
+    .attr("x", (width + margin.left + margin.right)/2)
+    .attr("y", 15)
+    .attr("class","title")        
+    .attr("text-anchor", "middle")
+    .text("Location Type Breakdown On Average")
+    ;
+}
+
+dsBarChart();
+
+ /* ** UPDATE CHART ** */
+ 
+/* updates bar chart on request */
+
+function updateBarChart(group, colorChosen) {
+  
+    var currentDatasetBarChart = datasetBarChosen(group);
+    
+    var basics = dsBarChartBasics();
+  
+    var margin = basics.margin,
+      width = basics.width,
+       height = basics.height,
+      colorBar = basics.colorBar,
+      barPadding = basics.barPadding
+      ;
+    
+    var   xScale = d3.scale.linear()
+      .domain([0, currentDatasetBarChart.length])
+      .range([0, width])
+      ;
+    
+      
+    var yScale = d3.scale.linear()
+        .domain([0, d3.max(currentDatasetBarChart, function(d) { return d.freq; })])
+        .range([height,0])
+        ;
+        
+     var svg = d3.select("#barChart svg");
+        
+     var plot = d3.select("#barChartPlot")
+      .datum(currentDatasetBarChart)
+       ;
+  
+        /* Note that here we only have to select the elements - no more appending! */
+      plot.selectAll("rect")
+        .data(currentDatasetBarChart)
+        .transition()
+      .duration(750)
+      .attr("x", function(d, i) {
+          return xScale(i);
+      })
+       .attr("width", width / currentDatasetBarChart.length - barPadding)   
+      .attr("y", function(d) {
+          return yScale(d.freq);
+      })  
+      .attr("height", function(d) {
+          return height-yScale(d.freq);
+      })
+      .attr("fill", colorChosen)
+      ;
+    
+    plot.selectAll("text.yAxis") // target the text element(s) which has a yAxis class defined
+      .data(currentDatasetBarChart)
+      .transition()
+      .duration(750)
+       .attr("text-anchor", "middle")
+       .attr("x", function(d, i) {
+          return (i * (width / currentDatasetBarChart.length)) + ((width / currentDatasetBarChart.length - barPadding) / 2);
+       })
+       .attr("y", function(d) {
+          return yScale(d.freq) + 14;
+       })
+       .text(function(d) {
+        return formatAsInteger(d3.round(d.freq));
+       })
+       .attr("class", "yAxis")           
+    ;
+    
+    svg.selectAll("text.title") // target the text element(s) which has a title class defined
+      .attr("x", (width + margin.left + margin.right)/2)
+      .attr("y", 15)
+      .attr("class","title")        
+      .attr("text-anchor", "middle")
+      .text(group + "'s Location Type Breakdown")
+    ;
+}
 
 </script>
 </body>
