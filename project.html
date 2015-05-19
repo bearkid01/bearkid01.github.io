@@ -44,7 +44,7 @@
   position:absolute;
   top:450px;
   left:720px;
-  height: 400px;
+  height: 450px;
 }
 
 .legend {
@@ -389,7 +389,7 @@ function dsLineChart() {
 
   var line = d3.svg.line()
       //.x(function(d) { return xScale(d.category); })
-      .x(function(d, i) { return xScale(d.year); })
+      .x(function(d) { return xScale(d.year); })
       .y(function(d) { return yScale(d.freq); })
       ;
   
@@ -434,8 +434,7 @@ function dsLineChart() {
       .attr("cy", line.y())
       .attr("r", 3.5)
       .attr("stroke", "lightgrey")
-      .append("svg:title")
-      .style("font-size", "18px")
+      .append("title")
       //add tooltips here 
       .text(function(d) { return d.year + ": " + formatAsInteger(d.freq); })
       ;
@@ -457,7 +456,7 @@ dsLineChart();
 /* updates bar chart on request */
 function updateLineChart(group, colorChosen) {
 
-  var currentDatasetLineChart = datasetLineChartChosen(group);   
+  var currentDatasetLineChart = datasetLineChartChosen(group); 
 
   var basics = dsLineChartBasics();
   
@@ -481,7 +480,7 @@ function updateLineChart(group, colorChosen) {
     .y(function(d) { return yScale(d.freq); })
     ;
 
-  var svgLine = d3.select("#lineChart svg");
+  var svg = d3.select("#lineChart svg");
 
    var plot = d3.select("#lineChartPlot")
     .datum(currentDatasetLineChart)
@@ -517,48 +516,51 @@ function updateLineChart(group, colorChosen) {
     .attr("stroke", colorChosen)
      ;
      
-     path
-     .selectAll("title")
+     console.log(currentDatasetLineChart);
+
+  var addpath = path
+     .select("title")
      .text(function(d) { return d.year + ": " + formatAsInteger(d.freq); })   
      ;  
 
-    svgLine.selectAll("text.title") // target the text element(s) which has a title class defined
+  //here is the problem... 
+
+  svg.selectAll("text") // target the text element(s) which has a title class defined
       .attr("x", (width + margin.left + margin.right)/2)
       .attr("y", 15)
       .attr("class","title")        
       .attr("text-anchor", "middle")
-      .text(group + "'s Complaints Bwtween 2010 - 2015")
+      .text(group + "'s Complaints Between 2010 - 2015")
     ;
 }
-
 
 //Bar Plot 
 
 var datasetBarChart = [
-{"group": "All", "Loc": "Cafeteria - College/University & Private/Public School", "freq": 18},
+{"group": "All", "Loc": "Cafeteria - Schools", "freq": 18},
 {"group": "All", "Loc": "Food Cart Vendor", "freq": 134},
 {"group": "All", "Loc": "Restaurant/Bar/Deli/Bakery", "freq": 2414},
-{"group": "All", "Loc": "Other", "freq": 471},
-{"group": "Bronx", "Loc": "Cafeteria - College/University & Private/Public School", "freq": 15},
+{"group": "All", "Loc": "Others", "freq": 471},
+{"group": "Bronx", "Loc": "Cafeteria - Schools", "freq": 15},
 {"group": "Bronx", "Loc": "Food Cart Vendor", "freq": 63},
 {"group": "Bronx", "Loc": "Restaurant/Bar/Deli/Bakery", "freq": 1293},
-{"group": "Bronx", "Loc": "Other", "freq": 360},
-{"group": "Brook", "Loc": "Cafeteria - College/University & Private/Public School", "freq": 23},
+{"group": "Bronx", "Loc": "Others", "freq": 360},
+{"group": "Brook", "Loc": "Cafeteria - Schools", "freq": 23},
 {"group": "Brook", "Loc": "Food Cart Vendor", "freq": 131},
 {"group": "Brook", "Loc": "Restaurant/Bar/Deli/Bakery", "freq": 2918},
-{"group": "Brook", "Loc": "Other", "freq": 636},
-{"group": "Manha", "Loc": "Cafeteria - College/University & Private/Public School", "freq": 27},
+{"group": "Brook", "Loc": "Others", "freq": 636},
+{"group": "Manha", "Loc": "Cafeteria - Schools", "freq": 27},
 {"group": "Manha", "Loc": "Food Cart Vendor", "freq": 329},
 {"group": "Manha", "Loc": "Restaurant/Bar/Deli/Bakery", "freq": 4872},
-{"group": "Manha", "Loc": "Other", "freq": 680},
-{"group": "Queen", "Loc": "Cafeteria - College/University & Private/Public School", "freq": 24},
+{"group": "Manha", "Loc": "Others", "freq": 680},
+{"group": "Queen", "Loc": "Cafeteria - Schools", "freq": 24},
 {"group": "Queen", "Loc": "Food Cart Vendor", "freq": 129},
 {"group": "Queen", "Loc": "Restaurant/Bar/Deli/Bakery", "freq": 2468},
-{"group": "Queen", "Loc": "Other", "freq": 551},
-{"group": "State", "Loc": "Cafeteria - College/University & Private/Public School", "freq": 4},
+{"group": "Queen", "Loc": "Others", "freq": 551},
+{"group": "State", "Loc": "Cafeteria - Schools", "freq": 4},
 {"group": "State", "Loc": "Food Cart Vendor", "freq": 19},
 {"group": "State", "Loc": "Restaurant/Bar/Deli/Bakery", "freq": 520},
-{"group": "State", "Loc": "Other", "freq": 96}
+{"group": "State", "Loc": "Others", "freq": 96}
 ];
 
 // set initial group value
@@ -577,7 +579,7 @@ function datasetBarChosen(group) {
 
 function dsBarChartBasics() {
 
-    var margin = {top: 30, right: 5, bottom: 20, left: 50},
+    var margin = {top: 30, right: 5, bottom: 50, left: 50},
     width = 500 - margin.left - margin.right,
      height = 250 - margin.top - margin.bottom,
     colorBar = d3.scale.category20(),
@@ -607,11 +609,17 @@ function dsBarChart() {
     barPadding = basics.barPadding
     ;
           
-  var xScale = d3.scale.linear()
-            .domain([0, firstDatasetBarChart.length])
-            .range([0, width])
+  var xScale = d3.scale.ordinal()
+            //.domain([0, firstDatasetBarChart.length])
+            .rangeRoundBands([0, width], 0.05)
             ;
             
+  var xAxis = d3.svg.axis()
+    .scale(xScale)
+    .orient("bottom");
+
+  xScale.domain(firstDatasetBarChart.map(function(d) { return d.Loc; }));
+
   // Create linear y scale 
   // Purpose: No matter what the data is, the bar should fit into the svg area; bars should not
   // get higher than the svg height. Hence incoming data needs to be scaled to fit into the svg area.  
@@ -682,14 +690,20 @@ function dsBarChart() {
   var xLabels = svg
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + (margin.top + height)  + ")")
+        .call(xAxis)
+      // .selectAll(".tick text")
+      //   .call(wrap, x.rangeBand())
         ;
   
-  xLabels.selectAll("text.xAxis")
+  xLabels.selectAll("text")
       .data(firstDatasetBarChart)
       .enter()
       .append("text")
+      // .attr("dx", "-.8em")
+      // .attr("dy", "-.55em")
+      // .attr("transform", "rotate(-90)" )
       .text(function(d) { return d.Loc;})
-      .attr("text-anchor", "middle")
+      .attr("text-anchor", "end")
       // Set x position to the left edge of each bar plus half the bar width
                .attr("x", function(d, i) {
                   return (i * (width / firstDatasetBarChart.length)) + ((width / firstDatasetBarChart.length - barPadding) / 2);
@@ -730,7 +744,7 @@ function updateBarChart(group, colorChosen) {
       barPadding = basics.barPadding
       ;
     
-    var   xScale = d3.scale.linear()
+    var xScale = d3.scale.linear()
       .domain([0, currentDatasetBarChart.length])
       .range([0, width])
       ;
