@@ -79,12 +79,6 @@
 .title {
     font-family: Verdana;
     font-size: 15px;  
-    
-}
-
-.ticklabels{
-    font-family: Times;
-    font-size: 12px;
 }
 
 .xAxis {
@@ -97,6 +91,11 @@
     font-family: Verdana;
     font-size: 12px;
     fill: white;
+}
+
+.xAxis text {
+    font-family: Verdana;
+    font-size: 11px;
 }
 
 /*div#text{
@@ -536,27 +535,27 @@ function updateLineChart(group, colorChosen) {
 var datasetBarChart = [
 {"group": "All", "Loc": "Cafeteria - Schools", "freq": 18},
 {"group": "All", "Loc": "Food Cart Vendor", "freq": 134},
-{"group": "All", "Loc": "Restaurant/Bar/Deli/Bakery", "freq": 2414},
+{"group": "All", "Loc": "Restaurant /Bar /Deli /Bakery", "freq": 2414},
 {"group": "All", "Loc": "Others", "freq": 471},
 {"group": "Bronx", "Loc": "Cafeteria - Schools", "freq": 15},
 {"group": "Bronx", "Loc": "Food Cart Vendor", "freq": 63},
-{"group": "Bronx", "Loc": "Restaurant/Bar/Deli/Bakery", "freq": 1293},
+{"group": "Bronx", "Loc": "Restaurant /Bar /Deli /Bakery", "freq": 1293},
 {"group": "Bronx", "Loc": "Others", "freq": 360},
 {"group": "Brooklyn", "Loc": "Cafeteria - Schools", "freq": 23},
 {"group": "Brooklyn", "Loc": "Food Cart Vendor", "freq": 131},
-{"group": "Brooklyn", "Loc": "Restaurant/Bar/Deli/Bakery", "freq": 2918},
+{"group": "Brooklyn", "Loc": "Restaurant /Bar /Deli /Bakery", "freq": 2918},
 {"group": "Brooklyn", "Loc": "Others", "freq": 636},
 {"group": "Manhattan", "Loc": "Cafeteria - Schools", "freq": 27},
 {"group": "Manhattan", "Loc": "Food Cart Vendor", "freq": 329},
-{"group": "Manhattan", "Loc": "Restaurant/Bar/Deli/Bakery", "freq": 4872},
+{"group": "Manhattan", "Loc": "Restaurant /Bar /Deli /Bakery", "freq": 4872},
 {"group": "Manhattan", "Loc": "Others", "freq": 680},
 {"group": "Queens", "Loc": "Cafeteria - Schools", "freq": 24},
 {"group": "Queens", "Loc": "Food Cart Vendor", "freq": 129},
-{"group": "Queens", "Loc": "Restaurant/Bar/Deli/Bakery", "freq": 2468},
+{"group": "Queens", "Loc": "Restaurant /Bar /Deli /Bakery", "freq": 2468},
 {"group": "Queens", "Loc": "Others", "freq": 551},
 {"group": "Staten Island", "Loc": "Cafeteria - Schools", "freq": 4},
 {"group": "Staten Island", "Loc": "Food Cart Vendor", "freq": 19},
-{"group": "Staten Island", "Loc": "Restaurant/Bar/Deli/Bakery", "freq": 520},
+{"group": "Staten Island", "Loc": "Restaurant /Bar /Deli /Bakery", "freq": 520},
 {"group": "Staten Island", "Loc": "Others", "freq": 96}
 ];
 
@@ -595,7 +594,9 @@ function dsBarChartBasics() {
 
 function dsBarChart() {
 
-  var firstDatasetBarChart = datasetBarChosen(group);           
+  var firstDatasetBarChart = datasetBarChosen(group);   
+
+  console.log(firstDatasetBarChart);        
   
   var basics = dsBarChartBasics();
   
@@ -644,12 +645,29 @@ function dsBarChart() {
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
         ;
               
-  plot.selectAll("rect")
+  // plot.selectAll("rect")
+  //      .data(firstDatasetBarChart)
+  //      .enter()
+  //      .append("rect")
+  //     .attr("x", function(d, i) {
+  //         return xScale(i);
+  //     })
+  //      .attr("width", width / firstDatasetBarChart.length - barPadding)   
+  //     .attr("y", function(d) {
+  //         return yScale(d.freq);
+  //     })  
+  //     .attr("height", function(d) {
+  //         return height-yScale(d.freq);
+  //     })
+  //     .attr("fill", "lightgrey")
+  //     ;
+
+    plot.selectAll("rect")
        .data(firstDatasetBarChart)
        .enter()
        .append("rect")
-      .attr("x", function(d, i) {
-          return xScale(i);
+      .attr("x", function(d) {
+          return xScale(d.Loc);
       })
        .attr("width", width / firstDatasetBarChart.length - barPadding)   
       .attr("y", function(d) {
@@ -708,10 +726,7 @@ function dsBarChart() {
                   return (i * (width / firstDatasetBarChart.length)) + ((width / firstDatasetBarChart.length - barPadding) / 2);
                })
       .attr("y", 20)
-      .attr("class", "ticklabels")
       ;
-
-      //.attr("style", "font-size: 12; font-family: Helvetica, sans-serif")
         
    
   // Title
@@ -795,7 +810,7 @@ function updateBarChart(group, colorChosen) {
        })
        .attr("class", "yAxis")           
     ;
-    
+  
     svg.selectAll("text.title") // target the text element(s) which has a title class defined
       .attr("x", (width + margin.left + margin.right)/2)
       .attr("y", 15)
@@ -804,6 +819,33 @@ function updateBarChart(group, colorChosen) {
       .text(group + "'s Location Type Breakdown")
     ;
 }
+
+
+function wrap(text, width) {
+  text.each(function() {
+    var text = d3.select(this),
+        words = text.text().split(/\s+/).reverse(),
+        word,
+        line = [],
+        lineNumber = 0,
+        lineHeight = 1.1, // ems
+        y = text.attr("y"),
+        dy = parseFloat(text.attr("dy")),
+        tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
+    while (word = words.pop()) {
+      line.push(word);
+      tspan.text(line.join(" "));
+      if (tspan.node().getComputedTextLength() > width) {
+        line.pop();
+        tspan.text(line.join(" "));
+        line = [word];
+        tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+      }
+    }
+  });
+}
+
+  d3.select("#barChart").selectAll(".tick text").call(wrap, 100)
 
 </script>
 </body>
