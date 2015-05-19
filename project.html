@@ -77,20 +77,25 @@
 }
 
 .title {
-   font-family: Verdana;
+    font-family: Verdana;
     font-size: 15px;  
     
 }
 
+.ticklabels{
+    font-family: Times;
+    font-size: 12px;
+}
+
 .xAxis {
-    font-family: verdana;
-    font-size: 11px;
-    fill: black;
+    fill: none;
+    stroke: black;
+    stroke-width: 1px;
 }  
 
 .yAxis {
-    font-family: verdana;
-    font-size: 11px;
+    font-family: Verdana;
+    font-size: 12px;
     fill: white;
 }
 
@@ -255,7 +260,7 @@ d3.json("nyc.json", function(error, nyb) {
     var centroid = path.centroid(d);
     x = centroid[0];
     y = centroid[1];
-    k = 4;
+    k = 3.5;
     centered = d;
   } else {
     x = width / 2;
@@ -681,8 +686,10 @@ function dsBarChart() {
   
   var xLabels = svg
         .append("g")
+        .attr("class", "xAxis")
         .attr("transform", "translate(" + margin.left + "," + (margin.top + height)  + ")")
         .call(xAxis)
+
       // .selectAll(".tick text")
       //   .call(wrap, x.rangeBand())
         ;
@@ -691,16 +698,17 @@ function dsBarChart() {
       .data(firstDatasetBarChart)
       .enter()
       .append("text")
+      .text(function(d) { return d.Loc;})
       // .attr("dx", "-.8em")
       // .attr("dy", "-.55em")
       // .attr("transform", "rotate(-90)" )
-      .text(function(d) { return d.Loc;})
       .attr("text-anchor", "end")
       // Set x position to the left edge of each bar plus half the bar width
                .attr("x", function(d, i) {
                   return (i * (width / firstDatasetBarChart.length)) + ((width / firstDatasetBarChart.length - barPadding) / 2);
                })
       .attr("y", 20)
+      .attr("class", "ticklabels")
       ;
 
       //.attr("style", "font-size: 12; font-family: Helvetica, sans-serif")
