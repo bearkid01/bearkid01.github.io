@@ -42,9 +42,9 @@
 
 #barChart {    
   position:absolute;
-  top:450px;
+  top:440px;
   left:720px;
-  height: 450px;
+  height: 470px;
 }
 
 .legend {
@@ -52,14 +52,6 @@
   top: 150px;
   left: 30px;
 }
-
-/*
-#Map {    
-  position:relative;
-  top:150px;
-  left:50px;
-  height: 600px;
-}*/
 
 .axis path, 
 .axis line {
@@ -165,7 +157,7 @@ div#text2{
 
 <script>
 
-var margin = {top: 20, right: 20, bottom: 30, left: 0},
+var margin = {top: 30, right: 20, bottom: 30, left: 0},
     width = 700 - margin.left - margin.right,
     height = 700 - margin.top - margin.bottom,
     centered;
@@ -228,7 +220,7 @@ d3.json("nyc.json", function(error, nyb) {
 
   colorMap = {"Staten Island": "orange", "Queens": "#636363", "Brooklyn": "green", "Manhattan": "purple", "Bronx": "steelblue"}
 
-  shortName = {"Staten Island": "State", "Queens": "Queen", "Brooklyn": "Brook", "Manhattan": "Manha", "Bronx": "Bronx"}
+  shortName = {"Staten Island": "Staten Island", "Queens": "Queens", "Brooklyn": "Brooklyn", "Manhattan": "Manhattan", "Bronx": "Bronx"}
 
     for (i=0; i<nyb.features.length; i++){
       nyb.features[i]["colors"] = colorMap[nyb.features[i]["properties"]["borough"]]
@@ -305,30 +297,30 @@ var datasetLineChart = [
 {"group": "Bronx", "year": 2013, "freq": 320},
 {"group": "Bronx", "year": 2014, "freq": 337},
 {"group": "Bronx", "year": 2015, "freq": 114},
-{"group": "Brook", "year": 2010, "freq": 735},
-{"group": "Brook", "year": 2011, "freq": 659},
-{"group": "Brook", "year": 2012, "freq": 690},
-{"group": "Brook", "year": 2013, "freq": 748},
-{"group": "Brook", "year": 2014, "freq": 667},
-{"group": "Brook", "year": 2015, "freq": 209},
-{"group": "Manha", "year": 2010, "freq": 978},
-{"group": "Manha", "year": 2011, "freq": 1046},
-{"group": "Manha", "year": 2012, "freq": 1165},
-{"group": "Manha", "year": 2013, "freq": 1119},
-{"group": "Manha", "year": 2014, "freq": 1194},
-{"group": "Manha", "year": 2015, "freq": 406},
-{"group": "Queen", "year": 2010, "freq": 566},
-{"group": "Queen", "year": 2011, "freq": 584},
-{"group": "Queen", "year": 2012, "freq": 605},
-{"group": "Queen", "year": 2013, "freq": 628},
-{"group": "Queen", "year": 2014, "freq": 596},
-{"group": "Queen", "year": 2015, "freq": 193},
-{"group": "State", "year": 2010, "freq": 149},
-{"group": "State", "year": 2011, "freq": 123},
-{"group": "State", "year": 2012, "freq": 109},
-{"group": "State", "year": 2013, "freq": 111},
-{"group": "State", "year": 2014, "freq": 110},
-{"group": "State", "year": 2015, "freq": 37}
+{"group": "Brooklyn", "year": 2010, "freq": 735},
+{"group": "Brooklyn", "year": 2011, "freq": 659},
+{"group": "Brooklyn", "year": 2012, "freq": 690},
+{"group": "Brooklyn", "year": 2013, "freq": 748},
+{"group": "Brooklyn", "year": 2014, "freq": 667},
+{"group": "Brooklyn", "year": 2015, "freq": 209},
+{"group": "Manhattan", "year": 2010, "freq": 978},
+{"group": "Manhattan", "year": 2011, "freq": 1046},
+{"group": "Manhattan", "year": 2012, "freq": 1165},
+{"group": "Manhattan", "year": 2013, "freq": 1119},
+{"group": "Manhattan", "year": 2014, "freq": 1194},
+{"group": "Manhattan", "year": 2015, "freq": 406},
+{"group": "Queens", "year": 2010, "freq": 566},
+{"group": "Queens", "year": 2011, "freq": 584},
+{"group": "Queens", "year": 2012, "freq": 605},
+{"group": "Queens", "year": 2013, "freq": 628},
+{"group": "Queens", "year": 2014, "freq": 596},
+{"group": "Queens", "year": 2015, "freq": 193},
+{"group": "Staten Island", "year": 2010, "freq": 149},
+{"group": "Staten Island", "year": 2011, "freq": 123},
+{"group": "Staten Island", "year": 2012, "freq": 109},
+{"group": "Staten Island", "year": 2013, "freq": 111},
+{"group": "Staten Island", "year": 2014, "freq": 110},
+{"group": "Staten Island", "year": 2015, "freq": 37}
 ];
 
 // set initial group value
@@ -545,22 +537,22 @@ var datasetBarChart = [
 {"group": "Bronx", "Loc": "Food Cart Vendor", "freq": 63},
 {"group": "Bronx", "Loc": "Restaurant/Bar/Deli/Bakery", "freq": 1293},
 {"group": "Bronx", "Loc": "Others", "freq": 360},
-{"group": "Brook", "Loc": "Cafeteria - Schools", "freq": 23},
-{"group": "Brook", "Loc": "Food Cart Vendor", "freq": 131},
-{"group": "Brook", "Loc": "Restaurant/Bar/Deli/Bakery", "freq": 2918},
-{"group": "Brook", "Loc": "Others", "freq": 636},
-{"group": "Manha", "Loc": "Cafeteria - Schools", "freq": 27},
-{"group": "Manha", "Loc": "Food Cart Vendor", "freq": 329},
-{"group": "Manha", "Loc": "Restaurant/Bar/Deli/Bakery", "freq": 4872},
-{"group": "Manha", "Loc": "Others", "freq": 680},
-{"group": "Queen", "Loc": "Cafeteria - Schools", "freq": 24},
-{"group": "Queen", "Loc": "Food Cart Vendor", "freq": 129},
-{"group": "Queen", "Loc": "Restaurant/Bar/Deli/Bakery", "freq": 2468},
-{"group": "Queen", "Loc": "Others", "freq": 551},
-{"group": "State", "Loc": "Cafeteria - Schools", "freq": 4},
-{"group": "State", "Loc": "Food Cart Vendor", "freq": 19},
-{"group": "State", "Loc": "Restaurant/Bar/Deli/Bakery", "freq": 520},
-{"group": "State", "Loc": "Others", "freq": 96}
+{"group": "Brooklyn", "Loc": "Cafeteria - Schools", "freq": 23},
+{"group": "Brooklyn", "Loc": "Food Cart Vendor", "freq": 131},
+{"group": "Brooklyn", "Loc": "Restaurant/Bar/Deli/Bakery", "freq": 2918},
+{"group": "Brooklyn", "Loc": "Others", "freq": 636},
+{"group": "Manhattan", "Loc": "Cafeteria - Schools", "freq": 27},
+{"group": "Manhattan", "Loc": "Food Cart Vendor", "freq": 329},
+{"group": "Manhattan", "Loc": "Restaurant/Bar/Deli/Bakery", "freq": 4872},
+{"group": "Manhattan", "Loc": "Others", "freq": 680},
+{"group": "Queens", "Loc": "Cafeteria - Schools", "freq": 24},
+{"group": "Queens", "Loc": "Food Cart Vendor", "freq": 129},
+{"group": "Queens", "Loc": "Restaurant/Bar/Deli/Bakery", "freq": 2468},
+{"group": "Queens", "Loc": "Others", "freq": 551},
+{"group": "Staten Island", "Loc": "Cafeteria - Schools", "freq": 4},
+{"group": "Staten Island", "Loc": "Food Cart Vendor", "freq": 19},
+{"group": "Staten Island", "Loc": "Restaurant/Bar/Deli/Bakery", "freq": 520},
+{"group": "Staten Island", "Loc": "Others", "freq": 96}
 ];
 
 // set initial group value
@@ -579,7 +571,7 @@ function datasetBarChosen(group) {
 
 function dsBarChartBasics() {
 
-    var margin = {top: 30, right: 5, bottom: 50, left: 50},
+    var margin = {top: 50, right: 5, bottom: 50, left: 50},
     width = 500 - margin.left - margin.right,
      height = 250 - margin.top - margin.bottom,
     colorBar = d3.scale.category20(),
@@ -708,7 +700,7 @@ function dsBarChart() {
                .attr("x", function(d, i) {
                   return (i * (width / firstDatasetBarChart.length)) + ((width / firstDatasetBarChart.length - barPadding) / 2);
                })
-      .attr("y", 15)
+      .attr("y", 20)
       ;
 
       //.attr("style", "font-size: 12; font-family: Helvetica, sans-serif")
