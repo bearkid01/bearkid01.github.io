@@ -122,11 +122,13 @@ div#headline {
     font-size: 11px;
 }
 
-.small_circles {
+/*.small_circles {
     fill: "tomato";
-    opacity: 0.8;
-}
+    full-opacity: 0.8;
+    stroke-width: 0.5px;
 
+}
+*/
 /*div#text{
   width: 300px;
   left: 120px;
@@ -352,14 +354,7 @@ d3.json("nyc.json", function(error, nyb) {
             csv_chosen.push(csv[i]);
          }}
 
-        //alert(key);
-
-        console.log(csv_chosen);
-
-        
-
         var circles = g.selectAll("circle")
-          .attr("class", "small_circles")
           .data(csv_chosen)
           .enter()
           .append("circle")
@@ -372,12 +367,22 @@ d3.json("nyc.json", function(error, nyb) {
           .style("stroke-opacity", 0.8)
           // .on("mouseover", tip.show)
           // .on("mouseout", tip.hide);
-         .append("svg:title")
-           .text(function(d) { return d.Incident_Address; })
-           .call(wrap, 100);
+         // .append("svg:title")
+         //   .text(function(d) { return d.Incident_Address; })
+         //   .call(wrap, 100);
+
+        // var circles = d3.selectAll("small_circles")
+        //   .style("fill", "tomato")
+        //   // .style("fill-opacity", 0.8)
+        //   // .style("stroke-width", "0.5px")
+        //   // .style("stroke-opacity", 0.8)
+        //   // .on("mouseover", tip.show)
+        //   // .on("mouseout", tip.hide);
+        //  .append("svg:title")
+        //    .text(function(d) { return d.Incident_Address; })
+        //    .call(wrap, 100);
 
       });
-
 
     select.selectAll("option")
       .data(menu)
@@ -385,17 +390,6 @@ d3.json("nyc.json", function(error, nyb) {
         .append("option")
         .attr("value", function (d) { return d.year; })
         .text(function (d) { return d.year; });
-
-
-   //  console.log(d3.select(this).property("year"));
-
-   //  var csv_chosen = []
-
-   //  for (i = 0; i < csv.length; i++){
-   //    if (csv[i]["year"]==d3.select(this).property("year")){
-   //       csv_chosen.push(csv[i]);
-   //    }
-   // }
 
   });
 
