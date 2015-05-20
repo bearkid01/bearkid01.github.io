@@ -1,4 +1,4 @@
-"Created.Date","Incident.Address","Status","Latitude","Longitude","year"
+"Created_Date","Incident_Address","Status","Latitude","Longitude","year"
 "04/19/2015 05:02:04 AM","1233 GRANT AVENUE","Open",40.8343005378872,-73.9145641378696,"2015"
 "04/17/2015 05:36:58 AM","2344 ARTHUR AVENUE","Open",40.8542462117973,-73.8886744956508,"2015"
 "04/15/2015 01:37:20 PM","","Open",40.8373708652562,-73.8877667333652,"2015"
