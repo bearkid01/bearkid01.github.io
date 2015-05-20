@@ -289,7 +289,7 @@ var sampleCategoricalData = [{"region":"Staten Island","color":"orange"},{"regio
     });
 
 
-var g = svg.append("g");
+var g = svg.append("g").attr("id","symbols");
 
 d3.json("nyc.json", function(error, nyb) {
 
@@ -339,7 +339,7 @@ d3.json("nyc.json", function(error, nyb) {
     select
       .on("change", function(d) {
 
-        d3.selectAll("circle").remove();
+        d3.select("g#symbols").selectAll("circle").remove();
 
         var csv_chosen = [];
         key = this.selectedIndex;
@@ -368,9 +368,9 @@ d3.json("nyc.json", function(error, nyb) {
           .style("stroke-opacity", 0.8)
           // .on("mouseover", tip.show)
           // .on("mouseout", tip.hide);
-         // .append("svg:title")
-         //   .text(function(d) { return d.Incident_Address; })
-         //   .call(wrap, 100);
+         .append("svg:title")
+           .text(function(d) { return d.Incident_Address; })
+           .call(wrap, 100);
 
         // var circles = d3.selectAll("small_circles")
         //   .style("fill", "tomato")
@@ -574,7 +574,7 @@ function dsLineChart() {
     .attr("stroke", "lightgrey")
       ;
     
-  plot.selectAll(".dot")
+  plot.selectAll("circle")
       .data(firstDatasetLineChart)
        .enter().append("circle")
       .attr("class", "dot")
@@ -655,7 +655,7 @@ function updateLineChart(group, colorChosen) {
      ;
      
   var path = plot
-    .selectAll(".dot")
+    .selectAll("circle")
      .data(currentDatasetLineChart)
      .transition()
     .duration(750)
