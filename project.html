@@ -54,6 +54,13 @@ div#text2 {
   width: 300px;
 }
 
+div#text3 {
+  position: absolute;
+  top: 800px;
+  left: 800px;
+  width: 300px;
+}
+
 div#headline {
   position: absolute;
   top: 120px;
@@ -195,39 +202,47 @@ div#text2{
 
 <div id="text">
 <h3>Techniques</h3>
-<section>
-  <h4>C-Level: Line Plot & Area Plot</h4>
-  <h4>B-Level: Panning (Area Plot) & Details-on-Demand (Tooltips on Line Plot) & Zooming (Line Plot)</h4>
-  <h4>A-Level: Brushing (Area Plot)</h4>
-</section>
+  <p>For each of your D3 visualizations, include the following information:
+  Describe how you encoded the data. Include specifics on which columns/rows are mapped to which pre-attentive attributes in your visualization, and describe the design choices you made.
+  Provide an evaluation of the lie factor, data density, and data-ink ratio of your visualization.
+  Discuss what you think the visualization excels at, such as showing an overview, identifying outliers, patterns, clusters, or trends, or providing context for other visualizations. In other words, describe why you choose to include this particular visualization versus other alternatives.
+  Include a brief summary of any additional visualizations you provided as well. If you implemented them using something other than D3, please state as much in your discussion.
+</p>
 
 <h3>Interactivity</h3>
   <p>
-    The dataset used here is the Seatbelts dataset from R which contains multiple time series. I used "Seatbelts[,0]" to grab the row names (timestamp) of the dataset and converted the dataset into a data frame. Then I created a sequence of strings replicating the row names of the dataset and appended it to the data frame. Finally, the data frame was exported as a CSV file and a TSV file.  
+    <i>Individual Visualization (topojson map)</i>: I implemented filteration by adding a drop-down menu to select a year between 2010 and 2015 and visualize the locations of complaints reported in the correponding year on the map. Instead of plotting the locations of all complaints between 2010 and 2015 on the map which would basically cover the entire map (overplotting issue) and make the map unrecognizable, I provided the viewers with an option to choose a single year and observe the locations of complaints in that year on the map. I also implemented zooming and as the name entails, this interactivity allows viewers to zoom in on each borough of NYC so they can see the details such as the street addresses of the complaints simply by hovering the mouse over the bubbles. 
+  </p>
+  <p>
+    <i>Overall</i>: All three visualizations: map, line plot and bar plot are linked together. For example, by clicking on a borough on the map, line plot and bar plot will immediately reflect the data for that specific borough. The line plot will display the change of number of complaints over the five years and the bar plot will show the break-down of the number of complaints by location type. 
   </p>
 
 <h3>Feedback</h3>
-  <p>
-    <ul>
-      <li>Line Plot: move the mouse over the line plot to see the tooltips which show the number of passengers killded or injured; move the mouse to the position on the line plot that you want to zoom in and scroll mouse wheel; click on the line plot and drag it. </li>
-      <li>Area Plot: click the mouse and drag a rectangular shape window in the lower chart. Then click on the mouse again and drag the rectangular window to zoom in on the details of the upper chart. Click off the rectangular window to get rid of it and the full dataset will be shown in the upper chart. </li>
-    </ul>
+  <p>Discuss the prototype you demonstrated in-class, the changes you made based on feedback, the feedback you found particularly helpful (and why), and feedback that you did not agree with (and why).
   </p>
 </div>
 
 <div id="text2">
 
 <h3>Challenges</h3>
-  <p>For C-level functionality, I focused on creating a basic line plot and an area plot. For B-level and A-level functionality, I wanted to add some functionality for interactive visualization. Since it is hard to see the y values in a line plot, I added tooltips for the line plot. Besides, I added a brush component to zoom in the details of the area plot. 
+  <p><i>Wraptext for x axis labels</i>: It was the first time that I encoutered that text labels were too long so they overlapped each other. I searched online for different solutions such as using a foreign object which I could not understand very well given limited time for this project. The code I borrowed from Mike Bostocks' <a href="http://bl.ocks.org/mbostock/7555321">block</a> doesn't really help.
   </p>
-  <p>You can view the complete codes for these plots <a href="https://github.com/bearkid01/spring-2015-msan622_Vis/blob/gh-pages/homework_three.html">here</a>.
+  <p><i>SelectAll("circle") statement updates everything</i>: In this visualization, I applied svg element "circle" in different cases such as legend, symbols on the map and dots on the line plot. However, I didn't know how to differentiate them so they wouldn't affect each other when I changed circles in one place.
   </p>
-  
+  <p><i>How to add a drop-down menu</i>: It was the first time that I implemented the filtering technique on all my visualization in d3. I wanted to add this feature to increase the interactivity of my final project. The challenge for me is that I didn't know how to make the symbols ("circles") change based on what I selected on the drop-down menu. 
+  </p>
+  <p>I personally overcame the "drop-down menu" challenge by grabbing the selection item, namely "year", turning it into a variable and then filtering the "location.csv" dataset for any line that matchs the year. Thanks to my instructor Sophie's help, I successfully resolved first two chanllenges. Especially, I learned to add an id to the svg element and any following operations will be specific to that svg element if I simply selected its id. 
+  </p>  
+</div>
+
+<div id="text3">
 <h3>Conclusion</h3>
-  <p>For C-level functionality, I focused on creating a basic line plot and an area plot. For B-level and A-level functionality, I wanted to add some functionality for interactive visualization. Since it is hard to see the y values in a line plot, I added tooltips for the line plot. Besides, I added a brush component to zoom in the details of the area plot. 
-  </p>
-  <p>You can view the complete codes for these plots <a href="https://github.com/bearkid01/spring-2015-msan622_Vis/blob/gh-pages/homework_three.html">here</a>.
-  </p>
+  <p>I want to use my visualization to answer some questions that interest me. </p>
+  <p>Q: How does the number of food poisoning complaints change between 2010 and 2015 for each borough in NYC?
+  <p>A: For Bronx and Brooklyn, the number of complaints didn't change very much in this five-year period, maintaining between 300 and 350 compliants per year for Bronx and between 600 and 700 complaints per year for Brooklyn. For Manhattan, the number of complaints increased in general and they were all much larger than the number of compliants reported in Bronx. Similarly, the number of complaints steadily increased for Queens except for 2014 when it dropped a little bit but altogether, they maintained between 500 and 600. The only borough shows drastic difference from the other ones is Staten Island where the number of complaints generally declined over the five years and their values were the smallest compared with the number of complaints in the other boroughs.  
+  <p>Q: What was the location type where the most/least complaints were reported? </p>
+  <p>A: Across all the boroughs, most of the complaints were reported in Restaurant/Bar/Deli/Bakery and Cafeteria - Schools is where the least complaints were reported.
+  </p> 
 </div>
 <script>
 
