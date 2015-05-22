@@ -29,14 +29,14 @@
 #lineChart {    
   position:absolute;
   top: 420px;
-  left: 720px;
+  left: 700px;
   height: 200px;
 }
 
 #barChart {    
   position:absolute;
   top:590px;
-  left:720px;
+  left:700px;
   height: 470px;
 }
 
@@ -160,17 +160,12 @@ div#headline {
 <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
 <script src="http://d3js.org/topojson.v1.min.js"></script>
 
-<!-- <div id="div1">
-  <h1 align="center">Data Visualization Project</h1>
-  <h2 align="center">Project Dashboard</h2>
-</div> -->
-
 <div id="map"></div>
 <div id="lineChart"></div>
 <div id="barChart"></div>
 
 <div id="headline">
-<h1>NYC Food Poisoning Dataset Visualization</h1>
+<h1 align="center">NYC Food Poisoning Dataset Visualization</h1>
 </div>
 
 <div id="introduction">
@@ -181,13 +176,23 @@ is due to the fact that the data for 2015 has been collected up till this May.
 
 <div id="text">
 <h3>Techniques</h3>
-  <p>pre-attentive attributes, evaluation metrics, interactivity, and aesthetics.
+  <!-- <p>pre-attentive attributes, evaluation metrics, interactivity, and aesthetics.
   For each of your D3 visualizations, include the following information:
   Describe how you encoded the data. Include specifics on which columns/rows are mapped to which pre-attentive attributes in your visualization, and describe the design choices you made.
   Provide an evaluation of the lie factor, data density, and data-ink ratio of your visualization.
   Discuss what you think the visualization excels at, such as showing an overview, identifying outliers, patterns, clusters, or trends, or providing context for other visualizations. In other words, describe why you choose to include this particular visualization versus other alternatives.
-  Include a brief summary of any additional visualizations you provided as well. If you implemented them using something other than D3, please state as much in your discussion.
+  Include a brief summary of any additional visualizations you provided as well. If you implemented them using something other than D3, please state as much in your discussion. -->
+  <p><i>Topojson map of NYC:</i>
+  I used the mercator projection to project the "feature" key of the nyc.json file to create the outline of the map. I also modified the "nyc.json" file by adding another key value pair for color, which made it easier to color the different boroughs. Later on, I decided to plot the locations of the complaints and I used the two variables "Longtitude" and "Latitude" from the "locations.csv" file. The data density ratio and data ink ratio is fairly high. In terms of lie factor, it is also low in this case because in geo projection, everything is relative to each other's size. I think the zooming function is very cool since it allows viwers to take a closer look at each borough. Besides, the topojson map of NYC provides the context for the other two plots, particularly suggesting the other two plots are related to boroughs of NYC. 
+  </p>
+  <p><i>Line Chart:</i>
+  I used R to transform the dataset and created a new list holding the dataset aggregated by R.
+  </p>
+  <p><i>Bar Chart:</i>
+  I used R to transform the dataset and created a new list holding the dataset aggregated by R.
+  </p>
 </p>
+
 
 <h3>Interactivity</h3>
   <p>
@@ -196,7 +201,6 @@ is due to the fact that the data for 2015 has been collected up till this May.
   <p>
     <i>Overall</i>: All three visualizations: map, line plot and bar plot are linked together. For example, by clicking on a borough on the map, line plot and bar plot will immediately reflect the data for that specific borough. The line plot will display the change of number of complaints over the five years and the bar plot will show the break-down of the number of complaints by location type. 
   </p>
-
 </div>
 
 
@@ -371,17 +375,6 @@ d3.json("nyc.json", function(error, nyb) {
          .append("svg:title")
            .text(function(d) { return d.Incident_Address; })
            .call(wrap, 100);
-
-        // var circles = d3.selectAll("small_circles")
-        //   .style("fill", "tomato")
-        //   // .style("fill-opacity", 0.8)
-        //   // .style("stroke-width", "0.5px")
-        //   // .style("stroke-opacity", 0.8)
-        //   // .on("mouseover", tip.show)
-        //   // .on("mouseout", tip.hide);
-        //  .append("svg:title")
-        //    .text(function(d) { return d.Incident_Address; })
-        //    .call(wrap, 100);
 
       });
 
@@ -601,7 +594,6 @@ function dsLineChart() {
 
 dsLineChart();
 
-
  /* ** UPDATE CHART ** */
  
 /* updates bar chart on request */
@@ -672,8 +664,6 @@ function updateLineChart(group, colorChosen) {
      .text(function(d) { return d.year + ": " + formatAsInteger(d.freq); })   
      ;  
 
-  //here is the problem... 
-
   svg.selectAll("text") // target the text element(s) which has a title class defined
       .attr("x", (width + margin.left + margin.right)/2)
       .attr("y", 15)
@@ -730,7 +720,7 @@ function dsBarChartBasics() {
 
     var margin = {top: 50, right: 5, bottom: 50, left: 50},
     width = 500 - margin.left - margin.right,
-     height = 250 - margin.top - margin.bottom,
+     height = 280 - margin.top - margin.bottom,
     colorBar = d3.scale.category20(),
     barPadding = 1
     ;
@@ -762,8 +752,7 @@ function dsBarChart() {
           
   var xScale = d3.scale.ordinal()
             //.domain([0, firstDatasetBarChart.length])
-            .rangeRoundBands([0, width], 0.05)
-            ;
+            .rangeRoundBands([0, width], 0.05);
             
   var xAxis = d3.svg.axis()
     .scale(xScale)
