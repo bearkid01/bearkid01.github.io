@@ -21,42 +21,48 @@
 
 #map {
   position: absolute;
-  top: 150px;
+  top: 300px;
   left: 30px;
   height: 600px;
 }
 
 #lineChart {    
   position:absolute;
-  top:270px;
-  left:720px;
+  top: 420px;
+  left: 720px;
   height: 200px;
 }
 
 #barChart {    
   position:absolute;
-  top:440px;
+  top:590px;
   left:720px;
   height: 470px;
 }
 
+div#introduction{
+  position: absolute;
+  top: 200px;
+  left: 150px;
+}
+
 div#text {
   position: absolute;
-  top: 800px;
+  top: 1000px;
   left: 100px;
   width: 300px;
 }
 
 div#text2 {
   position: absolute;
-  top: 800px;
+  top: 1000px;
   left: 450px;
   width: 300px;
 }
 
 div#text3 {
   position: absolute;
-  top: 800px;
+  top: 1000px;
   left: 800px;
   width: 300px;
 }
@@ -85,13 +91,6 @@ div#headline {
   fill-opacity: .85;
 }
 
-.axis path, 
-.axis line {
-    fill: none;
-    stroke: #000;
-    shape-rendering: crispEdges;
-}
-
 .line {
   fill: none;
   stroke-width: 3px;
@@ -102,55 +101,29 @@ div#headline {
   stroke-width: 1.5px;
   } 
 
-.axis text {
-    font-family: Verdana;
-    font-size: 11px;
-}
-
 .title {
     font-family: Verdana;
     font-size: 15px;  
 }
 
-.xAxis {
+.xAxis path, 
+.xAxis line {
     fill: none;
     stroke: black;
     stroke-width: 1px;
+    shape-rendering: crispEdges;
 }  
+
+.xAxis text {
+    font-family: Verdana;
+    font-size: 12px;
+}
 
 .yAxis {
     font-family: Verdana;
     font-size: 12px;
     fill: white;
 }
-
-.xAxis text {
-    font-family: Verdana;
-    font-size: 11px;
-}
-
-/*.small_circles {
-    fill: "tomato";
-    full-opacity: 0.8;
-    stroke-width: 0.5px;
-
-}
-*/
-/*div#text{
-  width: 300px;
-  left: 120px;
-  top: 1000px;
-  position: absolute;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  }
-
-div#text2{
-  width: 300px;
-  left: 520px;
-  top: 1000px;
-  position: absolute;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  }*/
 
 </style>
 <body>
@@ -200,9 +173,16 @@ div#text2{
 <h1>NYC Food Poisoning Dataset Visualization</h1>
 </div>
 
+<div id="introduction">
+<p>In this visualization, I want to display information regarding the food-poisoning complaints from 2010 to present in New York City (NYC). The visualization has been implemented in D3.js and to view the codes, please click <a href="https://github.com/zywwbk/spring-2015-msan622_Vis/blob/gh-pages/project.html">here</a> to be routed to my github account. One caveat: the decline in number of complaints for 2015 on the line chart 
+is due to the fact that the data for 2015 has been collected up till this May. 
+</p>
+</div>
+
 <div id="text">
 <h3>Techniques</h3>
-  <p>For each of your D3 visualizations, include the following information:
+  <p>pre-attentive attributes, evaluation metrics, interactivity, and aesthetics.
+  For each of your D3 visualizations, include the following information:
   Describe how you encoded the data. Include specifics on which columns/rows are mapped to which pre-attentive attributes in your visualization, and describe the design choices you made.
   Provide an evaluation of the lie factor, data density, and data-ink ratio of your visualization.
   Discuss what you think the visualization excels at, such as showing an overview, identifying outliers, patterns, clusters, or trends, or providing context for other visualizations. In other words, describe why you choose to include this particular visualization versus other alternatives.
@@ -211,34 +191,39 @@ div#text2{
 
 <h3>Interactivity</h3>
   <p>
-    <i>Individual Visualization (topojson map)</i>: I implemented filteration by adding a drop-down menu to select a year between 2010 and 2015 and visualize the locations of complaints reported in the correponding year on the map. Instead of plotting the locations of all complaints between 2010 and 2015 on the map which would basically cover the entire map (overplotting issue) and make the map unrecognizable, I provided the viewers with an option to choose a single year and observe the locations of complaints in that year on the map. I also implemented zooming and as the name entails, this interactivity allows viewers to zoom in on each borough of NYC so they can see the details such as the street addresses of the complaints simply by hovering the mouse over the bubbles. 
+    <i>Individual Visualization (topojson map)</i>: I implemented filteration by adding a drop-down menu to select a year between 2010 and present and visualize the locations of complaints reported in the correponding year on the map. Instead of plotting the locations of all complaints between 2010 and present on the map which would basically cover the entire map (overplotting issue) and make the map unrecognizable, I provided the viewers with an option to choose a single year and observe the locations of complaints in that year on the map. I also implemented zooming and as the name entails, this interactivity allows viewers to zoom in on each borough of NYC so they can see the details such as the street addresses of the complaints simply by hovering the mouse over the bubbles. 
   </p>
   <p>
     <i>Overall</i>: All three visualizations: map, line plot and bar plot are linked together. For example, by clicking on a borough on the map, line plot and bar plot will immediately reflect the data for that specific borough. The line plot will display the change of number of complaints over the five years and the bar plot will show the break-down of the number of complaints by location type. 
   </p>
 
-<h3>Feedback</h3>
-  <p>Discuss the prototype you demonstrated in-class, the changes you made based on feedback, the feedback you found particularly helpful (and why), and feedback that you did not agree with (and why).
-  </p>
 </div>
 
-<div id="text2">
+
+<div id="text2"> 
+<h3>Feedback</h3>
+  <p>
+  My project prototype is a very basic topojson map of NYC with functionality like zooming. I didn't use colors to differentiate the boroughs and neither did I add the geographical locations of the complaints. I received a very helpful feedback from one of my classmates, Cody. She suggested me to color the symbols on the map by complaint type in the pre-filetered version; "have the different neighborhoods colored in slightly different shades, not necessary to highlight any one of them"; aggregate the line chart by complaint type over time. 
+  </p>
+
+  <p>What Cody suggested was very helpful. Based on her suggestion, I colored the different boroughs of NYC in different colors. In addition, I was concerned with the overplotting by displaying all symbols between 2010 and present on the map simultaneously.Therefore, I chosen to add a drop-menu on the visualization so the viewers can choose which year's data they want to see. However, I used a singular color to represent the symbols since I have already colored different borough and using multiple colors for the symbols will make them difficult to see. That's why I didn't took Cody's suggestion on coloring the symbols on the map by complaint type. Last but not least, though I didn't take Cody's suggestion on aggregating line chart by complaint type over time given limited time, I did change the my design on the line chart and bar chart a little. For example, now if none of the borough is clicked on, the line chart will display the average complaints over years aggregated over all boroughs and the bar chart will display the break-down of average complaints by type aggregated over all boroughs. The old design is to display the sum instead of the average. 
+  </p>
 
 <h3>Challenges</h3>
-  <p><i>Wraptext for x axis labels</i>: It was the first time that I encoutered that text labels were too long so they overlapped each other. I searched online for different solutions such as using a foreign object which I could not understand very well given limited time for this project. The code I borrowed from Mike Bostocks' <a href="http://bl.ocks.org/mbostock/7555321">block</a> doesn't really help.
+  <p><i>Wrap text for x axis labels</i>: It was the first time that I encoutered that text labels were too long so they overlapped each other. I searched online for different solutions such as using a foreign object which I could not understand very well given limited time for this project. The code I borrowed from Mike Bostocks' <a href="http://bl.ocks.org/mbostock/7555321">block</a> doesn't really help.
   </p>
   <p><i>SelectAll("circle") statement updates everything</i>: In this visualization, I applied svg element "circle" in different cases such as legend, symbols on the map and dots on the line plot. However, I didn't know how to differentiate them so they wouldn't affect each other when I changed circles in one place.
   </p>
   <p><i>How to add a drop-down menu</i>: It was the first time that I implemented the filtering technique on all my visualization in d3. I wanted to add this feature to increase the interactivity of my final project. The challenge for me is that I didn't know how to make the symbols ("circles") change based on what I selected on the drop-down menu. 
   </p>
   <p>I personally overcame the "drop-down menu" challenge by grabbing the selection item, namely "year", turning it into a variable and then filtering the "location.csv" dataset for any line that matchs the year. Thanks to my instructor Sophie's help, I successfully resolved first two chanllenges. Especially, I learned to add an id to the svg element and any following operations will be specific to that svg element if I simply selected its id. 
-  </p>  
+  </p>
 </div>
 
 <div id="text3">
 <h3>Conclusion</h3>
   <p>I want to use my visualization to answer some questions that interest me. </p>
-  <p>Q: How does the number of food poisoning complaints change between 2010 and 2015 for each borough in NYC?
+  <p>Q: How does the number of food poisoning complaints change between 2010 and present for each borough in NYC?
   <p>A: For Bronx and Brooklyn, the number of complaints didn't change very much in this five-year period, maintaining between 300 and 350 compliants per year for Bronx and between 600 and 700 complaints per year for Brooklyn. For Manhattan, the number of complaints increased in general and they were all much larger than the number of compliants reported in Bronx. Similarly, the number of complaints steadily increased for Queens except for 2014 when it dropped a little bit but altogether, they maintained between 500 and 600. The only borough shows drastic difference from the other ones is Staten Island where the number of complaints generally declined over the five years and their values were the smallest compared with the number of complaints in the other boroughs.  
   <p>Q: What was the location type where the most/least complaints were reported? </p>
   <p>A: Across all the boroughs, most of the complaints were reported in Restaurant/Bar/Deli/Bakery and Cafeteria - Schools is where the least complaints were reported.
@@ -813,23 +798,6 @@ function dsBarChart() {
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
         ;
               
-  // plot.selectAll("rect")
-  //      .data(firstDatasetBarChart)
-  //      .enter()
-  //      .append("rect")
-  //     .attr("x", function(d, i) {
-  //         return xScale(i);
-  //     })
-  //      .attr("width", width / firstDatasetBarChart.length - barPadding)   
-  //     .attr("y", function(d) {
-  //         return yScale(d.freq);
-  //     })  
-  //     .attr("height", function(d) {
-  //         return height-yScale(d.freq);
-  //     })
-  //     .attr("fill", "lightgrey")
-  //     ;
-
     plot.selectAll("rect")
        .data(firstDatasetBarChart)
        .enter()
@@ -872,19 +840,17 @@ function dsBarChart() {
   
   var xLabels = svg
         .append("g")
+        //.attr("id", "xlabel")
         .attr("class", "xAxis")
         .attr("transform", "translate(" + margin.left + "," + (margin.top + height)  + ")")
-        .call(xAxis)
-
-      // .selectAll(".tick text")
-      //   .call(wrap, x.rangeBand())
-        ;
+        .call(xAxis);
   
   xLabels.selectAll("text")
       .data(firstDatasetBarChart)
       .enter()
       .append("text")
       .text(function(d) { return d.Loc;})
+      .call(wrap, 100)
       // .attr("dx", "-.8em")
       // .attr("dy", "-.55em")
       // .attr("transform", "rotate(-90)" )
